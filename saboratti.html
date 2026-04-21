@@ -22,7 +22,7 @@
 
     .back-link {
       display: inline-block;
-      margin-bottom: 24px;
+      margin-bottom: 0;
       color: #1f1f1f;
       text-decoration: none;
       font-weight: 600;
@@ -38,6 +38,30 @@
       border-radius: 28px;
       padding: 30px;
       box-shadow: 0 12px 36px rgba(0, 0, 0, .08);
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .budget-btn {
+      border-radius: 999px;
+      padding: 10px 20px;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+      background: linear-gradient(135deg, #ff8c00, #ff5e00, #ff9b2f);
+      box-shadow: 0 8px 18px rgba(255, 120, 0, .35);
+      white-space: nowrap;
+    }
+
+    .budget-btn:hover {
+      color: #fff;
+      transform: translateY(-1px);
     }
 
     .section-title {
@@ -108,6 +132,35 @@
       color: #5e574f;
       line-height: 1.6;
       font-size: 17px;
+    }
+
+    .project-description {
+      display: grid;
+      gap: 14px;
+      color: #5e574f;
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    .project-description h3 {
+      font-size: 22px;
+      font-weight: 800;
+      color: #25221e;
+      margin: 0 0 2px;
+    }
+
+    .project-description h4 {
+      font-size: 18px;
+      font-weight: 800;
+      color: #29251f;
+      margin: 10px 0 2px;
+    }
+
+    .project-description ul {
+      margin: 0;
+      padding-left: 20px;
+      display: grid;
+      gap: 6px;
     }
 
     .divider {
@@ -215,6 +268,11 @@
     }
 
     @media (max-width: 991px) {
+      .top-actions {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
       .gallery-grid {
         grid-template-columns: 1fr 1fr;
       }
@@ -237,38 +295,41 @@
 
 <body>
   <main class="page-wrap">
-    <a class="back-link" href="index.html">← Voltar para home</a>
+    <div class="top-actions">
+      <a class="back-link" href="index.html">← Voltar para home</a>
+      <a class="budget-btn" href="https://wa.me/5532991145114" target="_blank" rel="noopener noreferrer">Fazer um orçamento</a>
+    </div>
 
     <section class="card-project">
       <h1>Saboratti — Branding</h1>
       <h2 class="section-title">Galeria do projeto</h2>
       <div class="gallery-grid" id="galleryGrid">
         <figure class="gallery-item" data-index="0">
-          <img src="img/projeto1.jpg" alt="Foto 1 do projeto Saboratti">
+          <img src="img/saboratti/fotoBurguer.png" alt="Foto 1 do projeto Saboratti">
           <figcaption>Foto 1</figcaption>
         </figure>
         <figure class="gallery-item" data-index="1">
-          <img src="img/imagem1.png" alt="Foto 2 do projeto Saboratti">
+          <img src="img/saboratti/fotoEmbalagens.png" alt="Foto 2 do projeto Saboratti">
           <figcaption>Foto 2</figcaption>
         </figure>
         <figure class="gallery-item" data-index="2">
-          <img src="img/imagem2.png" alt="Foto 3 do projeto Saboratti">
+          <img src="img/saboratti/fotoCopo.png" alt="Foto 3 do projeto Saboratti">
           <figcaption>Foto 3</figcaption>
         </figure>
         <figure class="gallery-item featured" data-index="6">
-          <img src="img/projeto1.jpg" alt="Foto 7 em destaque do projeto Saboratti">
+          <img src="img/saboratti/fotoDestaque.png" alt="Foto 7 em destaque do projeto Saboratti">
           <figcaption>Foto 7 (Destaque)</figcaption>
         </figure>
         <figure class="gallery-item" data-index="3">
-          <img src="img/imagem3.png" alt="Foto 4 do projeto Saboratti">
+          <img src="img/saboratti/fotoMolhos.png" alt="Foto 4 do projeto Saboratti">
           <figcaption>Foto 4</figcaption>
         </figure>
         <figure class="gallery-item" data-index="4">
-          <img src="img/logo.png" alt="Foto 5 do projeto Saboratti">
+          <img src="img/saboratti/fotoStickers.png" alt="Foto 5 do projeto Saboratti">
           <figcaption>Foto 5</figcaption>
         </figure>
         <figure class="gallery-item" data-index="5">
-          <img src="img/projeto1.jpg" alt="Foto 6 do projeto Saboratti">
+          <img src="img/saboratti/fotoLogo.png" alt="Foto 6 do projeto Saboratti">
           <figcaption>Foto 6</figcaption>
         </figure>
       </div>
@@ -284,20 +345,43 @@
           <span class="meta-value">Branding e Identidade Visual</span>
         </div>
       </div>
-      <p>
-        O projeto foi desenvolvido para fortalecer o posicionamento da marca com
-        uma identidade visual mais marcante, moderna e memorável. O processo
-        envolveu pesquisa de referências, definição de conceitos visuais, ajustes
-        de tipografia, paleta e aplicações em peças para comunicação digital e física.
-        O objetivo foi criar um conjunto visual consistente, com personalidade e foco em conversão.
-      </p>
+      <div class="project-description">
+        <h3>Saboratti — Branding Completo para Fast Food Premium com Identidade Afetiva</h3>
+        <p>O projeto Saboratti foi desenvolvido com foco em criar uma marca memorável, moderna e emocionalmente conectada ao público. Mais do que uma identidade visual para fast food, a proposta une apelo gastronômico, estética retrô contemporânea e sensação de acolhimento, transmitindo a mensagem central da marca: “Comida que acolhe.”</p>
+        <p>Toda a construção visual foi pensada para destacar a experiência do cliente desde o primeiro contato até o consumo final, transformando cada detalhe em parte da marca.</p>
 
-      <hr class="divider">
-      <h2 class="section-title">Depoimento</h2>
-      <p class="testimonial">
-        “O resultado final ficou incrível! A nova identidade trouxe mais valor para nossa marca
-        e melhorou muito a percepção dos clientes nas redes e no ponto de venda.”
-      </p>
+        <h4>Conceito Criativo</h4>
+        <p>A Saboratti nasce como uma hamburgueria que entrega mais do que refeições: entrega conforto, sabor e experiência. O branding mistura referências clássicas do fast-food americano com uma linguagem moderna e humanizada.</p>
+
+        <h4>Direção Visual</h4>
+        <ul>
+          <li>Paleta principal: tons de laranja, marrom e bege</li>
+          <li>Estilo: retrô moderno / fast-food premium</li>
+          <li>Tipografia: forte, amigável e marcante</li>
+          <li>Elementos gráficos: óculos icônicos, selos, stickers, padrões e ícones exclusivos</li>
+        </ul>
+
+        <h4>Aplicações Desenvolvidas</h4>
+        <ul>
+          <li>Logo principal e versões secundárias</li>
+          <li>Manual visual da marca</li>
+          <li>Embalagens de hambúrguer</li>
+          <li>Sacolas personalizadas</li>
+          <li>Copos e canudos</li>
+          <li>Papéis de bandeja</li>
+          <li>Molhos personalizados</li>
+          <li>Stickers promocionais</li>
+          <li>Lacres de segurança para delivery</li>
+          <li>Elementos gráficos para redes sociais e campanhas</li>
+        </ul>
+
+        <h4>Objetivo do Projeto</h4>
+        <p>Criar uma marca com alto potencial comercial, preparada para atuar em loja física, delivery, redes sociais e franquias, transmitindo confiança, identidade forte e desejo de consumo.</p>
+
+        <h4>Resultado Final</h4>
+        <p>Uma marca visualmente sólida, altamente aplicável e pensada para gerar reconhecimento imediato, valorizando cada ponto de contato com o cliente.</p>
+        <p><strong>Saboratti não vende apenas comida. Vende sensação, memória e experiência.</strong></p>
+      </div>
     </section>
   </main>
 
@@ -312,13 +396,13 @@
 
   <script>
     const galleryImages = [
-      "img/projeto1.jpg",
-      "img/imagem1.png",
-      "img/imagem2.png",
-      "img/imagem3.png",
-      "img/logo.png",
-      "img/projeto1.jpg",
-      "img/projeto1.jpg"
+      "img/saboratti/fotoBurguer.png",
+      "img/saboratti/fotoEmbalagens.png",
+      "img/saboratti/fotoCopo.png",
+      "img/saboratti/fotoMolhos.png",
+      "img/saboratti/fotoStickers.png",
+      "img/saboratti/fotoLogo.png",
+      "img/saboratti/fotoDestaque.png"
     ];
 
     const lightbox = document.getElementById("lightbox");
