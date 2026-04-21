@@ -45,8 +45,9 @@
 
     .nav-links {
       display: flex;
-      gap: 26px;
-      margin-right: -230px;
+      align-items: center;
+      gap: 22px;
+      margin-right: -180px;
     }
 
     .nav-links a {
@@ -83,12 +84,12 @@
 
     .nav-submenu {
       position: absolute;
-      top: 0;
+      top: -8px;
       left: calc(100% + 10px);
       background: #fff;
       border: 1px solid #e3ddd2;
       border-radius: 12px;
-      padding: 10px 12px;
+      padding: 12px 14px;
       min-width: 190px;
       box-shadow: 0 10px 24px rgba(0, 0, 0, .12);
       display: none;
@@ -97,8 +98,12 @@
 
     .nav-submenu a {
       display: block;
-      margin: 6px 0;
+      margin: 8px 0;
       white-space: nowrap;
+    }
+
+    .nav-item-dropdown.open .nav-submenu {
+      display: block;
     }
 
     .nav-item-dropdown:hover .nav-submenu {
@@ -1309,8 +1314,8 @@
       <div class="nav-links">
         <a href="#">Sobre nós</a>
         <a href="#">Serviços</a>
-        <div class="nav-item-dropdown">
-          <a href="#">Nossas Soluções</a>
+        <div class="nav-item-dropdown" id="solutionsDropdown">
+          <a href="#" id="solutionsToggle" aria-expanded="false">Nossas Soluções <i class="fa-solid fa-chevron-right ms-1" style="font-size: 11px;"></i></a>
           <div class="nav-submenu">
             <a href="#">thynkBarber</a>
             <a href="#">thynkFinance</a>
@@ -1872,6 +1877,27 @@
     openMenu.onclick = () => { menu.classList.add("active"); overlay.classList.add("active"); }
     closeMenu.onclick = () => { menu.classList.remove("active"); overlay.classList.remove("active"); }
     overlay.onclick = () => { menu.classList.remove("active"); overlay.classList.remove("active"); }
+  </script>
+
+  <script>
+    const solutionsDropdown = document.getElementById("solutionsDropdown");
+    const solutionsToggle = document.getElementById("solutionsToggle");
+
+    if (solutionsDropdown && solutionsToggle) {
+      solutionsToggle.addEventListener("click", (event) => {
+        event.preventDefault();
+        solutionsDropdown.classList.toggle("open");
+        const isExpanded = solutionsDropdown.classList.contains("open");
+        solutionsToggle.setAttribute("aria-expanded", String(isExpanded));
+      });
+
+      document.addEventListener("click", (event) => {
+        if (!solutionsDropdown.contains(event.target)) {
+          solutionsDropdown.classList.remove("open");
+          solutionsToggle.setAttribute("aria-expanded", "false");
+        }
+      });
+    }
   </script>
 
   <script>
