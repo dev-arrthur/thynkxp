@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dra. Larissa Moraes | Projeto Institucional</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background: #f3efe8;
+      font-family: "Inter", system-ui, sans-serif;
+      color: #1f1f1f;
+    }
+
+    .page-wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 40px 22px 60px;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .back-link {
+      color: #1f1f1f;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .back-link:hover {
+      color: #ff7a00;
+    }
+
+    .budget-btn {
+      border-radius: 999px;
+      padding: 10px 20px;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+      background: linear-gradient(135deg, #ff8c00, #ff5e00, #ff9b2f);
+      box-shadow: 0 8px 18px rgba(255, 120, 0, .35);
+      white-space: nowrap;
+    }
+
+    .card-project {
+      background: #f8f4ed;
+      border: 1px solid #e6dfd3;
+      border-radius: 28px;
+      padding: 30px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, .08);
+    }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 18px;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 30px;
+    }
+
+    .gallery-item {
+      position: relative;
+      margin: 0;
+      border-radius: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 1px solid #e5ddcf;
+      background: #efe8dc;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 170px;
+      object-fit: cover;
+      display: block;
+      transition: transform .25s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.04);
+    }
+
+    .gallery-item figcaption {
+      position: absolute;
+      left: 10px;
+      bottom: 10px;
+      background: rgba(17, 17, 17, .7);
+      color: #fff;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .gallery-item.featured {
+      grid-column: 4 / 5;
+      grid-row: 1 / span 2;
+    }
+
+    .gallery-item.featured img {
+      height: 100%;
+      min-height: 354px;
+    }
+
+    h1 {
+      font-size: 34px;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #e2dacd;
+      margin: 26px 0;
+    }
+
+    .project-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+
+    .meta-box {
+      background: #f3ece1;
+      border: 1px solid #e7dece;
+      border-radius: 14px;
+      padding: 14px 16px;
+    }
+
+    .meta-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #766e64;
+      margin-bottom: 4px;
+      letter-spacing: .3px;
+    }
+
+    .meta-value {
+      font-weight: 700;
+      color: #222;
+      font-size: 18px;
+    }
+
+    .project-description {
+      display: grid;
+      gap: 14px;
+      color: #5e574f;
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    .project-description h3 {
+      font-size: 22px;
+      font-weight: 800;
+      color: #25221e;
+      margin: 0 0 2px;
+    }
+
+    .project-description h4 {
+      font-size: 18px;
+      font-weight: 800;
+      color: #29251f;
+      margin: 10px 0 2px;
+    }
+
+    .project-description ul {
+      margin: 0;
+      padding-left: 20px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .9);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 99999;
+      padding: 26px;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
+    .lightbox-content {
+      width: min(1200px, 100%);
+      position: relative;
+    }
+
+    .lightbox-image {
+      width: 100%;
+      max-height: 85vh;
+      object-fit: contain;
+      display: block;
+      border-radius: 14px;
+      margin: 0 auto;
+    }
+
+    .lightbox-close,
+    .lightbox-nav {
+      position: absolute;
+      border: none;
+      background: rgba(20, 20, 20, .66);
+      color: #fff;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .lightbox-close {
+      top: -12px;
+      right: -12px;
+    }
+
+    .lightbox-nav.prev {
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .lightbox-nav.next {
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    @media (max-width: 991px) {
+      .top-actions {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .gallery-item.featured {
+        grid-column: 1 / -1;
+        grid-row: auto;
+        order: -1;
+      }
+
+      .gallery-item.featured img {
+        min-height: 220px;
+      }
+
+      .project-meta {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page-wrap">
+    <div class="top-actions">
+      <a class="back-link" href="index.html">← Voltar para home</a>
+      <a class="budget-btn" href="https://wa.me/5532991145114" target="_blank" rel="noopener noreferrer">Fazer um orçamento</a>
+    </div>
+
+    <section class="card-project">
+      <h1>Dra. Larissa Moraes — Site Institucional</h1>
+      <h2 class="section-title">Galeria do projeto</h2>
+      <div class="gallery-grid">
+        <figure class="gallery-item" data-index="0">
+          <img src="img/larrisamoraes/fotoHome.png" alt="Foto Home">
+          <figcaption>Foto 1</figcaption>
+        </figure>
+        <figure class="gallery-item" data-index="1">
+          <img src="img/larrisamoraes/fotoSibre.png" alt="Foto Sobre">
+          <figcaption>Foto 2</figcaption>
+        </figure>
+        <figure class="gallery-item" data-index="2">
+          <img src="img/larrisamoraes/fotoAtuacoes.png" alt="Foto Atuações">
+          <figcaption>Foto 3</figcaption>
+        </figure>
+        <figure class="gallery-item featured" data-index="6">
+          <img src="img/larrisamoraes/fotoBranding.png" alt="Foto Destaque">
+          <figcaption>Foto 7 (Destaque)</figcaption>
+        </figure>
+        <figure class="gallery-item" data-index="3">
+          <img src="img/larrisamoraes/fotoConversao.png" alt="Foto Conversão">
+          <figcaption>Foto 4</figcaption>
+        </figure>
+        <figure class="gallery-item" data-index="4">
+          <img src="img/larrisamoraes/fotoDashboard.png" alt="Foto Dashboard">
+          <figcaption>Foto 5</figcaption>
+        </figure>
+        <figure class="gallery-item" data-index="5">
+          <img src="img/larrisamoraes/fotoMobile.png" alt="Foto Mobile">
+          <figcaption>Foto 6</figcaption>
+        </figure>
+      </div>
+
+      <hr class="divider">
+      <div class="project-meta">
+        <div class="meta-box">
+          <span class="meta-label">Nome do projeto</span>
+          <span class="meta-value">Dra. Larissa Moraes Advocacia</span>
+        </div>
+        <div class="meta-box">
+          <span class="meta-label">Tipo do projeto</span>
+          <span class="meta-value">Site Institucional</span>
+        </div>
+      </div>
+
+      <div class="project-description">
+        <p><strong>O site é para Advogada.</strong></p>
+        <h3>Projeto Institucional – Dra. Larissa Moraes Advocacia</h3>
+        <p>Desenvolvimento completo de identidade visual e presença digital para um escritório de advocacia fictício, criado com foco em sofisticação, credibilidade e captação de clientes. O projeto foi pensado para transmitir autoridade jurídica através de um design moderno, elegante e estratégico, combinando estética premium com alta performance visual.</p>
+        <p>A proposta visual utiliza tema light com detalhes em vinho e tons neutros, reforçando profissionalismo, confiança e exclusividade. Toda a interface foi planejada em estilo Figma Presentation, simulando um case real de branding e UI/UX para portfólio profissional.</p>
+
+        <h4>Entregas do Projeto:</h4>
+        <ul>
+          <li>Identidade visual completa da marca</li>
+          <li>Logotipo e aplicações institucionais</li>
+          <li>Página inicial institucional moderna</li>
+          <li>Página de áreas de atuação jurídicas</li>
+          <li>Landing page para geração de leads</li>
+          <li>Versão responsiva mobile premium</li>
+          <li>Painel administrativo interno</li>
+          <li>Elementos visuais estratégicos para conversão</li>
+        </ul>
+
+        <h4>Objetivo do Projeto:</h4>
+        <p>Criar uma marca jurídica forte e memorável, com um site institucional capaz de gerar autoridade, confiança e novos contatos, valorizando a imagem profissional do escritório e facilitando o relacionamento com futuros clientes.</p>
+
+        <h4>Resultado Final:</h4>
+        <p>Um projeto elegante, funcional e altamente profissional, unindo branding + design + estratégia digital, ideal para escritórios que desejam se posicionar de forma premium no mercado atual.</p>
+      </div>
+    </section>
+  </main>
+
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-content">
+      <button class="lightbox-close" id="lightboxClose" aria-label="Fechar">×</button>
+      <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Imagem anterior">‹</button>
+      <img class="lightbox-image" id="lightboxImage" alt="Imagem ampliada da galeria">
+      <button class="lightbox-nav next" id="lightboxNext" aria-label="Próxima imagem">›</button>
+    </div>
+  </div>
+
+  <script>
+    const galleryImages = [
+      "img/larrisamoraes/fotoHome.png",
+      "img/larrisamoraes/fotoSibre.png",
+      "img/larrisamoraes/fotoAtuacoes.png",
+      "img/larrisamoraes/fotoConversao.png",
+      "img/larrisamoraes/fotoDashboard.png",
+      "img/larrisamoraes/fotoMobile.png",
+      "img/larrisamoraes/fotoBranding.png"
+    ];
+
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImage = document.getElementById("lightboxImage");
+    const lightboxClose = document.getElementById("lightboxClose");
+    const lightboxPrev = document.getElementById("lightboxPrev");
+    const lightboxNext = document.getElementById("lightboxNext");
+    const galleryItems = document.querySelectorAll(".gallery-item");
+
+    let currentImageIndex = 0;
+
+    function openLightbox(index) {
+      currentImageIndex = index;
+      lightboxImage.src = galleryImages[currentImageIndex];
+      lightbox.classList.add("active");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove("active");
+      document.body.style.overflow = "";
+    }
+
+    function showNext() {
+      currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+      lightboxImage.src = galleryImages[currentImageIndex];
+    }
+
+    function showPrev() {
+      currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+      lightboxImage.src = galleryImages[currentImageIndex];
+    }
+
+    galleryItems.forEach((item) => {
+      item.addEventListener("click", () => {
+        const index = Number(item.dataset.index || 0);
+        openLightbox(index);
+      });
+    });
+
+    lightboxClose.addEventListener("click", closeLightbox);
+    lightboxNext.addEventListener("click", showNext);
+    lightboxPrev.addEventListener("click", showPrev);
+    lightbox.addEventListener("click", (event) => {
+      if (event.target === lightbox) {
+        closeLightbox();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (!lightbox.classList.contains("active")) return;
+      if (event.key === "Escape") closeLightbox();
+      if (event.key === "ArrowRight") showNext();
+      if (event.key === "ArrowLeft") showPrev();
+    });
+  </script>
+</body>
+
+</html>
