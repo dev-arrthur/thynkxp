@@ -1633,9 +1633,9 @@
             <!-- CARD 4 -->
             <a href="velora.html" class="project-card">
               <div class="project-image">
-                <img src="img/projeto4.png">
+                <img src="img/projeto4.jpg">
               </div>
-              <p class="project-label">→ Landing page</p>
+              <p class="project-label">→ E-commerce</p>
             </a>
 
           </div>
@@ -1916,14 +1916,16 @@
     function updateCarousel() {
       const isMobile = window.innerWidth <= 991;
       const cardWidth = track.children[0].offsetWidth;
+      const gap = parseFloat(window.getComputedStyle(track).gap || "0");
+      const step = cardWidth + gap;
 
       if (isMobile) {
-        track.style.transform = `translateX(${-cardWidth * index}px)`;
+        track.style.transform = `translateX(${-step * index}px)`;
         track.style.maxWidth = "100%";
         return;
       }
 
-      track.style.transform = `translateX(${-cardWidth * index * 2}px)`;
+      track.style.transform = `translateX(${-step * index * 2}px)`;
     }
 
     next.onclick = e => {
