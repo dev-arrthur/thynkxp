@@ -600,14 +600,14 @@
     .services-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 34px;
+      gap: 22px;
     }
 
     /* CARD */
     .service-card {
       background: #ffffff;
-      border-radius: 38px;
-      padding: 34px;
+      border-radius: 30px;
+      padding: 28px;
       border: 1px solid #e6dfd3;
       position: relative;
       overflow: hidden;
@@ -646,7 +646,7 @@
 
     /* TEXT */
     .service-top h3 {
-      font-size: 23px;
+      font-size: 21px;
       font-weight: 800;
       margin-bottom: 6px;
     }
@@ -695,15 +695,21 @@
     /* MOBILE */
     @media(max-width:991px) {
       .services-section {
-        padding: 40px 18px;
+        padding: 36px 16px;
       }
 
       .services-grid {
         grid-template-columns: 1fr;
+        gap: 14px;
       }
 
       .services-header h2 {
         font-size: 28px;
+      }
+
+      .service-card {
+        padding: 22px 18px;
+        border-radius: 22px;
       }
     }
 
@@ -877,7 +883,7 @@
     }
 
     .testimonials-section {
-      padding: 70px 46px;
+      padding: 64px 46px 54px;
     }
 
     .testimonials-section h2 {
@@ -894,7 +900,11 @@
     .testimonials-wrapper {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 12px;
+      background: #f8f3ea;
+      border: 1px solid #e7dfd2;
+      border-radius: 24px;
+      padding: 14px;
     }
 
     /* CAROUSEL */
@@ -912,9 +922,14 @@
     /* CARD */
     .testimonial-card {
       flex: 0 0 calc(33.33% - 16px);
-      background: #f5f1ea;
+      background: #fff;
       border-radius: 22px;
-      padding: 18px;
+      padding: 20px;
+      border: 1px solid #ece3d6;
+      min-height: 215px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .testimonial-text {
@@ -981,13 +996,36 @@
 
     /* MOBILE - 1 depoimento por vez */
     @media(max-width:991px) {
+      .testimonials-section {
+        padding: 40px 16px;
+      }
+
+      .testimonials-section h2 {
+        font-size: 28px;
+        margin-bottom: 16px;
+      }
+
+      .testimonials-wrapper {
+        padding: 10px;
+        border-radius: 18px;
+      }
 
       .testimonials-track {
-        gap: 12px;
+        gap: 10px;
       }
 
       .testimonial-card {
         flex: 0 0 100%;
+        min-height: auto;
+        padding: 18px;
+      }
+
+      .ts-nav {
+        display: none;
+      }
+
+      .ts-dots {
+        margin-top: 10px;
       }
     }
 
@@ -1108,7 +1146,7 @@
     @media(max-width:991px) {
 
       .resources-section {
-        padding: 48px 18px;
+        padding: 38px 16px;
       }
 
       .resources-grid {
@@ -1526,56 +1564,76 @@
 
       <div class="services-grid">
 
-        <!-- CARD 1 -->
         <article class="service-card">
           <div class="service-top">
             <div class="service-icon">
-              <i class="fa-solid fa-bullseye"></i>
+              <i class="fa-solid fa-window-maximize"></i>
             </div>
-            <h3>Gestão de jornada de compra</h3>
+            <h3>Criação de Sites e Landing Pages</h3>
             <p>
-              Estrutura completa para atrair, nutrir e converter leads em clientes,
-              com foco em funil, automações e geração de demanda previsível.
+              Estruturas de alta conversão, responsivas e prontas para gerar contatos.
             </p>
           </div>
-
-          <ul class="service-list">
-            <li>✔ Estratégia de funil</li>
-            <li>✔ Inbound & automações</li>
-            <li>✔ Nutrição de leads</li>
-            <li>✔ Workflows e segmentações</li>
-            <li>✔ Performance orientada a dados</li>
-          </ul>
-
-          <a href="#" class="service-btn">
-            <i class="fa-solid fa-arrow-right"></i>
-          </a>
         </article>
 
-        <!-- CARD 2 -->
         <article class="service-card">
           <div class="service-top">
             <div class="service-icon">
-              <i class="fa-regular fa-window-maximize"></i>
+              <i class="fa-solid fa-cart-shopping"></i>
             </div>
-            <h3>Criação de sites e landing pages</h3>
+            <h3>Criação de E-Commerces</h3>
             <p>
-              Sites profissionais, responsivos e orientados à conversão.
-              Design moderno, SEO técnico e alta performance de carregamento.
+              Lojas virtuais completas, com foco em vendas, performance e experiência.
             </p>
           </div>
+        </article>
 
-          <ul class="service-list">
-            <li>✔ Mobile First</li>
-            <li>✔ UX & UI estratégicos</li>
-            <li>✔ SEO on-page</li>
-            <li>✔ Certificado SSL</li>
-            <li>✔ Foco total em conversão</li>
-          </ul>
+        <article class="service-card">
+          <div class="service-top">
+            <div class="service-icon">
+              <i class="fa-solid fa-gears"></i>
+            </div>
+            <h3>Criação de SAAS e Sistemas Pers.</h3>
+            <p>
+              Sistemas sob medida para automatizar processos e escalar operações.
+            </p>
+          </div>
+        </article>
 
-          <a href="#" class="service-btn">
-            <i class="fa-solid fa-arrow-right"></i>
-          </a>
+        <article class="service-card">
+          <div class="service-top">
+            <div class="service-icon">
+              <i class="fa-solid fa-bullhorn"></i>
+            </div>
+            <h3>Marketing Digital e Tráfego Pago</h3>
+            <p>
+              Estratégias de aquisição para atrair o público certo e aumentar resultados.
+            </p>
+          </div>
+        </article>
+
+        <article class="service-card">
+          <div class="service-top">
+            <div class="service-icon">
+              <i class="fa-solid fa-pen-ruler"></i>
+            </div>
+            <h3>Criação de Brandings</h3>
+            <p>
+              Construção de marca forte, memorável e coerente em todos os canais.
+            </p>
+          </div>
+        </article>
+
+        <article class="service-card">
+          <div class="service-top">
+            <div class="service-icon">
+              <i class="fa-solid fa-robot"></i>
+            </div>
+            <h3>Criação de Automações</h3>
+            <p>
+              Fluxos inteligentes para reduzir tarefas manuais e melhorar produtividade.
+            </p>
+          </div>
         </article>
 
       </div>
@@ -1633,7 +1691,7 @@
             <!-- CARD 4 -->
             <a href="velora.html" class="project-card">
               <div class="project-image">
-                <img src="img/projeto4.png">
+                <img src="img/projeto4.jpg">
               </div>
               <p class="project-label">→ E-commerce</p>
             </a>
@@ -1738,25 +1796,6 @@
 
       <div class="resources-grid">
 
-        <!-- CARD 1 -->
-        <article class="resource-card">
-          <div class="resource-icon">
-            <i class="fa-regular fa-file-lines"></i>
-          </div>
-
-          <h3>10 Pilares fundamentais para o seu design</h3>
-
-          <p>
-            Melhore a comunicação visual e posicionamento do seu negócio
-            para atrair mais clientes.
-          </p>
-
-          <a href="#" class="resource-btn">
-            Baixar eBook
-          </a>
-        </article>
-
-        <!-- CARD 2 -->
         <article class="resource-card">
           <div class="resource-icon">
             <i class="fa-regular fa-comment-dots"></i>
@@ -1771,6 +1810,23 @@
 
           <a href="#" class="resource-btn black">
             Solicitar diagnóstico
+          </a>
+        </article>
+
+        <article class="resource-card">
+          <div class="resource-icon">
+            <i class="fa-regular fa-file-lines"></i>
+          </div>
+
+          <h3>Ebook para Empresas (Em Breve)</h3>
+
+          <p>
+            Estamos finalizando um material prático com estratégias para
+            acelerar crescimento, posicionamento e conversão.
+          </p>
+
+          <a href="#" class="resource-btn">
+            Em breve
           </a>
         </article>
 
@@ -1957,8 +2013,10 @@
     }
 
     function updateTestimonials() {
-      const cardWidth = tsTrack.children[0].offsetWidth + 24;
-      tsTrack.style.transform = `translateX(${-cardWidth * tsIndex}px)`;
+      const cardWidth = tsTrack.children[0].offsetWidth;
+      const gap = parseFloat(window.getComputedStyle(tsTrack).gap || "0");
+      const step = cardWidth + gap;
+      tsTrack.style.transform = `translateX(${-step * tsIndex}px)`;
       updateDots();
     }
 
