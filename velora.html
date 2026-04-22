@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Velora | Projeto</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background: #f3efe8;
+      font-family: "Inter", system-ui, sans-serif;
+      color: #1f1f1f;
+    }
+
+    .page-wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 40px 22px 60px;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .back-link {
+      color: #1f1f1f;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .budget-btn {
+      border-radius: 999px;
+      padding: 10px 20px;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+      background: linear-gradient(135deg, #ff8c00, #ff5e00, #ff9b2f);
+      white-space: nowrap;
+    }
+
+    .card-project {
+      background: #f8f4ed;
+      border: 1px solid #e6dfd3;
+      border-radius: 28px;
+      padding: 30px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, .08);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 30px;
+    }
+
+    .gallery-item {
+      position: relative;
+      margin: 0;
+      border-radius: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 1px solid #e5ddcf;
+      background: #efe8dc;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 170px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .gallery-item figcaption {
+      position: absolute;
+      left: 10px;
+      bottom: 10px;
+      background: rgba(17, 17, 17, .7);
+      color: #fff;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .gallery-item.featured {
+      grid-column: 4 / 5;
+      grid-row: 1 / span 2;
+    }
+
+    .gallery-item.featured img {
+      height: 100%;
+      min-height: 354px;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #e2dacd;
+      margin: 26px 0;
+    }
+
+    .project-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+
+    .meta-box {
+      background: #f3ece1;
+      border: 1px solid #e7dece;
+      border-radius: 14px;
+      padding: 14px 16px;
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .9);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 99999;
+      padding: 26px;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
+    .lightbox-content {
+      width: min(1200px, 100%);
+      position: relative;
+    }
+
+    .lightbox-image {
+      width: 100%;
+      max-height: 85vh;
+      object-fit: contain;
+      display: block;
+      border-radius: 14px;
+      margin: 0 auto;
+    }
+
+    .lightbox-close,
+    .lightbox-nav {
+      position: absolute;
+      border: none;
+      background: rgba(20, 20, 20, .66);
+      color: #fff;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .lightbox-close {
+      top: -12px;
+      right: -12px;
+    }
+
+    .lightbox-nav.prev {
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .lightbox-nav.next {
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    @media (max-width: 991px) {
+      .top-actions {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .gallery-item.featured {
+        grid-column: 1 / -1;
+        grid-row: auto;
+        order: -1;
+      }
+
+      .gallery-item.featured img {
+        min-height: 220px;
+      }
+
+      .project-meta {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page-wrap">
+    <div class="top-actions">
+      <a class="back-link" href="index.html">← Voltar para home</a>
+      <a class="budget-btn" href="https://wa.me/5532991145114" target="_blank" rel="noopener noreferrer">Fazer um orçamento</a>
+    </div>
+
+    <section class="card-project">
+      <h1>Velora — Projeto</h1>
+      <h2>Galeria do projeto</h2>
+      <div class="gallery-grid">
+        <figure class="gallery-item" data-index="0">
+          <img src="img/velora/fotoDesignSystem.png" alt="Foto Design System">
+          <figcaption>Foto 1</figcaption>
+        </figure>
+        <figure class="gallery-item" data-index="1">
+          <img src="img/velora/fotoDashboard.png" alt="Foto Dashboard">
+          <figcaption>Foto 2</figcaption>
+        </figure>
+        <figure class="gallery-item" data-index="2">
+          <img src="img/velora/fotoProdutos.png" alt="Foto Produtos">
+          <figcaption>Foto 3</figcaption>
+        </figure>
+        <figure class="gallery-item featured" data-index="6">
+          <img src="img/velora/fotoBranding.png" alt="Foto Branding">
+          <figcaption>Foto 7 (Destaque)</figcaption>
+        </figure>
+        <figure class="gallery-item" data-index="3">
+          <img src="img/velora/fotoPedidos.png" alt="Foto Pedidos">
+          <figcaption>Foto 4</figcaption>
+        </figure>
+        <figure class="gallery-item" data-index="4">
+          <img src="img/velora/fotoCliente.png" alt="Foto Cliente">
+          <figcaption>Foto 5</figcaption>
+        </figure>
+        <figure class="gallery-item" data-index="5">
+          <img src="img/velora/fotoMarketing.png" alt="Foto Marketing">
+          <figcaption>Foto 6</figcaption>
+        </figure>
+      </div>
+
+      <hr class="divider">
+      <div class="project-meta">
+        <div class="meta-box"><strong>Nome do projeto:</strong> Velora</div>
+        <div class="meta-box"><strong>Tipo do projeto:</strong> Landing page</div>
+      </div>
+      <p>
+        Velora Commerce é um conceito de plataforma SaaS criada para modernizar a operação de marcas de moda e lojas
+        virtuais, reunindo gestão, vendas, marketing e experiência do cliente em um único ecossistema digital.
+      </p>
+      <p>
+        O projeto foi desenvolvido com foco em performance, escalabilidade e design premium, entregando uma interface
+        moderna, limpa e altamente intuitiva. A proposta visual combina elegância do segmento fashion com tecnologia
+        de alto nível, criando uma identidade forte e profissional.
+      </p>
+      <p>
+        A solução contempla dashboard administrativo completo, gestão inteligente de produtos com variações de tamanho
+        e cor, controle avançado de pedidos, área do cliente mobile, ferramentas de marketing e growth, além de um
+        design system robusto para padronização e expansão do produto.
+      </p>
+      <p>
+        O objetivo do projeto foi demonstrar como uma plataforma de e-commerce pode ir além da venda online,
+        oferecendo controle total da operação e uma experiência sofisticada tanto para gestores quanto para clientes.
+      </p>
+      <p><strong>Velora Commerce conecta moda, tecnologia e crescimento em uma única plataforma.</strong></p>
+    </section>
+  </main>
+
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-content">
+      <button class="lightbox-close" id="lightboxClose" aria-label="Fechar">×</button>
+      <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Imagem anterior">‹</button>
+      <img class="lightbox-image" id="lightboxImage" alt="Imagem ampliada da galeria">
+      <button class="lightbox-nav next" id="lightboxNext" aria-label="Próxima imagem">›</button>
+    </div>
+  </div>
+
+  <script>
+    const galleryImages = [
+      "img/velora/fotoDesignSystem.png",
+      "img/velora/fotoDashboard.png",
+      "img/velora/fotoProdutos.png",
+      "img/velora/fotoPedidos.png",
+      "img/velora/fotoCliente.png",
+      "img/velora/fotoMarketing.png",
+      "img/velora/fotoBranding.png"
+    ];
+
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImage = document.getElementById("lightboxImage");
+    const lightboxClose = document.getElementById("lightboxClose");
+    const lightboxPrev = document.getElementById("lightboxPrev");
+    const lightboxNext = document.getElementById("lightboxNext");
+    const galleryItems = document.querySelectorAll(".gallery-item");
+    let currentImageIndex = 0;
+
+    function openLightbox(index) {
+      currentImageIndex = index;
+      lightboxImage.src = galleryImages[currentImageIndex];
+      lightbox.classList.add("active");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove("active");
+      document.body.style.overflow = "";
+    }
+
+    function showNext() {
+      currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+      lightboxImage.src = galleryImages[currentImageIndex];
+    }
+
+    function showPrev() {
+      currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+      lightboxImage.src = galleryImages[currentImageIndex];
+    }
+
+    galleryItems.forEach((item) => {
+      item.addEventListener("click", () => openLightbox(Number(item.dataset.index || 0)));
+    });
+
+    lightboxClose.addEventListener("click", closeLightbox);
+    lightboxNext.addEventListener("click", showNext);
+    lightboxPrev.addEventListener("click", showPrev);
+    lightbox.addEventListener("click", (event) => {
+      if (event.target === lightbox) closeLightbox();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (!lightbox.classList.contains("active")) return;
+      if (event.key === "Escape") closeLightbox();
+      if (event.key === "ArrowRight") showNext();
+      if (event.key === "ArrowLeft") showPrev();
+    });
+  </script>
+</body>
+
+</html>
