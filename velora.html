@@ -176,6 +176,31 @@
       top: 50%;
       transform: translateY(-50%);
     }
+
+    @media (max-width: 991px) {
+      .top-actions {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .gallery-item.featured {
+        grid-column: 1 / -1;
+        grid-row: auto;
+        order: -1;
+      }
+
+      .gallery-item.featured img {
+        min-height: 220px;
+      }
+
+      .project-meta {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 
