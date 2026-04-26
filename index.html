@@ -454,28 +454,21 @@
     }
 
     .trusted-section {
-      padding: 10px 46px 45px;
+      padding: 14px 0 30px;
       overflow: hidden;
+      text-align: center;
     }
 
     .trusted-title {
-      font-size: 34px;
-      font-weight: 900;
-      text-align: center;
-      line-height: 1.15;
-      margin-bottom: 22px;
-    }
-
-    .trusted-title span {
-      color: #ff7a00;
+      font-size: 14px;
+      font-weight: 500;
+      color: #6f6a61;
+      margin-bottom: 16px;
     }
 
     .trusted-carousel {
       overflow: hidden;
-      border-radius: 22px;
-      border: 1px solid #e1d8ca;
-      background: #fffaf2;
-      padding: 18px 0;
+      padding: 8px 0;
     }
 
     .trusted-track {
@@ -488,14 +481,18 @@
 
     .trusted-track img {
       width: 130px;
-      height: 68px;
+      height: 56px;
       object-fit: contain;
-      padding: 10px 14px;
-      border-radius: 14px;
-      background: #fff;
-      border: 1px solid #ede4d5;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, .06);
       flex-shrink: 0;
+      filter: grayscale(100%);
+      opacity: .9;
+      transition: .25s;
+    }
+
+    .trusted-track img:hover {
+      filter: none;
+      opacity: 1;
+      transform: scale(1.05);
     }
 
     @keyframes trustedScroll {
@@ -651,11 +648,11 @@
       }
 
       .trusted-section {
-        padding: 8px 18px 34px;
+        padding: 10px 0 22px;
       }
 
       .trusted-title {
-        font-size: 24px;
+        font-size: 14px;
       }
 
       .trusted-track {
@@ -663,8 +660,8 @@
       }
 
       .trusted-track img {
-        width: 102px;
-        height: 58px;
+        width: 90px;
+        height: 42px;
       }
 
       .about-section {
@@ -1800,6 +1797,33 @@
 
       </div>
 
+    </section>
+
+    <section class="trusted-section">
+      <h2 class="trusted-title">Empresas que confiam em nosso serviço.</h2>
+      <div class="trusted-carousel">
+        <div class="trusted-track">
+          <img src="logos/google-ads.png" alt="Google Ads">
+          <img src="logos/meta.png" alt="Meta">
+          <img src="logos/hotmart.png" alt="Hotmart">
+          <img src="logos/chatgpt.png" alt="ChatGPT">
+          <img src="logos/wordpress.png" alt="WordPress">
+          <img src="logos/elementor.png" alt="Elementor">
+          <img src="logos/trello.png" alt="Trello">
+          <img src="logos/canva.png" alt="Canva">
+          <img src="logos/figma.png" alt="Figma">
+
+          <img src="logos/google-ads.png" alt="Google Ads">
+          <img src="logos/meta.png" alt="Meta">
+          <img src="logos/hotmart.png" alt="Hotmart">
+          <img src="logos/chatgpt.png" alt="ChatGPT">
+          <img src="logos/wordpress.png" alt="WordPress">
+          <img src="logos/elementor.png" alt="Elementor">
+          <img src="logos/trello.png" alt="Trello">
+          <img src="logos/canva.png" alt="Canva">
+          <img src="logos/figma.png" alt="Figma">
+        </div>
+      </div>
     </section>
 
     <section class="projects-section" id="projetos">
