@@ -9,35 +9,232 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
 
   <style>
+    .wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
     body {
       background: #f3efe8;
       font-family: "Inter", system-ui, sans-serif;
       color: #161616;
     }
 
-    .top-nav {
-      padding: 20px 24px;
+    /* NAVBAR (copiada da index) */
+    .desktop-nav {
+      background: #f3efe8;
+      padding: 2px 0;
       display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .logo-img {
+      height: 116px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
       justify-content: center;
+      gap: 18px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .nav-links a {
+      font-weight: 500;
+      color: #111;
+      position: relative;
+      text-decoration: none;
+      transition: .25s;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -6px;
+      width: 0;
+      height: 2px;
+      border-radius: 2px;
+      background: linear-gradient(135deg, #ff8c00, #ff5e00, #ff9b2f);
+      transition: .25s;
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+      width: 100%;
+    }
+
+    .nav-links a.active {
+      color: #ff6a00;
+      font-weight: 700;
+    }
+
+    .nav-item-dropdown {
+      position: relative;
+    }
+
+    .nav-submenu {
+      position: absolute;
+      top: -8px;
+      left: calc(100% + 10px);
+      background: #fff;
+      border: 1px solid #e3ddd2;
+      border-radius: 12px;
+      padding: 12px 14px;
+      min-width: 190px;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, .12);
+      display: none;
+      z-index: 20;
+    }
+
+    .nav-submenu a {
+      display: block;
+      margin: 8px 0;
+      white-space: nowrap;
+    }
+
+    .nav-item-dropdown.open .nav-submenu,
+    .nav-item-dropdown:hover .nav-submenu {
+      display: block;
+    }
+
+    .desktop-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .btn-budget {
+      border-radius: 999px;
+      padding: 10px 22px;
+      font-weight: 600;
+      color: #fff;
+      border: none;
+      background: linear-gradient(135deg, #ff8c00, #ff5e00, #ff9b2f);
+      text-decoration: none !important;
+    }
+
+    .icon-link {
+      color: #111;
+      font-size: 20px;
+      text-decoration: none !important;
+    }
+
+    .mobile-bar {
+      display: none;
+      background: #f3efe8;
+      padding: 16px 0;
+      justify-content: space-between;
       align-items: center;
     }
 
-    .top-nav img {
-      height: 54px;
-      object-fit: contain;
+    .menu-btn,
+    .close-btn {
+      border: none;
+      background: transparent;
+      font-size: 24px;
     }
 
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .35);
+      opacity: 0;
+      pointer-events: none;
+      transition: .3s;
+    }
+
+    .overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      left: -420px;
+      width: 340px;
+      height: 100vh;
+      background: #f3efe8;
+      border-top-right-radius: 26px;
+      border-bottom-right-radius: 26px;
+      padding: 26px 26px 20px;
+      box-shadow: 12px 0 28px rgba(0, 0, 0, .18);
+      transition: .35s ease;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mobile-menu.active {
+      left: 0;
+    }
+
+    .mobile-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .menu-title {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .menu-sep {
+      height: 1px;
+      background: #d6d0c4;
+      margin: 12px 0 14px;
+    }
+
+    .mobile-link {
+      display: block;
+      font-weight: 500;
+      margin: 10px 0;
+      color: #111;
+      text-decoration: none;
+    }
+
+    .mobile-link.active {
+      color: #ff6a00;
+      font-weight: 700;
+    }
+
+    .mobile-menu-content {
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .menu-footer {
+      display: flex;
+      gap: 12px;
+    }
+
+    .menu-footer a {
+      color: #111;
+      font-size: 18px;
+    }
+
+    /* CARREIRAS */
     .hero-jobs,
     .jobs-wrap {
       max-width: 1160px;
       margin: 0 auto;
-      padding-left: 20px;
-      padding-right: 20px;
+      padding-left: 0;
+      padding-right: 0;
     }
 
     .hero-jobs {
-      padding-top: 8px;
-      padding-bottom: 14px;
+      padding: 18px 0 14px;
     }
 
     .hero-jobs h1 {
@@ -194,22 +391,9 @@
       margin-top: 14px;
     }
 
-    .empty {
-      background: #fff;
-      border: 1px dashed #dacfbf;
-      border-radius: 14px;
-      padding: 20px;
-      color: #6e675f;
-      text-align: center;
-    }
-
     .modal-content {
       border-radius: 24px;
       border: 1px solid #e6dccd;
-    }
-
-    .modal-header {
-      border-bottom: 1px solid #efe6da;
     }
 
     .form-label {
@@ -230,64 +414,117 @@
     }
 
     @media (max-width: 991px) {
-      .filters {
-        grid-template-columns: 1fr;
+      .wrapper {
+        max-width: 100%;
+        padding: 0 16px;
       }
 
+      .desktop-nav {
+        display: none;
+      }
+
+      .mobile-bar {
+        display: flex;
+      }
+
+      .filters,
       .vaga-head {
         grid-template-columns: 1fr;
-        gap: 6px;
       }
 
       .vaga-arrow {
         justify-self: start;
       }
 
-      .top-nav {
-        padding: 14px 16px;
+      .hero-jobs p {
+        font-size: 16px;
       }
+    }
 
-      .top-nav img {
-        height: 46px;
-      }
-
-      .hero-jobs,
-      .jobs-wrap {
-        padding-left: 16px;
-        padding-right: 16px;
+    @media (min-width: 992px) {
+      .mobile-bar {
+        display: none;
       }
     }
   </style>
 </head>
 
-<body id="top">
-  <header class="top-nav">
-    <a href="index.html"><img src="img/logo.png" alt="Logo ThynkXP" /></a>
-  </header>
+<body>
+  <div class="wrapper">
+    <nav class="desktop-nav">
+      <a href="index.html"><img src="img/logo.png" class="logo-img" alt="Logo"></a>
 
-  <section class="hero-jobs">
-    <h1>Trabalhe com a <span>ThynkXP</span>.</h1>
-    <p>Pesquise e filtre as vagas. Cada vaga aparece em uma linha com dados essenciais; clique para abrir os detalhes completos.</p>
+      <div class="nav-links">
+        <a href="index.html#">Sobre nós</a>
+        <a href="index.html#">Serviços</a>
+        <div class="nav-item-dropdown" id="solutionsDropdown">
+          <a href="#" id="solutionsToggle" aria-expanded="false">Nossas Soluções <i class="fa-solid fa-chevron-right ms-1" style="font-size: 11px;"></i></a>
+          <div class="nav-submenu">
+            <a href="#">thynkBarber</a>
+            <a href="#">thynkFinance</a>
+          </div>
+        </div>
+        <a href="index.html#">Projetos</a>
+        <a href="index.html#">Metodologia</a>
+        <a href="trabalhe-conosco.html" class="active">Trabalhe Conosco</a>
+      </div>
 
-    <div class="filters">
-      <input id="searchInput" class="form-control" type="search" placeholder="Pesquisar vaga, área, tecnologia..." />
-      <select id="areaFilter" class="form-select">
-        <option value="">Filtrar por área</option>
-        <option value="Tecnologia">Tecnologia</option>
-        <option value="Design">Design</option>
-        <option value="Produto">Produto</option>
-      </select>
-      <select id="modeloFilter" class="form-select">
-        <option value="">Filtrar por modelo</option>
-        <option value="Remoto">Remoto</option>
-        <option value="Híbrido">Híbrido</option>
-      </select>
+      <div class="desktop-actions">
+        <a class="btn-budget" href="https://wa.me/5532984690215" target="_blank" rel="noopener noreferrer">Quero um orçamento</a>
+        <a class="icon-link" href="https://www.instagram.com/thynkxp/"><i class="fa-brands fa-instagram"></i></a>
+        <a class="icon-link" href="#"><i class="fa-brands fa-linkedin"></i></a>
+      </div>
+    </nav>
+
+    <nav class="mobile-bar">
+      <button class="menu-btn" id="openMenu"><i class="fa-solid fa-bars"></i></button>
+      <img src="img/logo.png" class="logo-img" alt="Logo">
+    </nav>
+
+    <div class="overlay" id="overlay"></div>
+
+    <div class="mobile-menu" id="mobileMenu">
+      <div class="mobile-header">
+        <img src="img/logo.png" class="logo-img" alt="Logo">
+        <button class="close-btn" id="closeMenu"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <p class="menu-title">Menu</p>
+      <div class="menu-sep"></div>
+      <div class="mobile-menu-content">
+        <a class="mobile-link" href="index.html#">Sobre nós</a>
+        <a class="mobile-link" href="index.html#">Serviços</a>
+        <a class="mobile-link" href="index.html#">Projetos</a>
+        <a class="mobile-link" href="index.html#">Metodologia</a>
+        <a class="mobile-link active" href="trabalhe-conosco.html">Trabalhe Conosco</a>
+      </div>
+      <div class="menu-footer">
+        <a href="https://www.instagram.com/thynkxp/"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+      </div>
     </div>
-  </section>
 
-  <section class="jobs-wrap">
-    <div id="jobsList" class="jobs-list"></div>
-  </section>
+    <section class="hero-jobs">
+      <h1>Trabalhe com a <span>ThynkXP</span>.</h1>
+      <p>Página de carreiras completa, com busca, filtros e detalhes expansíveis para cada vaga.</p>
+
+      <div class="filters">
+        <input id="searchInput" class="form-control" type="search" placeholder="Pesquisar vaga, tecnologia..." />
+        <select id="areaFilter" class="form-select">
+          <option value="">Filtrar por área</option>
+          <option value="Tecnologia">Tecnologia</option>
+        </select>
+        <select id="modeloFilter" class="form-select">
+          <option value="">Filtrar por modelo</option>
+          <option value="Remoto">Remoto</option>
+          <option value="Híbrido">Híbrido</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="jobs-wrap">
+      <div id="jobsList" class="jobs-list"></div>
+    </section>
+  </div>
 
   <div class="modal fade" id="modalCandidatura" tabindex="-1" aria-labelledby="modalCandidaturaLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-scrollable">
@@ -299,72 +536,18 @@
         <form>
           <div class="modal-body">
             <div class="row g-3">
-              <div class="col-12">
-                <label for="nomeCompleto" class="form-label">Nome Completo</label>
-                <input id="nomeCompleto" type="text" class="form-control" required />
-              </div>
-
-              <div class="col-md-6">
-                <label for="nascimento" class="form-label">Nascimento</label>
-                <input id="nascimento" type="date" class="form-control" required />
-              </div>
-
-              <div class="col-md-6">
-                <label for="email" class="form-label">E-mail</label>
-                <input id="email" type="email" class="form-control" required />
-              </div>
-
-              <div class="col-md-6">
-                <label for="telefone" class="form-label">Telefone</label>
-                <input id="telefone" type="tel" class="form-control" placeholder="(00) 00000-0000" required />
-              </div>
-
-              <div class="col-md-6">
-                <label for="cep" class="form-label">CEP (AutoComplete)</label>
-                <input id="cep" type="text" class="form-control" maxlength="9" placeholder="00000-000" required />
-                <p class="helper-note mb-0 mt-1">Ao preencher o CEP, cidade e estado serão preenchidos automaticamente.</p>
-              </div>
-
-              <div class="col-md-6">
-                <label for="estado" class="form-label">Estado</label>
-                <input id="estado" type="text" class="form-control" required />
-              </div>
-
-              <div class="col-md-6">
-                <label for="cidade" class="form-label">Cidade</label>
-                <input id="cidade" type="text" class="form-control" required />
-              </div>
-
-              <div class="col-md-6">
-                <label for="divisor" class="form-label">Divisor</label>
-                <select id="divisor" class="form-select" required>
-                  <option value="" selected disabled>Selecione</option>
-                  <option>Tecnologia</option>
-                  <option>Produto</option>
-                  <option>Design</option>
-                  <option>Marketing</option>
-                  <option>Comercial</option>
-                </select>
-              </div>
-
-              <div class="col-md-6">
-                <label for="portfolioTem" class="form-label">Possui Portfólio? Que tal nos encaminhar</label>
-                <select id="portfolioTem" class="form-select" required>
-                  <option value="" selected disabled>Selecione</option>
-                  <option value="sim">Sim</option>
-                  <option value="nao">Não</option>
-                </select>
-              </div>
-
-              <div class="col-12">
-                <label for="portfolioLink" class="form-label">Input para adicionar link</label>
-                <input id="portfolioLink" type="url" class="form-control" placeholder="https://" />
-              </div>
-
-              <div class="col-12">
-                <label for="curriculo" class="form-label">Adicione Currículo (PDF)</label>
-                <input id="curriculo" type="file" class="form-control" accept="application/pdf" required />
-              </div>
+              <div class="col-12"><label for="nomeCompleto" class="form-label">Nome Completo</label><input id="nomeCompleto" type="text" class="form-control" required /></div>
+              <div class="col-md-6"><label for="nascimento" class="form-label">Nascimento</label><input id="nascimento" type="date" class="form-control" required /></div>
+              <div class="col-md-6"><label for="email" class="form-label">E-mail</label><input id="email" type="email" class="form-control" required /></div>
+              <div class="col-md-6"><label for="telefone" class="form-label">Telefone</label><input id="telefone" type="tel" class="form-control" required /></div>
+              <div class="col-md-6"><label for="cep" class="form-label">CEP (AutoComplete)</label><input id="cep" type="text" class="form-control" maxlength="9" placeholder="00000-000" required /></div>
+              <div class="col-md-6"><label for="estado" class="form-label">Estado</label><input id="estado" type="text" class="form-control" required /></div>
+              <div class="col-md-6"><label for="cidade" class="form-label">Cidade</label><input id="cidade" type="text" class="form-control" required /></div>
+              <div class="col-md-6"><label for="divisor" class="form-label">Divisor</label><select id="divisor" class="form-select" required><option value="" selected disabled>Selecione</option><option>Tecnologia</option><option>Produto</option><option>Design</option></select></div>
+              <div class="col-md-6"><label for="portfolioTem" class="form-label">Possui Portfólio? Que tal nos encaminhar</label><select id="portfolioTem" class="form-select" required><option value="" selected disabled>Selecione</option><option value="sim">Sim</option><option value="nao">Não</option></select></div>
+              <div class="col-12"><label for="portfolioLink" class="form-label">Input para adicionar link</label><input id="portfolioLink" type="url" class="form-control" placeholder="https://" /></div>
+              <div class="col-12"><label for="curriculo" class="form-label">Adicione Currículo (PDF)</label><input id="curriculo" type="file" class="form-control" accept="application/pdf" required /></div>
+              <p class="helper-note mb-0">Ao preencher o CEP, cidade e estado serão preenchidos automaticamente.</p>
             </div>
           </div>
           <div class="modal-footer">
@@ -372,119 +555,52 @@
             <button type="submit" class="btn-apply">Candidatar-se</button>
           </div>
         </form>
-      </div>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+    const menu = document.getElementById("mobileMenu");
+    const overlay = document.getElementById("overlay");
+    const openMenuBtn = document.getElementById("openMenu");
+    const closeMenuBtn = document.getElementById("closeMenu");
+
+    openMenuBtn.onclick = () => { menu.classList.add("active"); overlay.classList.add("active"); };
+    closeMenuBtn.onclick = () => { menu.classList.remove("active"); overlay.classList.remove("active"); };
+    overlay.onclick = () => { menu.classList.remove("active"); overlay.classList.remove("active"); };
+
+    const solutionsDropdown = document.getElementById("solutionsDropdown");
+    const solutionsToggle = document.getElementById("solutionsToggle");
+    if (solutionsDropdown && solutionsToggle) {
+      solutionsToggle.addEventListener("click", (event) => {
+        event.preventDefault();
+        solutionsDropdown.classList.toggle("open");
+      });
+    }
+
     const jobs = [
       {
-        id: 'vaga-dev-jr',
-        titulo: 'Desenvolvedor Jr.',
-        salario: 'R$ 3.900,00',
-        area: 'Tecnologia',
-        modelo: 'Remoto',
-        tipo: 'CLT',
-        descricao: 'Apoiar o desenvolvimento de projetos web, implementando funcionalidades e melhorias contínuas.',
-        atividades: [
-          'Desenvolver componentes e páginas com HTML, CSS e JavaScript.',
-          'Dar suporte em integrações com APIs e serviços internos.',
-          'Corrigir bugs e apoiar deploys monitorados.',
-          'Participar de alinhamentos com design, produto e time técnico.'
-        ],
-        requisitos: [
-          'Conhecimento em HTML, CSS, JavaScript e Git.',
-          'Noções de responsividade e semântica.',
-          'Boa comunicação e vontade de aprender.',
-          'Diferencial: Bootstrap e APIs REST.'
-        ],
-        beneficios: [
-          'VA de R$ 400,00',
-          'Auxílio Home Office',
-          'Equipamentos de trabalho',
-          'Day Off de aniversário',
-          'Gym Pass',
-          'Plano de saúde e odontológico',
-          'Vale educação/cursos',
-          'Mentoria técnica'
-        ]
+        id: 'vaga-dev-jr', titulo: 'Desenvolvedor Jr.', salario: 'R$ 3.900,00', area: 'Tecnologia', modelo: 'Remoto', tipo: 'CLT',
+        descricao: 'Apoiar o desenvolvimento de projetos web e melhorias contínuas.',
+        atividades: ['Desenvolver componentes front-end.', 'Suporte em integrações com APIs.', 'Correções e melhorias.', 'Participar de alinhamentos com time técnico.'],
+        requisitos: ['Conhecimento em HTML/CSS/JS e Git.', 'Noções de responsividade.', 'Boa comunicação.', 'Diferencial: Bootstrap e APIs REST.'],
+        beneficios: ['VA de R$ 400,00', 'Auxílio Home Office', 'Equipamentos de trabalho', 'Day Off de aniversário', 'Gym Pass', 'Plano de saúde e odontológico', 'Vale educação', 'Mentoria técnica']
       },
       {
-        id: 'vaga-ux',
-        titulo: 'Designer UX/UI Pleno',
-        salario: 'R$ 5.200,00',
-        area: 'Design',
-        modelo: 'Híbrido',
-        tipo: 'CLT',
-        descricao: 'Criar experiências digitais intuitivas e visuais de alto impacto para produtos e sites.',
-        atividades: [
-          'Desenhar fluxos, wireframes e protótipos no Figma.',
-          'Conduzir melhorias de usabilidade com base em dados.',
-          'Garantir consistência no design system.',
-          'Trabalhar em parceria com produto e desenvolvimento.'
-        ],
-        requisitos: [
-          'Experiência com Figma e design systems.',
-          'Portfólio com projetos digitais.',
-          'Conhecimento em UX Writing e acessibilidade.',
-          'Diferencial: testes de usabilidade.'
-        ],
-        beneficios: [
-          'VA de R$ 400,00',
-          'Auxílio Home Office',
-          'Gym Pass',
-          'Plano de saúde',
-          'Day Off',
-          'Vale educação'
-        ]
-      },
-      {
-        id: 'vaga-pm',
-        titulo: 'Analista de Produto Jr.',
-        salario: 'R$ 4.400,00',
-        area: 'Produto',
-        modelo: 'Remoto',
-        tipo: 'CLT',
-        descricao: 'Acompanhar o ciclo de vida de produto com foco em entregas de valor e melhoria contínua.',
-        atividades: [
-          'Detalhar requisitos e histórias de usuário.',
-          'Acompanhar backlog com stakeholders.',
-          'Monitorar métricas e feedbacks de usuários.',
-          'Apoiar priorização e cerimônias ágeis.'
-        ],
-        requisitos: [
-          'Organização e boa comunicação.',
-          'Noções de produto digital e metodologias ágeis.',
-          'Conhecimento básico em métricas de produto.',
-          'Diferencial: ferramentas como Jira/Notion.'
-        ],
-        beneficios: [
-          'VA de R$ 400,00',
-          'Auxílio Home Office',
-          'Plano de saúde',
-          'Gym Pass',
-          'Day Off',
-          'Mentoria de carreira'
-        ]
+        id: 'vaga-estagio-dev', titulo: 'Estagiário de Desenvolvimento', salario: 'R$ 1.200,00', area: 'Tecnologia', modelo: 'Híbrido', tipo: 'Estágio',
+        descricao: 'Apoiar o time em tarefas de desenvolvimento e aprendizado prático em projetos reais.',
+        atividades: ['Apoio na construção de páginas e componentes.', 'Acompanhamento de revisões de código.', 'Correção de bugs simples.', 'Participação em ritos ágeis e treinamentos.'],
+        requisitos: ['Estar cursando graduação em área correlata.', 'Lógica de programação e Git básico.', 'Vontade de aprender e evoluir.', 'Diferencial: pequenos projetos pessoais.'],
+        beneficios: ['VA de R$ 200,00', 'Auxílio Home Office', 'Equipamentos de trabalho', 'Day Off de aniversário', 'Gym Pass', 'Plano de saúde e odontológico', 'Vale educação', 'Mentoria técnica']
       }
     ];
 
     const etapas = ['Currículo', 'Prova Técnica', 'Entrevista com Gestor', 'Proposta', 'Contratação'];
-
     const jobsList = document.getElementById('jobsList');
     const searchInput = document.getElementById('searchInput');
     const areaFilter = document.getElementById('areaFilter');
     const modeloFilter = document.getElementById('modeloFilter');
     const modalTitle = document.getElementById('modalCandidaturaLabel');
-
-    function timelineMarkup() {
-      return etapas.map((etapa, index) => `<div class="timeline-item">${index + 1}. ${etapa}</div>`).join('');
-    }
-
-    function toList(items) {
-      return items.map(item => `<li>${item}</li>`).join('');
-    }
 
     function renderJobs() {
       const query = searchInput.value.trim().toLowerCase();
@@ -493,52 +609,30 @@
 
       const filtered = jobs.filter(job => {
         const searchable = `${job.titulo} ${job.area} ${job.modelo} ${job.tipo} ${job.descricao}`.toLowerCase();
-        const matchesQuery = !query || searchable.includes(query);
-        const matchesArea = !area || job.area === area;
-        const matchesModelo = !modelo || job.modelo === modelo;
-        return matchesQuery && matchesArea && matchesModelo;
+        return (!query || searchable.includes(query)) && (!area || job.area === area) && (!modelo || job.modelo === modelo);
       });
-
-      if (!filtered.length) {
-        jobsList.innerHTML = '<div class="empty">Nenhuma vaga encontrada para este filtro.</div>';
-        return;
-      }
 
       jobsList.innerHTML = filtered.map((job, idx) => `
         <article class="vaga-item">
           <button class="vaga-head" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${job.id}" aria-expanded="${idx === 0}" aria-controls="collapse-${job.id}">
-            <div>
-              <p class="vaga-title">${job.titulo}</p>
-              <p class="vaga-mini">${job.salario}</p>
-            </div>
+            <div><p class="vaga-title">${job.titulo}</p><p class="vaga-mini">${job.salario}</p></div>
             <span class="vaga-chip">${job.area}</span>
             <span class="vaga-chip">${job.modelo}</span>
             <span class="vaga-chip">${job.tipo}</span>
             <span class="vaga-arrow"><i class="fa-solid fa-chevron-down"></i></span>
           </button>
-
           <div id="collapse-${job.id}" class="collapse ${idx === 0 ? 'show' : ''}">
             <div class="vaga-body">
-              <h4>Descrição</h4>
-              <p class="text-secondary mb-1">${job.descricao}</p>
-
-              <h4>O que faz</h4>
-              <ul>${toList(job.atividades)}</ul>
-
-              <h4>Requisitos e qualificações</h4>
-              <ul>${toList(job.requisitos)}</ul>
-
-              <h4>Benefícios</h4>
-              <ul>${toList(job.beneficios)}</ul>
-
-              <h4>Etapas do processo</h4>
-              <div class="timeline">${timelineMarkup()}</div>
-
+              <h4>Descrição</h4><p class="text-secondary mb-1">${job.descricao}</p>
+              <h4>O que faz</h4><ul>${job.atividades.map(i => `<li>${i}</li>`).join('')}</ul>
+              <h4>Requisitos e qualificações</h4><ul>${job.requisitos.map(i => `<li>${i}</li>`).join('')}</ul>
+              <h4>Benefícios</h4><ul>${job.beneficios.map(i => `<li>${i}</li>`).join('')}</ul>
+              <h4>Etapas do processo</h4><div class="timeline">${etapas.map((e, i) => `<div class="timeline-item">${i + 1}. ${e}</div>`).join('')}</div>
               <button class="btn-apply" data-bs-toggle="modal" data-bs-target="#modalCandidatura" data-vaga="${job.titulo}">Candidatar-se</button>
             </div>
           </div>
         </article>
-      `).join('');
+      `).join('') || '<div class="text-center p-4 bg-white rounded-4 border">Nenhuma vaga encontrada.</div>';
     }
 
     searchInput.addEventListener('input', renderJobs);
@@ -547,33 +641,25 @@
 
     document.addEventListener('click', (event) => {
       const button = event.target.closest('[data-vaga]');
-      if (!button) return;
-      modalTitle.textContent = `Candidatar-se — ${button.dataset.vaga}`;
+      if (button) modalTitle.textContent = `Candidatar-se — ${button.dataset.vaga}`;
     });
 
     const cepInput = document.getElementById('cep');
     const estadoInput = document.getElementById('estado');
     const cidadeInput = document.getElementById('cidade');
-
     cepInput.addEventListener('input', (event) => {
       let value = event.target.value.replace(/\D/g, '').slice(0, 8);
       if (value.length > 5) value = `${value.slice(0, 5)}-${value.slice(5)}`;
       event.target.value = value;
     });
-
     cepInput.addEventListener('blur', async () => {
       const cep = cepInput.value.replace(/\D/g, '');
       if (cep.length !== 8) return;
       try {
         const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
         const data = await response.json();
-        if (!data.erro) {
-          estadoInput.value = data.uf || '';
-          cidadeInput.value = data.localidade || '';
-        }
-      } catch (error) {
-        console.warn('Não foi possível buscar CEP agora.', error);
-      }
+        if (!data.erro) { estadoInput.value = data.uf || ''; cidadeInput.value = data.localidade || ''; }
+      } catch (error) { console.warn('Não foi possível buscar CEP agora.', error); }
     });
 
     renderJobs();
