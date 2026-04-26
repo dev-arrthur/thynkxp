@@ -453,6 +453,61 @@
       animation: slideL2 20s linear infinite;
     }
 
+    .trusted-section {
+      padding: 10px 46px 45px;
+      overflow: hidden;
+    }
+
+    .trusted-title {
+      font-size: 34px;
+      font-weight: 900;
+      text-align: center;
+      line-height: 1.15;
+      margin-bottom: 22px;
+    }
+
+    .trusted-title span {
+      color: #ff7a00;
+    }
+
+    .trusted-carousel {
+      overflow: hidden;
+      border-radius: 22px;
+      border: 1px solid #e1d8ca;
+      background: #fffaf2;
+      padding: 18px 0;
+    }
+
+    .trusted-track {
+      display: flex;
+      align-items: center;
+      gap: 34px;
+      width: max-content;
+      animation: trustedScroll 24s linear infinite;
+    }
+
+    .trusted-track img {
+      width: 130px;
+      height: 68px;
+      object-fit: contain;
+      padding: 10px 14px;
+      border-radius: 14px;
+      background: #fff;
+      border: 1px solid #ede4d5;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, .06);
+      flex-shrink: 0;
+    }
+
+    @keyframes trustedScroll {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
     @keyframes slideL1 {
       from {
         transform: translateX(0);
@@ -593,6 +648,23 @@
 
       .tools-track img {
         height: 34px;
+      }
+
+      .trusted-section {
+        padding: 8px 18px 34px;
+      }
+
+      .trusted-title {
+        font-size: 24px;
+      }
+
+      .trusted-track {
+        gap: 18px;
+      }
+
+      .trusted-track img {
+        width: 102px;
+        height: 58px;
       }
 
       .about-section {
@@ -1561,6 +1633,34 @@
           </div>
         </div>
 
+      </div>
+    </section>
+
+    <section class="trusted-section">
+      <h2 class="trusted-title"><span>Empresas.</span> que Confiam em nosso Serviço</h2>
+
+      <div class="trusted-carousel">
+        <div class="trusted-track">
+          <img src="img/logo.png" alt="Empresa parceira 1">
+          <img src="img/saboratti/fotoLogo.png" alt="Empresa parceira 2">
+          <img src="img/projeto1.png" alt="Empresa parceira 3">
+          <img src="img/projeto2.png" alt="Empresa parceira 4">
+          <img src="img/projeto3.png" alt="Empresa parceira 5">
+          <img src="img/projeto4.png" alt="Empresa parceira 6">
+          <img src="img/pagbanknext/fotoHome.png" alt="Empresa parceira 7">
+          <img src="img/velora/fotoBranding.png" alt="Empresa parceira 8">
+          <img src="img/larrisamoraes/fotoHome.png" alt="Empresa parceira 9">
+
+          <img src="img/logo.png" alt="Empresa parceira 1">
+          <img src="img/saboratti/fotoLogo.png" alt="Empresa parceira 2">
+          <img src="img/projeto1.png" alt="Empresa parceira 3">
+          <img src="img/projeto2.png" alt="Empresa parceira 4">
+          <img src="img/projeto3.png" alt="Empresa parceira 5">
+          <img src="img/projeto4.png" alt="Empresa parceira 6">
+          <img src="img/pagbanknext/fotoHome.png" alt="Empresa parceira 7">
+          <img src="img/velora/fotoBranding.png" alt="Empresa parceira 8">
+          <img src="img/larrisamoraes/fotoHome.png" alt="Empresa parceira 9">
+        </div>
       </div>
     </section>
 
