@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fale Conosco | ThynkXP</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f3efe8;
+      --text: #121212;
+      --card: #ffffff;
+      --accent: #ff7a00;
+      --accent-2: #ff4f00;
+      --line: #e7dfd2;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(circle at top, #fff7ee 0%, var(--bg) 50%);
+      font-family: "Inter", system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      display: grid;
+      place-items: center;
+      padding: 24px 16px;
+    }
+
+    .linktree {
+      width: min(100%, 480px);
+      background: rgba(255, 255, 255, .88);
+      backdrop-filter: blur(4px);
+      border: 1px solid #efe7da;
+      border-radius: 24px;
+      padding: 28px 22px;
+      box-shadow: 0 24px 45px rgba(0, 0, 0, .08);
+    }
+
+    .brand {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .brand img {
+      width: 160px;
+      max-width: 72%;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .brand p {
+      margin: 10px 0 0;
+      color: #5b5b5b;
+      font-size: 15px;
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin: 20px 0;
+    }
+
+    .social-icons a {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      color: #252525;
+      border: 1px solid #ddd3c6;
+      background: #fff;
+      text-decoration: none;
+      font-size: 20px;
+      transition: .25s;
+    }
+
+    .social-icons a:hover {
+      transform: translateY(-2px) scale(1.05);
+      color: var(--accent-2);
+      border-color: #ffc18e;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, var(--line) 20%, var(--line) 80%, transparent 100%);
+      margin: 20px 0;
+    }
+
+    .link-btn {
+      width: 100%;
+      border: 0;
+      margin-top: 12px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #fff;
+      padding: 14px 16px;
+      text-decoration: none;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      letter-spacing: .2px;
+      transition: .22s;
+      box-shadow: 0 10px 20px rgba(255, 109, 17, .25);
+    }
+
+    .link-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 24px rgba(255, 109, 17, .35);
+    }
+
+    .featured {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      border-radius: 14px;
+      border: 1px solid #eadfce;
+      background: var(--card);
+      overflow: hidden;
+      transition: .2s;
+    }
+
+    .featured:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, .08);
+    }
+
+    .featured img {
+      width: 100%;
+      display: block;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+    }
+
+    .featured-content {
+      padding: 14px;
+    }
+
+    .featured-content small {
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: #8a6e50;
+      font-weight: 700;
+      font-size: 11px;
+    }
+
+    .featured-content h2 {
+      margin: 6px 0 8px;
+      font-size: 20px;
+    }
+
+    .featured-content p {
+      margin: 0;
+      color: #5d5d5d;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="linktree">
+    <header class="brand">
+      <img src="img/logo.png" alt="Logo da ThynkXP" />
+      <p>Escolha o canal e fale com a gente 🚀</p>
+    </header>
+
+    <section class="social-icons" aria-label="Redes sociais da ThynkXP">
+      <a href="https://wa.me/5541999123456" target="_blank" rel="noopener noreferrer" aria-label="Abrir WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+      </a>
+      <a href="https://www.instagram.com/thynkxp" target="_blank" rel="noopener noreferrer" aria-label="Abrir Instagram">
+        <i class="fa-brands fa-instagram"></i>
+      </a>
+      <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="Abrir LinkedIn">
+        <i class="fa-brands fa-linkedin-in"></i>
+      </a>
+    </section>
+
+    <div class="divider" role="presentation"></div>
+
+    <a class="link-btn" href="https://wa.me/5541999123456" target="_blank" rel="noopener noreferrer">
+      <i class="fa-brands fa-whatsapp"></i>
+      Whatsapp
+    </a>
+    <a class="link-btn" href="https://www.instagram.com/thynkxp" target="_blank" rel="noopener noreferrer">
+      <i class="fa-brands fa-instagram"></i>
+      Instagram
+    </a>
+    <a class="link-btn" href="index.html">
+      <i class="fa-solid fa-globe"></i>
+      Visitar site
+    </a>
+
+    <div class="divider" role="presentation"></div>
+
+    <a class="featured" href="larrisamoraes.html">
+      <img src="img/projeto1.png" alt="Projeto destaque do mês" />
+      <div class="featured-content">
+        <small>Projeto destaque do mês</small>
+        <h2>Site Larissa Moraes</h2>
+        <p>Landing page com foco em conversão, autoridade e geração de agendamentos.</p>
+      </div>
+    </a>
+  </main>
+</body>
+
+</html>
