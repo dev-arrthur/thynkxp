@@ -453,6 +453,61 @@
       animation: slideL2 20s linear infinite;
     }
 
+    .trusted-section {
+      padding: 10px 46px 45px;
+      overflow: hidden;
+    }
+
+    .trusted-title {
+      font-size: 34px;
+      font-weight: 900;
+      text-align: center;
+      line-height: 1.15;
+      margin-bottom: 22px;
+    }
+
+    .trusted-title span {
+      color: #ff7a00;
+    }
+
+    .trusted-carousel {
+      overflow: hidden;
+      border-radius: 22px;
+      border: 1px solid #e1d8ca;
+      background: #fffaf2;
+      padding: 18px 0;
+    }
+
+    .trusted-track {
+      display: flex;
+      align-items: center;
+      gap: 34px;
+      width: max-content;
+      animation: trustedScroll 24s linear infinite;
+    }
+
+    .trusted-track img {
+      width: 130px;
+      height: 68px;
+      object-fit: contain;
+      padding: 10px 14px;
+      border-radius: 14px;
+      background: #fff;
+      border: 1px solid #ede4d5;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, .06);
+      flex-shrink: 0;
+    }
+
+    @keyframes trustedScroll {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
     @keyframes slideL1 {
       from {
         transform: translateX(0);
@@ -593,6 +648,23 @@
 
       .tools-track img {
         height: 34px;
+      }
+
+      .trusted-section {
+        padding: 8px 18px 34px;
+      }
+
+      .trusted-title {
+        font-size: 24px;
+      }
+
+      .trusted-track {
+        gap: 18px;
+      }
+
+      .trusted-track img {
+        width: 102px;
+        height: 58px;
       }
 
       .about-section {
@@ -1407,17 +1479,10 @@
       <img src="img/logo.png" class="logo-img" alt="Logo">
 
       <div class="nav-links">
-        <a href="#">Sobre nós</a>
-        <a href="#">Serviços</a>
-        <div class="nav-item-dropdown" id="solutionsDropdown">
-          <a href="#" id="solutionsToggle" aria-expanded="false">Nossas Soluções <i class="fa-solid fa-chevron-right ms-1" style="font-size: 11px;"></i></a>
-          <div class="nav-submenu">
-            <a href="#">thynkBarber</a>
-            <a href="#">thynkFinance</a>
-          </div>
-        </div>
-        <a href="#">Projetos</a>
-        <a href="#">Metodologia</a>
+        <a href="#sobre-nos">Sobre nós</a>
+        <a href="#servicos">Serviços</a>
+        <a href="#projetos">Projetos</a>
+        <a href="trabalhe-conosco.html">Trabalhe Conosco</a>
       </div>
 
       <div class="desktop-actions">
@@ -1450,19 +1515,10 @@
 
       <div class="mobile-menu-content">
         <p class="mobile-group-label">Navegação</p>
-        <a class="mobile-link" href="#">Sobre nós</a>
-        <a class="mobile-link" href="#">Serviços</a>
-        <a class="mobile-link" href="#">Projetos</a>
-        <a class="mobile-link" href="#">Metodologia</a>
-
-        <p class="mobile-group-label">Nossas Soluções</p>
-        <details class="mobile-solutions" open>
-          <summary>Escolha uma solução</summary>
-          <div class="mobile-solutions-links">
-            <a href="#">thynkBarber</a>
-            <a href="#">thynkFinance</a>
-          </div>
-        </details>
+        <a class="mobile-link" href="#sobre-nos">Sobre nós</a>
+        <a class="mobile-link" href="#servicos">Serviços</a>
+        <a class="mobile-link" href="#projetos">Projetos</a>
+        <a class="mobile-link" href="trabalhe-conosco.html">Trabalhe Conosco</a>
 
         <a class="btn-orange d-inline-block text-center text-decoration-none" href="https://wa.me/5532984690215" target="_blank" rel="noopener noreferrer">Quero um orçamento →</a>
         <a class="btn-black d-inline-block text-center text-decoration-none" href="https://wa.me/5532984690215" target="_blank" rel="noopener noreferrer">Converse conosco <i class="fa-brands fa-whatsapp ms-1"></i></a>
@@ -1506,7 +1562,7 @@
     </section>
 
     <!-- ===== CARROSSEL LOGOS ===== -->
-    <section class="tools-section">
+    <section class="tools-section" id="nossas-solucoes">
       <p class="tools-title">As melhores ferramentas do mercado na sua operação.</p>
 
       <div class="tools-lines">
@@ -1564,8 +1620,36 @@
       </div>
     </section>
 
+    <section class="trusted-section">
+      <h2 class="trusted-title"><span>Empresas.</span> que Confiam em nosso Serviço</h2>
+
+      <div class="trusted-carousel">
+        <div class="trusted-track">
+          <img src="img/logo.png" alt="Empresa parceira 1">
+          <img src="img/saboratti/fotoLogo.png" alt="Empresa parceira 2">
+          <img src="img/projeto1.png" alt="Empresa parceira 3">
+          <img src="img/projeto2.png" alt="Empresa parceira 4">
+          <img src="img/projeto3.png" alt="Empresa parceira 5">
+          <img src="img/projeto4.png" alt="Empresa parceira 6">
+          <img src="img/pagbanknext/fotoHome.png" alt="Empresa parceira 7">
+          <img src="img/velora/fotoBranding.png" alt="Empresa parceira 8">
+          <img src="img/larrisamoraes/fotoHome.png" alt="Empresa parceira 9">
+
+          <img src="img/logo.png" alt="Empresa parceira 1">
+          <img src="img/saboratti/fotoLogo.png" alt="Empresa parceira 2">
+          <img src="img/projeto1.png" alt="Empresa parceira 3">
+          <img src="img/projeto2.png" alt="Empresa parceira 4">
+          <img src="img/projeto3.png" alt="Empresa parceira 5">
+          <img src="img/projeto4.png" alt="Empresa parceira 6">
+          <img src="img/pagbanknext/fotoHome.png" alt="Empresa parceira 7">
+          <img src="img/velora/fotoBranding.png" alt="Empresa parceira 8">
+          <img src="img/larrisamoraes/fotoHome.png" alt="Empresa parceira 9">
+        </div>
+      </div>
+    </section>
+
     <!-- ===== ABOUT SECTION ===== -->
-    <section class="about-section">
+    <section class="about-section" id="sobre-nos">
       <div class="about-content">
 
         <div class="about-text">
@@ -1610,7 +1694,7 @@
       </section>
     </section>
 
-    <section class="services-section">
+    <section class="services-section" id="servicos">
 
       <div class="services-header">
         <h2>
@@ -1718,7 +1802,7 @@
 
     </section>
 
-    <section class="projects-section">
+    <section class="projects-section" id="projetos">
 
       <div class="projects-left">
         <h2><span>Projetos.</span> Visual com estratégia, solução com resultado.</h2>
