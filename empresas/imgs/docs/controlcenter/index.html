@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Proposta comercial thynkxp para desenvolvimento, suporte e evolução da plataforma Control Center." />
+  <title>Proposta Comercial | thynkxp × Control Center</title>
+  <style>
+    :root{
+      --bg:#f5efe4;
+      --bg2:#eadfce;
+      --paper:#fffaf3;
+      --paper2:#fff2df;
+      --ink:#16120d;
+      --muted:#6f6253;
+      --soft:#958776;
+      --orange:#ff7a0a;
+      --orange2:#ff9b39;
+      --brown:#4a2a18;
+      --brown2:#7b5032;
+      --sage:#53684d;
+      --olive:#74856a;
+      --blue:#334f62;
+      --cream:#fff7eb;
+      --line:rgba(74,42,24,.14);
+      --line2:rgba(255,122,10,.22);
+      --shadow:0 32px 80px rgba(74,42,24,.14);
+      --shadow2:0 18px 45px rgba(22,18,13,.09);
+      --radius:30px;
+      --radius2:20px;
+      --container:1180px;
+      --ease:cubic-bezier(.2,.85,.2,1);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;scroll-padding-top:90px}
+    body{
+      min-height:100vh;
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      color:var(--ink);
+      line-height:1.62;
+      overflow-x:hidden;
+      background:
+        radial-gradient(circle at 8% 4%, rgba(255,122,10,.18), transparent 28%),
+        radial-gradient(circle at 92% 14%, rgba(83,104,77,.15), transparent 26%),
+        radial-gradient(circle at 48% 100%, rgba(74,42,24,.13), transparent 30%),
+        linear-gradient(180deg,var(--bg),var(--bg2));
+    }
+    a{color:inherit;text-decoration:none}
+    button{font:inherit}
+    ::selection{background:var(--orange);color:#fff}
+
+    .noise{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.048;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.74' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E")}
+    .cursor-glow{position:fixed;left:50%;top:50%;width:280px;height:280px;border-radius:999px;background:radial-gradient(circle,rgba(255,122,10,.16),transparent 68%);pointer-events:none;z-index:1;transform:translate(-50%,-50%);mix-blend-mode:multiply;transition:opacity .3s var(--ease)}
+    .progress{position:fixed;left:0;top:0;height:4px;width:0;background:linear-gradient(90deg,var(--orange),var(--sage),var(--brown));z-index:200}
+    .container{width:min(var(--container),calc(100% - 42px));margin-inline:auto;position:relative;z-index:2}
+
+    .header{position:sticky;top:0;z-index:120;background:rgba(245,239,228,.82);backdrop-filter:blur(18px);border-bottom:1px solid rgba(74,42,24,.08)}
+    .nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px;width:min(var(--container),calc(100% - 42px));margin:auto}
+    .brand{display:flex;align-items:center;gap:12px;min-width:max-content}
+    .brand-mark{width:46px;height:46px;border-radius:16px;display:grid;place-items:center;background:linear-gradient(135deg,var(--ink),var(--brown));color:#fff;font-weight:950;letter-spacing:-.08em;box-shadow:0 18px 36px rgba(74,42,24,.24);position:relative;overflow:hidden}
+    .brand-mark:after{content:"";position:absolute;inset:auto -10px -12px auto;width:28px;height:28px;border-radius:999px;background:var(--orange)}
+    .brand strong{display:block;font-size:18px;line-height:1;letter-spacing:-.045em}
+    .brand small{display:block;margin-top:4px;color:var(--muted);font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.14em}
+    .nav-links{display:flex;align-items:center;gap:5px;padding:6px;border:1px solid var(--line);border-radius:999px;background:rgba(255,250,243,.62);box-shadow:0 10px 25px rgba(74,42,24,.06)}
+    .nav-links a{padding:9px 12px;border-radius:999px;font-size:13px;font-weight:900;color:var(--muted);transition:.25s var(--ease);white-space:nowrap}
+    .nav-links a:hover{background:#fff0dc;color:var(--ink)}
+    .nav-actions{display:flex;align-items:center;gap:10px}
+    .menu{display:none;width:46px;height:46px;border:0;border-radius:999px;background:var(--ink);color:#fff;cursor:pointer;font-weight:900;box-shadow:0 12px 28px rgba(22,18,13,.18)}
+
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:0;border-radius:999px;padding:14px 20px;font-weight:950;cursor:pointer;transition:.25s var(--ease);white-space:nowrap}
+    .btn:hover{transform:translateY(-3px)}
+    .btn-primary{color:#fff;background:linear-gradient(135deg,var(--orange),var(--orange2));box-shadow:0 18px 36px rgba(255,122,10,.28)}
+    .btn-dark{color:#fff;background:var(--ink);box-shadow:0 18px 34px rgba(22,18,13,.18)}
+    .btn-soft{color:var(--brown);background:rgba(255,250,243,.72);border:1px solid var(--line);box-shadow:0 12px 25px rgba(74,42,24,.05)}
+    .pill{display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(255,122,10,.18);background:rgba(255,250,243,.74);border-radius:999px;padding:8px 12px;font-size:12px;font-weight:950;text-transform:uppercase;letter-spacing:.13em;color:var(--brown)}
+    .dot{width:8px;height:8px;border-radius:999px;background:var(--orange);box-shadow:0 0 0 6px rgba(255,122,10,.15)}
+
+    .hero{padding:28px 0 58px}
+    .hero-shell{position:relative;overflow:hidden;border-radius:0 0 44px 44px;color:#fff;background:linear-gradient(135deg,#0a0806,#17110c 55%,#432414);box-shadow:var(--shadow);isolation:isolate}
+    .hero-shell:before{content:"";position:absolute;inset:-42%;z-index:-1;background:radial-gradient(circle at 16% 12%,rgba(255,122,10,.30),transparent 22%),radial-gradient(circle at 85% 16%,rgba(83,104,77,.25),transparent 20%),radial-gradient(circle at 65% 84%,rgba(255,255,255,.09),transparent 24%);animation:floatBg 11s ease-in-out infinite alternate}
+    .hero-shell:after{content:"";position:absolute;left:0;right:0;bottom:0;height:130px;background:linear-gradient(0deg,rgba(255,122,10,.12),transparent);pointer-events:none}
+    .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:34px;align-items:center;min-height:650px;padding:64px}
+    .hero h1{font-size:clamp(43px,7vw,92px);line-height:.92;letter-spacing:-.088em;margin:18px 0 20px;max-width:840px}
+    .hero h1 span{color:var(--orange)}
+    .hero p{max-width:690px;color:rgba(255,255,255,.76);font-size:18px;font-weight:560}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+    .hero-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:34px;max-width:720px}
+    .meta-card{padding:17px;border-radius:20px;border:1px solid rgba(255,255,255,.11);background:rgba(255,255,255,.06);backdrop-filter:blur(16px)}
+    .meta-card strong{display:block;color:#fff;font-size:25px;line-height:1;letter-spacing:-.04em}
+    .meta-card span{display:block;margin-top:6px;color:rgba(255,255,255,.58);font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.11em}
+    .marquee{position:absolute;left:0;right:0;bottom:34px;overflow:hidden;opacity:.2;white-space:nowrap;font-size:28px;font-weight:950;letter-spacing:-.04em;color:#fff;pointer-events:none}
+    .marquee span{display:inline-block;padding-right:34px;animation:marquee 22s linear infinite}
+
+    .proposal-card{position:relative;overflow:hidden;color:var(--ink);background:rgba(255,250,243,.95);border:1px solid rgba(255,255,255,.35);border-radius:34px;padding:28px;box-shadow:0 32px 90px rgba(0,0,0,.25);transform:perspective(1100px) rotateY(-4deg);transition:.42s var(--ease)}
+    .proposal-card:hover{transform:perspective(1100px) rotateY(0deg) translateY(-6px)}
+    .proposal-card:before{content:"";position:absolute;right:-90px;top:-90px;width:210px;height:210px;border-radius:999px;background:rgba(255,122,10,.12)}
+    .proposal-top{position:relative;display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:22px}
+    .mini-brand{display:flex;align-items:center;gap:12px}
+    .mini-brand .sq{width:44px;height:44px;border-radius:16px;display:grid;place-items:center;background:var(--ink);color:#fff;font-weight:950;letter-spacing:-.08em}
+    .mini-brand b{display:block;font-size:18px;line-height:1;letter-spacing:-.04em}.mini-brand small{display:block;margin-top:4px;color:var(--muted);font-size:12px;font-weight:850}
+    .status{display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:8px 11px;color:var(--sage);background:rgba(83,104,77,.11);border:1px solid rgba(83,104,77,.17);font-size:12px;font-weight:950;white-space:nowrap}
+    .status:before{content:"";width:7px;height:7px;border-radius:999px;background:var(--sage)}
+    .proposal-card h2{position:relative;font-size:42px;line-height:1;letter-spacing:-.065em;margin-bottom:10px}
+    .proposal-card p{position:relative;color:var(--muted);font-weight:650}
+    .client-box{position:relative;margin-top:22px;padding:21px;border-radius:24px;border:1px solid var(--line);background:linear-gradient(180deg,#fff,var(--paper2))}
+    .label{display:block;color:var(--orange);font-size:11px;font-weight:950;text-transform:uppercase;letter-spacing:.16em;margin-bottom:6px}
+    .client-box h3{font-size:28px;line-height:1.1;letter-spacing:-.05em;margin-bottom:16px}
+    .client-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .client-item{padding:13px;border-radius:16px;border:1px solid rgba(255,122,10,.12);background:rgba(255,122,10,.055)}
+    .client-item small{display:block;color:var(--muted);font-size:11px;font-weight:850;text-transform:uppercase;letter-spacing:.08em}.client-item b{font-size:14px}
+
+    .section{padding:78px 0}.section.tight{padding-top:42px}.section-head{display:flex;justify-content:space-between;gap:24px;align-items:flex-end;margin-bottom:30px}.section-copy{max-width:850px}
+    .eyebrow{color:var(--orange);font-size:12px;font-weight:950;text-transform:uppercase;letter-spacing:.18em;margin-bottom:12px}
+    .section-title{font-size:clamp(34px,5vw,60px);line-height:1.02;letter-spacing:-.072em;max-width:980px}.section-title span{color:var(--orange)}
+    .section-subtitle{max-width:860px;margin-top:12px;color:var(--muted);font-size:17px;font-weight:620}
+    .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.auto-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:20px}
+
+    .card{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:var(--radius);padding:26px;background:rgba(255,250,243,.82);box-shadow:var(--shadow2);backdrop-filter:blur(16px);transition:transform .35s var(--ease), box-shadow .35s var(--ease), border-color .35s var(--ease)}
+    .card:hover{transform:translateY(-6px);box-shadow:0 28px 60px rgba(74,42,24,.14);border-color:rgba(255,122,10,.22)}
+    .card:before{content:"";position:absolute;right:-68px;top:-72px;width:160px;height:160px;border-radius:999px;background:rgba(255,122,10,.09)}
+    .icon{width:50px;height:50px;border-radius:18px;display:grid;place-items:center;background:#fff0df;color:var(--orange);font-size:22px;margin-bottom:18px;box-shadow:inset 0 0 0 1px rgba(255,122,10,.12)}
+    .card h3{position:relative;font-size:24px;line-height:1.14;letter-spacing:-.047em;margin-bottom:8px}.card p{position:relative;color:var(--muted);font-weight:610}.card ul{position:relative;margin-top:13px;padding-left:20px;color:var(--muted);font-weight:610}.card li{margin:5px 0}
+    .span-4{grid-column:span 4}.span-5{grid-column:span 5}.span-6{grid-column:span 6}.span-7{grid-column:span 7}.span-8{grid-column:span 8}.span-12{grid-column:span 12}
+    .tag-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}.tag{padding:7px 10px;border-radius:999px;background:#fff1e2;border:1px solid rgba(255,122,10,.14);color:var(--brown);font-size:12px;font-weight:900}
+
+    .quick-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:-34px;position:relative;z-index:5}
+    .quick-item{padding:19px;border-radius:24px;border:1px solid rgba(255,255,255,.5);background:rgba(255,250,243,.78);box-shadow:var(--shadow2);backdrop-filter:blur(18px)}
+    .quick-item b{display:block;font-size:20px;letter-spacing:-.045em}.quick-item span{display:block;color:var(--muted);font-size:13px;font-weight:700;margin-top:4px}
+
+    .platform-map{display:grid;grid-template-columns:320px 1fr;gap:22px;align-items:start;margin-top:32px}
+    .map-panel{position:sticky;top:100px;border-radius:30px;padding:26px;background:linear-gradient(135deg,#111,#2b1a10);color:#fff;box-shadow:var(--shadow);overflow:hidden}
+    .map-panel:before{content:"";position:absolute;inset:-40%;background:radial-gradient(circle at 20% 20%,rgba(255,122,10,.27),transparent 22%),radial-gradient(circle at 84% 74%,rgba(83,104,77,.25),transparent 24%);animation:floatBg 12s ease-in-out infinite alternate}.map-panel>*{position:relative}
+    .map-panel h3{font-size:35px;line-height:1;letter-spacing:-.07em;margin-bottom:12px}.map-panel p{color:rgba(255,255,255,.72);font-weight:610}.map-count{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:22px}.map-count div{padding:15px;border-radius:18px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.06)}.map-count strong{display:block;color:#fff;font-size:25px}.map-count span{display:block;color:rgba(255,255,255,.55);font-size:11px;text-transform:uppercase;font-weight:900;letter-spacing:.1em}
+    .module-list{display:grid;gap:14px}.module{position:relative;overflow:hidden;display:grid;grid-template-columns:auto 1fr;gap:15px;padding:19px;border-radius:24px;border:1px solid var(--line);background:rgba(255,250,243,.78);box-shadow:0 12px 28px rgba(74,42,24,.06);transition:.3s var(--ease)}.module:hover{transform:translateX(6px);border-color:rgba(255,122,10,.22)}
+    .module-number{width:40px;height:40px;border-radius:15px;display:grid;place-items:center;background:#fff0df;color:var(--orange);font-weight:950}.module h4{font-size:21px;line-height:1.15;letter-spacing:-.04em;margin-bottom:4px}.module p{color:var(--muted);font-weight:610}.module small{display:inline-flex;margin-top:9px;color:var(--brown);font-weight:900;background:rgba(255,122,10,.08);border:1px solid rgba(255,122,10,.14);border-radius:999px;padding:5px 9px}
+
+    .user-card{min-height:100%;display:flex;flex-direction:column;justify-content:space-between}.user-card .screen{margin-top:20px;border-radius:24px;border:1px solid var(--line);background:linear-gradient(180deg,#fff,#fff2df);padding:14px}.screen-top{height:12px;display:flex;gap:5px;margin-bottom:12px}.screen-top i{width:8px;height:8px;border-radius:999px;background:rgba(74,42,24,.25)}.screen-line{height:12px;border-radius:999px;background:rgba(74,42,24,.12);margin:8px 0}.screen-line.w70{width:70%}.screen-line.w45{width:45%}.screen-line.orange{background:rgba(255,122,10,.32)}
+
+    .dark-section{position:relative;overflow:hidden;margin-top:28px;padding:48px;border-radius:36px;background:linear-gradient(135deg,#100c09,#2b190f);color:#fff;box-shadow:var(--shadow)}
+    .dark-section:before{content:"";position:absolute;inset:-40%;background:radial-gradient(circle at 16% 20%,rgba(255,122,10,.30),transparent 20%),radial-gradient(circle at 90% 68%,rgba(83,104,77,.23),transparent 22%);animation:floatBg 12s ease-in-out infinite alternate}.dark-section>*{position:relative}.dark-section .section-subtitle{color:rgba(255,255,255,.72)}
+    .dark-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}.dark-card{padding:22px;border:1px solid rgba(255,255,255,.11);border-radius:24px;background:rgba(255,255,255,.06);backdrop-filter:blur(16px)}.dark-card h3{font-size:22px;letter-spacing:-.04em}.dark-card p{color:rgba(255,255,255,.68);font-weight:600;margin-top:6px}
+
+    .support-box{display:grid;grid-template-columns:.9fr 1.1fr;gap:22px;margin-top:32px}.support-highlight{padding:30px;border-radius:32px;background:linear-gradient(135deg,#fffaf3,#fff0dc);border:1px solid rgba(255,122,10,.16);box-shadow:var(--shadow2)}.support-highlight h3{font-size:36px;line-height:1;letter-spacing:-.06em}.support-highlight strong{display:block;color:var(--orange);font-size:54px;line-height:1;letter-spacing:-.08em;margin:18px 0 8px}.support-highlight p{color:var(--muted);font-weight:630}.support-list{display:grid;gap:12px}.support-item{display:flex;gap:14px;align-items:flex-start;padding:16px;border-radius:20px;background:rgba(255,250,243,.72);border:1px solid var(--line);box-shadow:0 12px 26px rgba(74,42,24,.05)}.check{width:25px;height:25px;border-radius:999px;background:var(--sage);color:#fff;display:grid;place-items:center;font-size:14px;flex:0 0 auto}.support-item b{display:block;letter-spacing:-.02em}.support-item span{display:block;color:var(--muted);font-weight:610;font-size:14px}
+
+    .pricing{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:34px;align-items:stretch}.plan{position:relative;overflow:hidden;padding:30px;border-radius:32px;border:1px solid var(--line);background:rgba(255,250,243,.86);box-shadow:var(--shadow2)}.plan.featured{background:linear-gradient(135deg,#111,#2b190f);color:#fff;box-shadow:var(--shadow)}.plan.featured:before{content:"";position:absolute;inset:-40%;background:radial-gradient(circle at 15% 20%,rgba(255,122,10,.28),transparent 20%),radial-gradient(circle at 80% 90%,rgba(255,255,255,.08),transparent 22%);animation:floatBg 10s ease-in-out infinite alternate}.plan>*{position:relative}.plan-kicker{display:inline-flex;border-radius:999px;padding:8px 11px;background:rgba(255,122,10,.12);color:var(--orange);font-size:12px;font-weight:950;text-transform:uppercase;letter-spacing:.12em}.plan.featured .plan-kicker{background:rgba(255,122,10,.2);color:#ffb36c}.plan h3{font-size:34px;letter-spacing:-.06em;line-height:1.04;margin:16px 0 8px}.plan p{color:var(--muted);font-weight:620}.plan.featured p{color:rgba(255,255,255,.72)}.price{font-size:64px;line-height:1;letter-spacing:-.085em;color:var(--orange);margin:20px 0 6px}.price small{font-size:16px;letter-spacing:0;color:var(--muted)}.plan.featured .price small{color:rgba(255,255,255,.64)}
+    .costs{display:grid;gap:10px;margin-top:22px}.cost{display:flex;justify-content:space-between;gap:16px;align-items:center;border:1px solid var(--line);background:rgba(255,255,255,.44);border-radius:18px;padding:14px 15px}.cost span{color:var(--muted);font-weight:760}.cost strong{font-size:18px;text-align:right}.plan.featured .cost{border-color:rgba(255,255,255,.1);background:rgba(255,255,255,.07)}.plan.featured .cost span{color:rgba(255,255,255,.72)}.plan.featured .cost strong{color:#fff}.cost.total{border-color:rgba(255,122,10,.28);background:rgba(255,122,10,.12)}
+    .note{margin-top:18px;padding:15px 16px;border-radius:18px;border:1px solid rgba(255,122,10,.16);background:rgba(255,122,10,.075);color:var(--brown);font-weight:760}.plan.featured .note{color:#ffe8d1;background:rgba(255,122,10,.13);border-color:rgba(255,122,10,.22)}
+    .bonus-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:18px}.bonus{padding:16px;border-radius:20px;border:1px dashed rgba(255,122,10,.38);background:rgba(255,122,10,.07)}.bonus b{display:block;color:var(--brown)}.bonus span{display:block;color:var(--muted);font-size:14px;font-weight:650;margin-top:3px}
+
+    .timeline{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:32px}.step{position:relative;padding:20px;border-radius:24px;border:1px solid var(--line);background:rgba(255,250,243,.75);box-shadow:0 12px 26px rgba(74,42,24,.05)}.step:before{content:attr(data-step);display:grid;place-items:center;width:34px;height:34px;border-radius:13px;background:var(--orange);color:#fff;font-weight:950;margin-bottom:15px}.step h3{font-size:20px;line-height:1.1;letter-spacing:-.04em;margin-bottom:7px}.step p{color:var(--muted);font-size:14px;font-weight:620}
+
+    .clause-wrap{margin-top:32px;display:grid;gap:12px}.clause{border:1px solid var(--line);border-radius:22px;overflow:hidden;background:rgba(255,250,243,.75);box-shadow:0 12px 26px rgba(74,42,24,.05)}.clause button{width:100%;border:0;background:transparent;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px;cursor:pointer;text-align:left}.clause-title{display:flex;align-items:center;gap:12px;font-size:18px;font-weight:950;letter-spacing:-.03em}.clause-title span{display:grid;place-items:center;width:32px;height:32px;border-radius:12px;background:#fff0df;color:var(--orange);font-size:13px;flex:0 0 auto}.plus{width:30px;height:30px;border-radius:999px;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:900;transition:.25s var(--ease);flex:0 0 auto}.clause.open .plus{transform:rotate(45deg);background:var(--orange)}.clause-content{max-height:0;overflow:hidden;transition:max-height .38s var(--ease)}.clause.open .clause-content{max-height:520px}.clause-inner{padding:0 20px 20px 64px;color:var(--muted);font-weight:610}.clause-inner ul{padding-left:18px}.clause-inner li{margin:6px 0}
+
+    .final-cta{position:relative;overflow:hidden;margin:60px auto 90px;padding:42px;border-radius:36px;background:linear-gradient(135deg,#111,#332014);color:#fff;box-shadow:var(--shadow)}.final-cta:before{content:"";position:absolute;inset:-50%;background:radial-gradient(circle at 12% 20%,rgba(255,122,10,.32),transparent 22%),radial-gradient(circle at 88% 70%,rgba(83,104,77,.22),transparent 23%);animation:floatBg 12s ease-in-out infinite alternate}.final-cta>*{position:relative}.final-cta h2{font-size:clamp(34px,5vw,58px);line-height:1.02;letter-spacing:-.07em;max-width:850px}.final-cta p{max-width:790px;color:rgba(255,255,255,.72);font-weight:610;margin-top:12px}.cta-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+    .footer{padding:28px 0;color:var(--muted);font-weight:700;border-top:1px solid rgba(74,42,24,.10);background:rgba(245,239,228,.55)}
+
+    .float-help{position:fixed;right:22px;bottom:22px;z-index:90;display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:999px;background:var(--ink);color:#fff;font-weight:950;box-shadow:0 18px 38px rgba(22,18,13,.22);transform:translateY(110px);transition:.35s var(--ease)}.float-help.show{transform:translateY(0)}.float-help span{width:30px;height:30px;border-radius:999px;background:var(--orange);display:grid;place-items:center}
+
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity .72s var(--ease), transform .72s var(--ease)}.reveal.show{opacity:1;transform:translateY(0)}.stagger>*{opacity:0;transform:translateY(22px);transition:opacity .65s var(--ease), transform .65s var(--ease)}.stagger.show>*{opacity:1;transform:translateY(0)}.stagger.show>*:nth-child(2){transition-delay:.08s}.stagger.show>*:nth-child(3){transition-delay:.16s}.stagger.show>*:nth-child(4){transition-delay:.24s}.stagger.show>*:nth-child(5){transition-delay:.32s}.stagger.show>*:nth-child(6){transition-delay:.40s}.stagger.show>*:nth-child(7){transition-delay:.48s}
+
+    @keyframes floatBg{from{transform:translate3d(-2%, -1%,0) rotate(0deg)}to{transform:translate3d(2%, 2%,0) rotate(7deg)}}
+    @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+    @media (max-width:1080px){
+      .hero-grid{grid-template-columns:1fr;padding:46px;min-height:auto}.proposal-card{transform:none}.quick-strip{grid-template-columns:repeat(2,1fr);margin-top:20px}.platform-map{grid-template-columns:1fr}.map-panel{position:relative;top:0}.grid-4{grid-template-columns:repeat(2,1fr)}.timeline{grid-template-columns:repeat(3,1fr)}.support-box{grid-template-columns:1fr}.dark-grid{grid-template-columns:1fr}.span-4,.span-5,.span-6,.span-7,.span-8{grid-column:span 12}
+    }
+    @media (max-width:860px){
+      .nav-actions .btn{display:none}.menu{display:grid}.nav-links{position:absolute;left:21px;right:21px;top:84px;display:none;flex-direction:column;align-items:stretch;border-radius:24px;padding:10px;background:rgba(255,250,243,.97);box-shadow:var(--shadow)}.nav-links.open{display:flex}.nav-links a{padding:13px 14px}.section-head{display:block}.grid-2,.grid-3,.pricing,.bonus-grid{grid-template-columns:1fr}.timeline{grid-template-columns:1fr}.hero-meta{grid-template-columns:1fr}.client-grid{grid-template-columns:1fr}.hero-shell{border-radius:0 0 32px 32px}.hero-grid{padding:34px 24px}.hero h1{font-size:clamp(40px,12vw,68px)}.proposal-card h2{font-size:34px}.quick-strip{grid-template-columns:1fr}.final-cta{padding:30px}.float-help{display:none}
+    }
+    @media (max-width:560px){
+      .container,.nav{width:min(100% - 28px,var(--container))}.brand small{display:none}.hero{padding-top:14px}.hero-grid{padding:28px 18px}.hero-actions .btn,.cta-actions .btn{width:100%}.section{padding:58px 0}.card,.plan,.support-highlight,.dark-section{border-radius:24px;padding:22px}.section-title{font-size:36px}.price{font-size:52px}.clause-title{font-size:16px}.clause-inner{padding-left:20px}.cost{align-items:flex-start;flex-direction:column}.marquee{display:none}
+    }
+    @media print{
+      .header,.progress,.cursor-glow,.noise,.float-help,.cta-actions,.nav,.marquee{display:none!important}
+      body{background:#fff;color:#111}.hero-shell,.dark-section,.final-cta,.plan.featured{color:#111;background:#fff;box-shadow:none;border:1px solid #ddd}.container{width:100%;max-width:none}.section{padding:28px 0}.card,.plan,.clause,.support-item{box-shadow:none;break-inside:avoid}.clause-content{max-height:none!important}.clause-inner{display:block}.clause button{cursor:default}.plus{display:none}.reveal,.stagger>*{opacity:1;transform:none}
+    }
+  </style>
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+
+  <header class="header">
+    <nav class="nav" aria-label="Navegação principal">
+      <a href="#topo" class="brand" aria-label="Ir para o início">
+        <div class="brand-mark">tx</div>
+        <div><strong>thynkxp</strong><small>proposta comercial</small></div>
+      </a>
+      <div class="nav-links" id="navLinks">
+        <a href="#visao">Visão</a>
+        <a href="#plataforma">Plataforma</a>
+        <a href="#marketing">Marketing</a>
+        <a href="#planos">Planos</a>
+        <a href="#clausulas">Cláusulas</a>
+      </div>
+      <div class="nav-actions">
+        <button class="btn btn-soft" type="button" onclick="window.print()">Imprimir</button>
+        <button class="menu" id="menu" type="button" aria-label="Abrir menu">☰</button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="topo">
+    <section class="hero">
+      <div class="container hero-shell reveal">
+        <div class="hero-grid">
+          <div>
+            <span class="pill"><span class="dot"></span> Desenvolvimento + operação + crescimento</span>
+            <h1>Proposta de negócio para a <span>Control Center.</span></h1>
+            <p>Construção de uma plataforma completa para centralizar gestão, atendimento, financeiro, ordens de serviço, integrações e canais digitais, com suporte mensal e plano de crescimento comercial conduzido pela thynkxp.</p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#planos">Ver investimento →</a>
+              <a class="btn btn-soft" href="#plataforma">Conhecer escopo</a>
+            </div>
+            <div class="hero-meta stagger">
+              <div class="meta-card"><strong>3 áreas</strong><span>Admin, funcionário e cliente</span></div>
+              <div class="meta-card"><strong>24/7</strong><span>Infraestrutura VPS</span></div>
+              <div class="meta-card"><strong>Cloud</strong><span>Banco com backup</span></div>
+            </div>
+          </div>
+
+          <aside class="proposal-card tilt" aria-label="Resumo da proposta">
+            <div class="proposal-top">
+              <div class="mini-brand"><div class="sq">cc</div><div><b>Control Center</b><small>plataforma sob medida</small></div></div>
+              <span class="status">Pronta para apresentação</span>
+            </div>
+            <h2>Um sistema próprio para operação, atendimento e escala.</h2>
+            <p>Mais do que um site: uma base digital para organizar processos, integrar canais e criar oportunidades com clientes atuais e futuros.</p>
+            <div class="client-box">
+              <span class="label">Resumo comercial</span>
+              <h3>thynkxp × Control Center</h3>
+              <div class="client-grid">
+                <div class="client-item"><small>Projeto</small><b>Plataforma completa</b></div>
+                <div class="client-item"><small>Modelo</small><b>Mensal ou anual</b></div>
+                <div class="client-item"><small>Bônus</small><b>Marketing + parcerias</b></div>
+                <div class="client-item"><small>Foco</small><b>Gestão e crescimento</b></div>
+              </div>
+            </div>
+          </aside>
+        </div>
+        <div class="marquee" aria-hidden="true"><span> Seja organizado * Seja eficiente * Seja Control Center * Seja thynkxp * Seja organizado * Seja eficiente * Seja Control Center * Seja thynkxp * </span></div>
+      </div>
+    </section>
+
+    <div class="container quick-strip stagger reveal" id="visao">
+      <div class="quick-item"><b>Operação centralizada</b><span>Clientes, equipe, serviços, OS e chamados em um só lugar.</span></div>
+      <div class="quick-item"><b>Atendimento integrado</b><span>WhatsApp conectado e fluxo de suporte organizado.</span></div>
+      <div class="quick-item"><b>Gestão financeira</b><span>Base para controle, registros, faturas e relatórios.</span></div>
+      <div class="quick-item"><b>Crescimento digital</b><span>Instagram, posicionamento e plano de parceiros.</span></div>
+    </div>
+
+    <section class="section tight">
+      <div class="container reveal">
+        <div class="section-head">
+          <div class="section-copy">
+            <div class="eyebrow">01. Visão do projeto</div>
+            <h2 class="section-title">Uma plataforma para transformar processos em <span>crescimento.</span></h2>
+            <p class="section-subtitle">A proposta contempla desenvolvimento, estruturação técnica, suporte operacional, integrações e ações iniciais para melhorar a presença comercial da Control Center.</p>
+          </div>
+        </div>
+        <div class="grid-3 stagger reveal">
+          <article class="card">
+            <div class="icon">✦</div>
+            <h3>Objetivo</h3>
+            <p>Digitalizar a operação da Control Center com uma solução personalizada, responsiva e preparada para evoluir com a empresa.</p>
+          </article>
+          <article class="card">
+            <div class="icon">▣</div>
+            <h3>Entrega</h3>
+            <p>Plataforma web com módulos administrativos, área do funcionário, área do cliente, integrações e recursos de gestão.</p>
+          </article>
+          <article class="card">
+            <div class="icon">↗</div>
+            <h3>Evolução</h3>
+            <p>Suporte mensal, manutenções, atualizações periódicas, segurança, acompanhamento e melhorias planejadas.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="plataforma">
+      <div class="container reveal">
+        <div class="section-copy">
+          <div class="eyebrow">02. Plataforma Control Center</div>
+          <h2 class="section-title">Módulos acordados para a primeira estrutura da plataforma.</h2>
+          <p class="section-subtitle">O sistema será desenvolvido para uso real da operação, com foco em organização, clareza, segurança e facilidade de uso em computador e celular.</p>
+        </div>
+
+        <div class="platform-map">
+          <aside class="map-panel">
+            <h3>Escopo principal</h3>
+            <p>Uma base modular para atender o presente e permitir expansão futura sem perder a identidade da Control Center.</p>
+            <div class="map-count">
+              <div><strong>8+</strong><span>módulos base</span></div>
+              <div><strong>100%</strong><span>responsivo</span></div>
+              <div><strong>3</strong><span>áreas de acesso</span></div>
+              <div><strong>Cloud</strong><span>estrutura online</span></div>
+            </div>
+          </aside>
+
+          <div class="module-list stagger reveal">
+            <article class="module"><div class="module-number">01</div><div><h4>Início e dashboards</h4><p>Tela inicial com visão rápida da operação, atalhos, indicadores e direcionamento por tipo de usuário.</p><small>Administração e operação</small></div></article>
+            <article class="module"><div class="module-number">02</div><div><h4>Gerenciamento</h4><p>Cadastro, consulta e organização de funcionários, clientes e serviços oferecidos pela empresa.</p><small>Funcionários, clientes e serviços</small></div></article>
+            <article class="module"><div class="module-number">03</div><div><h4>Financeiro e ordens de serviço</h4><p>Ambiente para controle financeiro, faturas, registros e criação/acompanhamento de OS vinculadas aos clientes.</p><small>Financeiro + OS</small></div></article>
+            <article class="module"><div class="module-number">04</div><div><h4>Chamados e suporte</h4><p>Sistema para abertura, acompanhamento, organização e resolução de demandas internas ou de clientes.</p><small>Atendimento estruturado</small></div></article>
+            <article class="module"><div class="module-number">05</div><div><h4>WhatsApp integrado</h4><p>Integração para atendimento centralizado, organização de contatos, conversas e suporte comercial/operacional.</p><small>Canal de atendimento</small></div></article>
+            <article class="module"><div class="module-number">06</div><div><h4>Google Agenda, Keep e Contatos</h4><p>Integrações para agenda, contatos e apoio organizacional, conforme viabilidade técnica das APIs e permissões.</p><small>Google Workspace</small></div></article>
+            <article class="module"><div class="module-number">07</div><div><h4>Tela do funcionário</h4><p>Área exclusiva para equipe acompanhar chamados, rotinas, clientes, tarefas e informações permitidas.</p><small>Operação interna</small></div></article>
+            <article class="module"><div class="module-number">08</div><div><h4>Tela do cliente</h4><p>Portal para clientes acessarem informações, chamados, OS, dados e recursos disponibilizados pela Control Center.</p><small>Experiência do cliente</small></div></article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container reveal">
+        <div class="section-copy">
+          <div class="eyebrow">03. Experiência por perfil</div>
+          <h2 class="section-title">Cada área com interface e permissões próprias.</h2>
+          <p class="section-subtitle">A navegação será pensada para reduzir confusão, proteger informações e entregar apenas o que cada usuário precisa ver.</p>
+        </div>
+        <div class="grid-3 stagger reveal" style="margin-top:30px">
+          <article class="card user-card">
+            <div>
+              <div class="icon">A</div>
+              <h3>Administrador</h3>
+              <p>Controle completo da operação, módulos, cadastros, financeiro, serviços, chamados, integrações e visão geral da empresa.</p>
+            </div>
+            <div class="screen"><div class="screen-top"><i></i><i></i><i></i></div><div class="screen-line orange"></div><div class="screen-line w70"></div><div class="screen-line w45"></div></div>
+          </article>
+          <article class="card user-card">
+            <div>
+              <div class="icon">F</div>
+              <h3>Funcionário</h3>
+              <p>Acesso limpo e objetivo para tarefas, chamados, atendimentos, rotinas e informações relacionadas ao trabalho da equipe.</p>
+            </div>
+            <div class="screen"><div class="screen-top"><i></i><i></i><i></i></div><div class="screen-line w70 orange"></div><div class="screen-line"></div><div class="screen-line w45"></div></div>
+          </article>
+          <article class="card user-card">
+            <div>
+              <div class="icon">C</div>
+              <h3>Cliente</h3>
+              <p>Portal com acesso seguro para acompanhar chamados, ordens de serviço, informações e interações com a Control Center.</p>
+            </div>
+            <div class="screen"><div class="screen-top"><i></i><i></i><i></i></div><div class="screen-line w45 orange"></div><div class="screen-line"></div><div class="screen-line w70"></div></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="marketing">
+      <div class="container reveal">
+        <div class="dark-section">
+          <div class="section-copy">
+            <div class="eyebrow">04. Crescimento comercial</div>
+            <h2 class="section-title">Tecnologia, marketing e parcerias trabalhando juntos.</h2>
+            <p class="section-subtitle">Além da plataforma, a proposta inclui ações bonificadas para fortalecer a presença digital e abrir caminhos de relacionamento comercial.</p>
+          </div>
+          <div class="dark-grid stagger reveal">
+            <article class="dark-card">
+              <h3>Marketing Instagram</h3>
+              <p>Otimização do perfil, organização da comunicação, apoio na estratégia de conteúdo, posicionamento e melhoria da apresentação digital.</p>
+            </article>
+            <article class="dark-card">
+              <h3>SEO social</h3>
+              <p>Ajustes de bio, termos estratégicos, destaques, identidade de comunicação e conteúdo pensado para busca, autoridade e conversão.</p>
+            </article>
+            <article class="dark-card">
+              <h3>Plano de parceria</h3>
+              <p>Desenvolvimento de estratégia para ativar atuais clientes, criar relacionamento com futuros clientes e fortalecer oportunidades comerciais.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container reveal">
+        <div class="section-copy">
+          <div class="eyebrow">05. Suporte e evolução</div>
+          <h2 class="section-title">O suporte de R$ 190,00 é uma camada de continuidade, segurança e melhoria.</h2>
+          <p class="section-subtitle">Esse valor não representa apenas atendimento pontual. Ele mantém a plataforma acompanhada, organizada e preparada para ajustes necessários no uso diário.</p>
+        </div>
+        <div class="support-box">
+          <aside class="support-highlight reveal">
+            <span class="label">Mensalidade operacional</span>
+            <h3>Suporte, manutenção e segurança</h3>
+            <strong>R$ 190,00</strong>
+            <p>Inclui auxílio contínuo, manutenções extras, atualizações periódicas, ajustes operacionais, boas práticas de segurança, apoio sobre dados e acompanhamento técnico.</p>
+          </aside>
+          <div class="support-list stagger reveal">
+            <div class="support-item"><div class="check">✓</div><div><b>Suporte e auxílio</b><span>Apoio para dúvidas, orientação de uso, acompanhamento de rotinas e pequenas correções de operação.</span></div></div>
+            <div class="support-item"><div class="check">✓</div><div><b>Manutenções e atualizações periódicas</b><span>Ajustes preventivos, melhorias incrementais e correções necessárias para manter estabilidade e experiência.</span></div></div>
+            <div class="support-item"><div class="check">✓</div><div><b>Segurança de dados e banco</b><span>Boas práticas de proteção, organização de acessos, revisão de fluxos sensíveis e cuidado com a integridade das informações.</span></div></div>
+            <div class="support-item"><div class="check">✓</div><div><b>Backups e continuidade</b><span>Banco de dados cloud com backup incluso e apoio técnico para rotinas de proteção e recuperação quando aplicável.</span></div></div>
+            <div class="support-item"><div class="check">✓</div><div><b>Evolução planejada</b><span>Levantamento de melhorias futuras, priorização de ajustes e orientação sobre novas funcionalidades.</span></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="planos">
+      <div class="container reveal">
+        <div class="section-copy">
+          <div class="eyebrow">06. Investimento</div>
+          <h2 class="section-title">Modelo mensal ou anual, com bonificações iniciais.</h2>
+          <p class="section-subtitle">O contrato contempla infraestrutura, banco de dados cloud, suporte, manutenção, segurança e evolução da plataforma.</p>
+        </div>
+
+        <div class="pricing">
+          <article class="plan reveal">
+            <span class="plan-kicker">Plano mensal</span>
+            <h3>Operação mensal</h3>
+            <p>Indicado para manter a plataforma ativa com infraestrutura, banco cloud e suporte recorrente.</p>
+            <div class="price">R$ 300<small>,00/mês</small></div>
+            <div class="costs">
+              <div class="cost"><span>VPS 24/7</span><strong>R$ 46,70</strong></div>
+              <div class="cost"><span>Banco de Dados Cloud com backup incluso</span><strong>R$ 63,30</strong></div>
+              <div class="cost"><span>Suporte, manutenções, atualizações, auxílio e segurança</span><strong>R$ 190,00</strong></div>
+              <div class="cost total"><span>Total mensal</span><strong>R$ 300,00</strong></div>
+            </div>
+            <div class="note">Ideal para pagamento mês a mês, mantendo todos os recursos operacionais contratados.</div>
+          </article>
+
+          <article class="plan featured reveal">
+            <span class="plan-kicker">Plano anual recomendado</span>
+            <h3>12x de R$ 250,00</h3>
+            <p>Equivale a R$ 3.000,00 no ano, representando 2 mensalidades grátis em relação ao plano mensal.</p>
+            <div class="price">R$ 250<small>,00 × 12</small></div>
+            <div class="costs">
+              <div class="cost"><span>Valor anual parcelado</span><strong>12x R$ 250,00</strong></div>
+              <div class="cost"><span>Total anual</span><strong>R$ 3.000,00</strong></div>
+              <div class="cost"><span>Economia em relação ao mensal</span><strong>R$ 600,00</strong></div>
+              <div class="cost total"><span>Benefício</span><strong>2 mensalidades grátis</strong></div>
+            </div>
+            <div class="note">Plano mais vantajoso para continuidade, previsibilidade e evolução da plataforma durante o ano.</div>
+          </article>
+        </div>
+
+        <div class="bonus-grid stagger reveal">
+          <div class="bonus"><b>Marketing Instagram bonificado</b><span>R$ 0,00 por 3 meses para início de posicionamento, otimização e organização da presença digital.</span></div>
+          <div class="bonus"><b>Ajuda com parceiros bonificada</b><span>R$ 0,00 por 2 meses para apoio no desenvolvimento do plano de parceria e oportunidades comerciais.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container reveal">
+        <div class="auto-grid stagger reveal">
+          <article class="card span-7">
+            <div class="icon">＋</div>
+            <h3>Novos módulos e funcionalidades futuras</h3>
+            <p>Qualquer novo módulo, funcionalidade fora do escopo inicial ou alteração estrutural deverá ser solicitada à thynkxp para análise técnica, validação de viabilidade, estimativa de prazo e verificação de possível cobrança adicional.</p>
+            <div class="tag-row">
+              <span class="tag">Análise técnica</span>
+              <span class="tag">Viabilidade</span>
+              <span class="tag">Prazo</span>
+              <span class="tag">Possível custo extra</span>
+            </div>
+          </article>
+          <article class="card span-5">
+            <div class="icon">⚙</div>
+            <h3>Escopo limpo e evolutivo</h3>
+            <p>A primeira etapa prioriza os módulos acordados. Melhorias recorrentes, ajustes e novas ideias serão organizados por prioridade para manter a plataforma estável e útil.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container reveal">
+        <div class="section-copy">
+          <div class="eyebrow">07. Etapas sugeridas</div>
+          <h2 class="section-title">Do alinhamento à evolução contínua.</h2>
+          <p class="section-subtitle">A execução poderá ser organizada em etapas para facilitar validações e reduzir retrabalho durante o desenvolvimento.</p>
+        </div>
+        <div class="timeline stagger reveal">
+          <article class="step" data-step="1"><h3>Alinhamento</h3><p>Mapeamento de fluxos, acessos, regras e prioridades da Control Center.</p></article>
+          <article class="step" data-step="2"><h3>Design</h3><p>Construção da experiência visual, responsividade e organização das telas.</p></article>
+          <article class="step" data-step="3"><h3>Desenvolvimento</h3><p>Criação dos módulos, banco, autenticação, permissões e funcionalidades.</p></article>
+          <article class="step" data-step="4"><h3>Integrações</h3><p>Configuração de WhatsApp, Google Agenda, Keep, Contatos e infraestrutura cloud.</p></article>
+          <article class="step" data-step="5"><h3>Evolução</h3><p>Treinamento, suporte, manutenções, melhorias e acompanhamento contínuo.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="clausulas">
+      <div class="container reveal">
+        <div class="section-copy">
+          <div class="eyebrow">08. Cláusulas comerciais</div>
+          <h2 class="section-title">Condições de contratação em formato objetivo.</h2>
+          <p class="section-subtitle">As cláusulas abaixo organizam responsabilidades, limites, valores, integrações e evolução do projeto.</p>
+        </div>
+
+        <div class="clause-wrap">
+          <article class="clause open">
+            <button type="button"><span class="clause-title"><span>01</span>Objeto da proposta</span><span class="plus">+</span></button>
+            <div class="clause-content"><div class="clause-inner"><p>A presente proposta tem como objeto o desenvolvimento, implantação e acompanhamento de uma plataforma web para a Control Center, contemplando módulos de gestão, atendimento, financeiro, ordens de serviço, integrações, áreas de acesso e apoio inicial ao crescimento comercial.</p></div></div>
+          </article>
+          <article class="clause">
+            <button type="button"><span class="clause-title"><span>02</span>Escopo inicial acordado</span><span class="plus">+</span></button>
+            <div class="clause-content"><div class="clause-inner"><ul><li>Início e dashboards.</li><li>Gerenciamento de funcionários, clientes e serviços.</li><li>Sistema financeiro e ordens de serviço.</li><li>Sistema de chamados e suporte.</li><li>WhatsApp integrado.</li><li>Google Agenda, Keep e Contatos.</li><li>Tela do funcionário e tela do cliente.</li><li>Plano de parceria e apoio inicial ao marketing via Instagram.</li></ul></div></div>
+          </article>
+          <article class="clause">
+            <button type="button"><span class="clause-title"><span>03</span>Infraestrutura e banco de dados</span><span class="plus">+</span></button>
+            <div class="clause-content"><div class="clause-inner"><p>A infraestrutura prevista inclui VPS 24/7 e banco de dados cloud com backup incluso. Alterações de provedor, aumento de recursos, tráfego elevado, armazenamento adicional ou serviços externos poderão gerar custos extras, mediante validação prévia.</p></div></div>
+          </article>
+          <article class="clause">
+            <button type="button"><span class="clause-title"><span>04</span>Suporte, manutenção e segurança</span><span class="plus">+</span></button>
+            <div class="clause-content"><div class="clause-inner"><p>O suporte mensal contempla auxílio de uso, manutenções extras, correções operacionais, atualizações periódicas, acompanhamento técnico, boas práticas de segurança, organização de acessos, cuidado com dados e apoio em rotinas relacionadas a banco de dados e backups.</p></div></div>
+          </article>
+          <article class="clause">
+            <button type="button"><span class="clause-title"><span>05</span>Integrações com terceiros</span><span class="plus">+</span></button>
+            <div class="clause-content"><div class="clause-inner"><p>Integrações com WhatsApp, Google Agenda, Keep, Contatos ou outros serviços dependem de disponibilidade, regras, permissões, políticas e limitações técnicas das respectivas plataformas. Mudanças externas nessas APIs podem exigir ajustes adicionais.</p></div></div>
+          </article>
+          <article class="clause">
+            <button type="button"><span class="clause-title"><span>06</span>Novos módulos e alterações estruturais</span><span class="plus">+</span></button>
+            <div class="clause-content"><div class="clause-inner"><p>Funcionalidades não previstas no escopo inicial, novos módulos, alterações complexas, automações adicionais ou integrações extras deverão ser encaminhadas à thynkxp para análise de viabilidade, prazo e possível cobrança adicional.</p></div></div>
+          </article>
+          <article class="clause">
+            <button type="button"><span class="clause-title"><span>07</span>Responsabilidades da Control Center</span><span class="plus">+</span></button>
+            <div class="clause-content"><div class="clause-inner"><ul><li>Fornecer informações, regras de negócio, textos, imagens, dados e acessos necessários.</li><li>Validar telas, fluxos e funcionalidades durante o desenvolvimento.</li><li>Manter pagamentos, credenciais e informações cadastrais atualizados.</li><li>Utilizar a plataforma de forma segura, regular e compatível com sua finalidade.</li></ul></div></div>
+          </article>
+          <article class="clause">
+            <button type="button"><span class="clause-title"><span>08</span>Pagamentos e planos</span><span class="plus">+</span></button>
+            <div class="clause-content"><div class="clause-inner"><p>O plano mensal possui valor de R$ 300,00/mês, composto por VPS, banco de dados cloud e suporte/manutenção. O plano anual possui valor de 12x de R$ 250,00, totalizando R$ 3.000,00 ao ano e representando 2 mensalidades grátis em comparação ao plano mensal.</p></div></div>
+          </article>
+          <article class="clause">
+            <button type="button"><span class="clause-title"><span>09</span>Bonificações</span><span class="plus">+</span></button>
+            <div class="clause-content"><div class="clause-inner"><p>O marketing via Instagram será bonificado por 3 meses, e a ajuda com parceiros será bonificada por 2 meses. Após os períodos bonificados, qualquer continuidade, ampliação ou nova campanha poderá ser reavaliada comercialmente.</p></div></div>
+          </article>
+          <article class="clause">
+            <button type="button"><span class="clause-title"><span>10</span>Confidencialidade e dados</span><span class="plus">+</span></button>
+            <div class="clause-content"><div class="clause-inner"><p>As partes comprometem-se a preservar informações comerciais, dados de clientes, acessos, estratégias, materiais internos e informações sensíveis. A thynkxp adotará boas práticas de segurança, e a Control Center deverá manter sigilo sobre credenciais e acessos administrativos.</p></div></div>
+          </article>
+          <article class="clause">
+            <button type="button"><span class="clause-title"><span>11</span>Formalização externa</span><span class="plus">+</span></button>
+            <div class="clause-content"><div class="clause-inner"><p>A confirmação e formalização da proposta poderão ser realizadas por meio externo definido entre as partes, conforme ferramenta, script ou procedimento escolhido pela thynkxp e pela Control Center.</p></div></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="container final-cta reveal">
+      <div class="eyebrow">Próximo passo</div>
+      <h2>Uma base digital feita para a Control Center operar melhor e crescer com mais clareza.</h2>
+      <p>Com a aprovação comercial, a thynkxp inicia o alinhamento técnico, organização das prioridades, preparação do ambiente e desenvolvimento das primeiras telas e módulos.</p>
+      <div class="cta-actions">
+        <a class="btn btn-primary" href="#planos">Revisar planos</a>
+        <button class="btn btn-soft" type="button" onclick="window.print()">Imprimir proposta</button>
+      </div>
+    </section>
+  </main>
+
+  <a class="float-help" id="floatHelp" href="#planos"><span>↑</span> Ver proposta</a>
+
+  <footer class="footer">
+    <div class="container">Proposta comercial desenvolvida pela <strong>thynkxp</strong> para <strong>Control Center</strong>.</div>
+  </footer>
+
+  <script>
+    const progress = document.getElementById('progress');
+    const glow = document.getElementById('cursorGlow');
+    const menu = document.getElementById('menu');
+    const navLinks = document.getElementById('navLinks');
+    const floatHelp = document.getElementById('floatHelp');
+
+    const updateProgress = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      progress.style.width = max > 0 ? `${(window.scrollY / max) * 100}%` : '0%';
+      floatHelp.classList.toggle('show', window.scrollY > 760);
+    };
+    updateProgress();
+    window.addEventListener('scroll', updateProgress, { passive:true });
+
+    window.addEventListener('pointermove', (event) => {
+      glow.style.left = event.clientX + 'px';
+      glow.style.top = event.clientY + 'px';
+    }, { passive:true });
+
+    menu.addEventListener('click', () => navLinks.classList.toggle('open'));
+    navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => navLinks.classList.remove('open')));
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('show');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold:.14 });
+    document.querySelectorAll('.reveal, .stagger').forEach(el => observer.observe(el));
+
+    document.querySelectorAll('.clause button').forEach(button => {
+      button.addEventListener('click', () => button.closest('.clause').classList.toggle('open'));
+    });
+
+    document.querySelectorAll('.tilt').forEach(card => {
+      card.addEventListener('pointermove', (event) => {
+        if(window.matchMedia('(max-width: 1080px)').matches) return;
+        const rect = card.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+        const rotateY = ((x / rect.width) - .5) * 6;
+        const rotateX = -((y / rect.height) - .5) * 6;
+        card.style.transform = `perspective(1100px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`;
+      });
+      card.addEventListener('pointerleave', () => {
+        card.style.transform = '';
+      });
+    });
+  </script>
+</body>
+</html>
