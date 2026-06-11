@@ -1027,6 +1027,10 @@
       padding: 14px;
     }
 
+    .testimonial-visual {
+      display: none;
+    }
+
     /* CAROUSEL */
     .testimonials-track-wrapper {
       overflow: hidden;
@@ -1146,6 +1150,162 @@
 
       .ts-dots {
         margin-top: 10px;
+      }
+    }
+
+
+    /* DESKTOP - depoimentos flutuantes com imagem central */
+    @media(min-width:992px) {
+      .testimonials-section {
+        padding: 84px 46px 70px;
+      }
+
+      .testimonials-section h2 {
+        text-align: center;
+        font-size: 38px;
+        margin-bottom: 30px;
+      }
+
+      .testimonials-wrapper {
+        position: relative;
+        display: block;
+        min-height: 640px;
+        overflow: hidden;
+        padding: 0;
+        border: 1px solid rgba(255, 106, 0, .18);
+        border-radius: 34px;
+        background:
+          radial-gradient(circle at 18% 82%, rgba(255, 106, 0, .24), transparent 28%),
+          radial-gradient(circle at 76% 24%, rgba(255, 140, 0, .18), transparent 26%),
+          linear-gradient(135deg, #111 0%, #1d1711 52%, #080808 100%);
+        box-shadow: 0 34px 80px rgba(0, 0, 0, .18);
+      }
+
+      .testimonial-visual {
+        position: absolute;
+        inset: 54px 50% 0 auto;
+        z-index: 1;
+        display: flex;
+        width: min(560px, 54%);
+        transform: translateX(50%);
+        align-items: flex-end;
+        justify-content: center;
+        pointer-events: none;
+      }
+
+      .testimonial-visual::before {
+        content: "";
+        position: absolute;
+        inset: 58px 34px 42px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255, 122, 0, .22), transparent 68%);
+        filter: blur(2px);
+      }
+
+      .testimonial-visual img {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-height: 560px;
+        object-fit: contain;
+        border-radius: 32px;
+        filter: drop-shadow(0 30px 46px rgba(0, 0, 0, .42));
+      }
+
+      .testimonials-track-wrapper {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        overflow: visible;
+      }
+
+      .testimonials-track {
+        position: relative;
+        display: block;
+        width: 100%;
+        height: 100%;
+        gap: 0;
+        transform: none !important;
+        transition: none;
+      }
+
+      .testimonial-card {
+        position: absolute;
+        width: min(255px, 24%);
+        min-height: auto;
+        padding: 18px 18px 16px;
+        border: 1px solid rgba(255, 239, 218, .13);
+        border-radius: 20px;
+        background: rgba(22, 20, 18, .88);
+        box-shadow: 0 22px 50px rgba(0, 0, 0, .34);
+        backdrop-filter: blur(14px);
+        color: #fff8ef;
+      }
+
+      .testimonial-card:hover {
+        transform: translateY(-6px);
+        border-color: rgba(255, 122, 0, .38);
+        box-shadow: 0 28px 60px rgba(255, 106, 0, .16);
+      }
+
+      .testimonial-card:nth-child(1) {
+        top: 56px;
+        left: 78px;
+      }
+
+      .testimonial-card:nth-child(2) {
+        top: 232px;
+        left: 36px;
+      }
+
+      .testimonial-card:nth-child(3) {
+        right: 70px;
+        top: 74px;
+      }
+
+      .testimonial-card:nth-child(4) {
+        right: 40px;
+        bottom: 76px;
+      }
+
+      .testimonial-card:nth-child(5) {
+        left: 90px;
+        bottom: 58px;
+      }
+
+      .testimonial-text {
+        color: #fff8ef;
+        font-weight: 700;
+        line-height: 1.5;
+        text-align: center;
+        margin: 0 0 14px;
+      }
+
+      .testimonial-user {
+        justify-content: center;
+        color: #f3efe8;
+      }
+
+      .testimonial-user img {
+        width: 36px;
+        height: 36px;
+        border: 2px solid rgba(255, 122, 0, .38);
+      }
+
+      .testimonial-user strong {
+        color: #fff;
+        font-size: 14px;
+      }
+
+      .testimonial-user span {
+        display: block;
+        color: #d8d1c7;
+        font-size: 12px;
+      }
+
+      .ts-nav,
+      .ts-dots {
+        display: none;
       }
     }
 
@@ -2093,6 +2253,10 @@
       </h2>
 
       <div class="testimonials-wrapper">
+
+        <div class="testimonial-visual" aria-hidden="true">
+          <img src="img/imagem3.png" alt="">
+        </div>
 
         <button class="ts-nav prev" id="tsPrev">
           <i class="fa-solid fa-chevron-left"></i>
