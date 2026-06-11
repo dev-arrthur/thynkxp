@@ -1283,6 +1283,224 @@
       }
     }
 
+
+    /* ===== FAQ SECTION — ACCORDION PREMIUM ===== */
+
+    .faq-section {
+      padding: 84px 46px 70px;
+      background:
+        radial-gradient(circle at top right, rgba(255, 122, 0, .14), transparent 30%),
+        linear-gradient(180deg, #f3efe8 0%, #f8f4ed 100%);
+    }
+
+    .faq-heading {
+      text-align: center;
+      max-width: 780px;
+      margin: 0 auto 34px;
+    }
+
+    .faq-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      color: #ff6a00;
+      background: #fff3e4;
+      border: 1px solid rgba(255, 106, 0, .18);
+      font-weight: 800;
+      font-size: 14px;
+      margin-bottom: 14px;
+    }
+
+    .faq-heading h2 {
+      font-size: 42px;
+      font-weight: 900;
+      line-height: 1.08;
+      margin-bottom: 12px;
+      color: #111;
+    }
+
+    .faq-heading h2 span {
+      background: linear-gradient(135deg, #ff8c00, #ff5e00, #ff9b2f);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .faq-heading p {
+      color: #6a645c;
+      line-height: 1.65;
+      margin: 0 auto;
+      max-width: 700px;
+    }
+
+    .faq-list {
+      display: grid;
+      gap: 16px;
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      background: #fcfaf6;
+      border: 1px solid rgba(0, 0, 0, .07);
+      border-radius: 24px;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, .055);
+      overflow: hidden;
+      transition: .28s ease;
+    }
+
+    .faq-item[open] {
+      border-color: rgba(255, 106, 0, .36);
+      box-shadow: 0 24px 60px rgba(255, 106, 0, .12);
+    }
+
+    .faq-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 24px 58px rgba(0, 0, 0, .09);
+    }
+
+    .faq-item summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 24px 28px;
+      font-size: 18px;
+      font-weight: 900;
+      color: #111;
+    }
+
+    .faq-item summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-icon {
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: #111;
+      transition: .25s ease;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, .18);
+    }
+
+    .faq-item[open] .faq-icon {
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, #ff8c00, #ff5e00, #ff9b2f);
+      box-shadow: 0 12px 26px rgba(255, 106, 0, .32);
+    }
+
+    .faq-answer {
+      padding: 0 28px 26px;
+      color: #5f5a53;
+      line-height: 1.72;
+      max-width: 860px;
+    }
+
+    .faq-answer p {
+      margin: 0;
+    }
+
+    .faq-answer ul {
+      margin: 12px 0 0;
+      padding-left: 18px;
+    }
+
+    .faq-answer li {
+      margin-bottom: 6px;
+    }
+
+    .faq-cta {
+      max-width: 980px;
+      margin: 26px auto 0;
+      background: #111;
+      color: #fff;
+      border-radius: 28px;
+      padding: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+      box-shadow: 0 28px 70px rgba(0, 0, 0, .18);
+    }
+
+    .faq-cta h3 {
+      font-size: 24px;
+      font-weight: 900;
+      margin-bottom: 6px;
+    }
+
+    .faq-cta p {
+      color: #d8d1c7;
+      margin: 0;
+      line-height: 1.55;
+    }
+
+    .faq-cta a {
+      white-space: nowrap;
+      padding: 12px 22px;
+      border-radius: 999px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      background: linear-gradient(135deg, #ff8c00, #ff5e00, #ff9b2f);
+      box-shadow: 0 12px 28px rgba(255, 125, 0, .35);
+      transition: .25s ease;
+    }
+
+    .faq-cta a:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 18px 38px rgba(255, 125, 0, .45);
+    }
+
+    @media(max-width:991px) {
+      .faq-section {
+        padding: 46px 16px;
+      }
+
+      .faq-heading h2 {
+        font-size: 31px;
+      }
+
+      .faq-item {
+        border-radius: 20px;
+      }
+
+      .faq-item summary {
+        align-items: flex-start;
+        padding: 20px;
+        font-size: 16px;
+      }
+
+      .faq-icon {
+        width: 34px;
+        height: 34px;
+        min-width: 34px;
+        font-size: 14px;
+      }
+
+      .faq-answer {
+        padding: 0 20px 22px;
+      }
+
+      .faq-cta {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 24px;
+      }
+
+      .faq-cta a {
+        width: 100%;
+        text-align: center;
+      }
+    }
+
     /* ===== CTA FINAL ===== */
 
     .cta-final {
@@ -1479,6 +1697,7 @@
         <a href="#sobre-nos">Sobre nós</a>
         <a href="#servicos">Serviços</a>
         <a href="#projetos">Projetos</a>
+        <a href="#faq">FAQ</a>
         <a href="trabalhe-conosco.html">Trabalhe Conosco</a>
       </div>
 
@@ -1515,6 +1734,7 @@
         <a class="mobile-link" href="#sobre-nos">Sobre nós</a>
         <a class="mobile-link" href="#servicos">Serviços</a>
         <a class="mobile-link" href="#projetos">Projetos</a>
+        <a class="mobile-link" href="#faq">FAQ</a>
         <a class="mobile-link" href="trabalhe-conosco.html">Trabalhe Conosco</a>
 
         <a class="btn-orange d-inline-block text-center text-decoration-none" href="https://wa.me/5532984690215?text=Ol%C3%A1%21%20Tudo%20bem%3F%20Conheci%20a%20ThynkXP%20pelo%20site%20e%20gostaria%20de%20solicitar%20um%20or%C3%A7amento%20para%20o%20meu%20projeto.%20Poderiam%20me%20orientar%20sobre%20os%20pr%C3%B3ximos%20passos%3F" target="_blank" rel="noopener noreferrer">Quero um orçamento →</a>
@@ -2023,6 +2243,200 @@
 
     </section>
 
+
+    <section class="faq-section" id="faq">
+      <div class="faq-heading">
+        <span class="faq-kicker"><i class="fa-regular fa-circle-question"></i> Dúvidas frequentes</span>
+        <h2>Perguntas <span>Frequentes</span></h2>
+        <p>
+          Reunimos as principais dúvidas de quem está planejando criar um site, landing page,
+          e-commerce ou sistema sob medida com estratégia, design e foco em resultado.
+        </p>
+      </div>
+
+      <div class="faq-list">
+        <details class="faq-item" open>
+          <summary>
+            Quanto tempo leva para criar um site profissional?
+            <span class="faq-icon"><i class="fa-solid fa-plus"></i></span>
+          </summary>
+          <div class="faq-answer">
+            <p>
+              O prazo depende do tamanho do projeto, quantidade de páginas, nível de personalização,
+              integrações e velocidade de aprovação dos materiais. Landing pages costumam ser mais rápidas,
+              enquanto sites institucionais completos, e-commerces e sistemas personalizados exigem mais etapas
+              de estratégia, design, desenvolvimento, testes e publicação.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            Vocês criam apenas o visual ou também desenvolvem o site/sistema?
+            <span class="faq-icon"><i class="fa-solid fa-plus"></i></span>
+          </summary>
+          <div class="faq-answer">
+            <p>
+              Atuamos do planejamento à entrega: entendemos o objetivo do negócio, estruturamos a experiência,
+              criamos o design, desenvolvemos a solução e orientamos a publicação. Quando necessário, também
+              podemos apoiar com copy, organização de conteúdo, automações e integrações.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            Qual é a diferença entre site institucional, landing page e sistema personalizado?
+            <span class="faq-icon"><i class="fa-solid fa-plus"></i></span>
+          </summary>
+          <div class="faq-answer">
+            <p>
+              O site institucional apresenta sua empresa, serviços, diferenciais e canais de contato. A landing page
+              é uma página focada em conversão, ideal para campanhas, captação de leads ou venda de uma oferta específica.
+              Já um sistema personalizado resolve processos internos, como dashboards, áreas de cliente, gestão de pedidos,
+              cadastros, relatórios e fluxos operacionais sob medida.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            O site será responsivo para celular, tablet e computador?
+            <span class="faq-icon"><i class="fa-solid fa-plus"></i></span>
+          </summary>
+          <div class="faq-answer">
+            <p>
+              Sim. Todos os projetos são pensados para funcionar bem em diferentes tamanhos de tela. Ajustamos hierarquia,
+              espaçamentos, botões, imagens e navegação para que a experiência seja clara, rápida e confortável no mobile,
+              sem perder qualidade no desktop.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            Vocês ajudam com domínio, hospedagem e publicação?
+            <span class="faq-icon"><i class="fa-solid fa-plus"></i></span>
+          </summary>
+          <div class="faq-answer">
+            <p>
+              Sim. Podemos orientar a escolha do domínio, configurar hospedagem, conectar ferramentas necessárias e publicar
+              o projeto. Caso você já tenha domínio ou servidor, avaliamos a estrutura existente e indicamos o melhor caminho
+              para uma entrega segura e organizada.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            Meu projeto pode ter WhatsApp, formulários, pagamentos ou integrações?
+            <span class="faq-icon"><i class="fa-solid fa-plus"></i></span>
+          </summary>
+          <div class="faq-answer">
+            <p>
+              Pode. Desenvolvemos integrações conforme a necessidade do negócio, como botões e mensagens para WhatsApp,
+              formulários de contato, captura de leads, pixels de anúncios, ferramentas de análise, meios de pagamento,
+              CRMs, automações, planilhas e outras plataformas compatíveis com o escopo do projeto.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            O site será otimizado para aparecer no Google?
+            <span class="faq-icon"><i class="fa-solid fa-plus"></i></span>
+          </summary>
+          <div class="faq-answer">
+            <p>
+              Trabalhamos boas práticas de SEO técnico e estrutura de conteúdo, como títulos bem organizados, performance,
+              responsividade, hierarquia de páginas e configuração básica para indexação. Para crescimento orgânico contínuo,
+              recomendamos uma estratégia recorrente de conteúdo, otimização e acompanhamento de métricas.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            Como funciona o processo de criação com a ThynkXP?
+            <span class="faq-icon"><i class="fa-solid fa-plus"></i></span>
+          </summary>
+          <div class="faq-answer">
+            <p>
+              Normalmente seguimos um fluxo com diagnóstico, definição de escopo, arquitetura da solução, design, aprovação,
+              desenvolvimento, testes e publicação. Durante o processo, mantemos comunicação clara para alinhar expectativas,
+              validar decisões importantes e garantir que a entrega esteja conectada aos objetivos do seu negócio.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            O que preciso enviar para começar o projeto?
+            <span class="faq-icon"><i class="fa-solid fa-plus"></i></span>
+          </summary>
+          <div class="faq-answer">
+            <p>
+              Para começar, ajuda muito ter objetivo do projeto, referências visuais, informações da empresa, serviços,
+              produtos, diferenciais, público-alvo, materiais de marca e conteúdos iniciais. Se você ainda não tiver tudo
+              pronto, nossa equipe pode ajudar a organizar as informações e transformar ideias em uma estrutura clara.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            Vocês fazem manutenção depois que o projeto vai ao ar?
+            <span class="faq-icon"><i class="fa-solid fa-plus"></i></span>
+          </summary>
+          <div class="faq-answer">
+            <p>
+              Sim. Podemos combinar suporte para ajustes, melhorias, novas páginas, atualizações de conteúdo, acompanhamento
+              técnico e evolução do projeto. A manutenção pode ser pontual ou recorrente, dependendo da complexidade e da
+              frequência de mudanças que a sua operação precisa.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            Vocês também criam identidade visual, posts e campanhas de tráfego?
+            <span class="faq-icon"><i class="fa-solid fa-plus"></i></span>
+          </summary>
+          <div class="faq-answer">
+            <p>
+              Sim. Além de sites e sistemas, a ThynkXP pode apoiar sua marca com branding, materiais visuais, estratégia
+              digital, criativos e tráfego pago. Assim, o projeto não fica limitado à presença online: ele pode ser conectado
+              a ações de aquisição, conversão e relacionamento com clientes.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            Como é definido o investimento de um site ou sistema?
+            <span class="faq-icon"><i class="fa-solid fa-plus"></i></span>
+          </summary>
+          <div class="faq-answer">
+            <p>
+              O investimento varia conforme escopo, quantidade de telas, funcionalidades, integrações, prazos, complexidade
+              técnica e nível de estratégia envolvido. Por isso, primeiro entendemos sua necessidade e depois apresentamos
+              uma proposta compatível com o objetivo, evitando pacotes genéricos que não resolvem o problema real.
+            </p>
+          </div>
+        </details>
+      </div>
+
+      <div class="faq-cta">
+        <div>
+          <h3>Ainda ficou com alguma dúvida?</h3>
+          <p>Fale com a ThynkXP e receba uma orientação personalizada para o seu site, sistema ou estratégia digital.</p>
+        </div>
+        <a href="https://wa.me/5532984690215?text=Ol%C3%A1%21%20Tudo%20bem%3F%20Vim%20pelo%20site%20da%20ThynkXP%20e%20tenho%20algumas%20d%C3%BAvidas%20sobre%20sites%2C%20sistemas%20ou%20solu%C3%A7%C3%B5es%20digitais.%20Podem%20me%20ajudar%3F" target="_blank" rel="noopener noreferrer">
+          Tirar dúvidas pelo WhatsApp
+        </a>
+      </div>
+    </section>
+
     <section class="cta-final">
 
       <div class="cta-content">
@@ -2098,9 +2512,10 @@
           <h4>Mapa do site:</h4>
 
           <ul class="footer-links">
-            <li><a href="#">Sobre nós</a></li>
-            <li><a href="#">Serviços</a></li>
-            <li><a href="#">Projetos</a></li>
+            <li><a href="#sobre-nos">Sobre nós</a></li>
+            <li><a href="#servicos">Serviços</a></li>
+            <li><a href="#projetos">Projetos</a></li>
+            <li><a href="#faq">FAQ</a></li>
             <li><a href="fale-conosco.html">Fale Conosco</a></li>
             <li><a href="#">Metodologia</a></li>
           </ul>
@@ -2150,6 +2565,19 @@
         }
       });
     }
+  </script>
+
+
+  <script>
+    document.querySelectorAll(".faq-item").forEach((item) => {
+      item.addEventListener("toggle", () => {
+        if (item.open) {
+          document.querySelectorAll(".faq-item").forEach((otherItem) => {
+            if (otherItem !== item) otherItem.removeAttribute("open");
+          });
+        }
+      });
+    });
   </script>
 
   <script>
