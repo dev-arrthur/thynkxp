@@ -940,6 +940,11 @@
       color: #3d3731;
     }
 
+    .project-copy,
+    .project-feature-image {
+      display: none;
+    }
+
     /* ARROWS */
     .proj-nav {
       width: 38px;
@@ -999,6 +1004,228 @@
       .project-image img {
         width: 100%;
         max-width: 100%;
+      }
+    }
+
+    /* ===== PROJECTS DESKTOP — NEXT-GEN CARDS ===== */
+    @media(min-width:992px) {
+      .projects-section {
+        display: block;
+        width: 100vw;
+        max-width: none;
+        margin-left: 50%;
+        padding: 92px 46px 104px;
+        transform: translateX(-50%);
+        background: #111;
+        color: #fff;
+      }
+
+      .projects-left {
+        max-width: 980px;
+        margin: 0 auto 34px;
+        text-align: center;
+      }
+
+      .projects-left h2 {
+        font-size: clamp(44px, 6vw, 86px);
+        line-height: .92;
+        letter-spacing: -3px;
+        color: #fff;
+      }
+
+      .projects-left h2 span {
+        background: linear-gradient(135deg, #ff8c00, #ff5e00, #ff9b2f);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .projects-left p {
+        max-width: 720px;
+        margin: 18px auto 24px;
+        color: #d8d1c7;
+        font-size: 17px;
+        line-height: 1.65;
+      }
+
+      .projects-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 12px 28px rgba(255, 125, 0, .30);
+      }
+
+      .projects-right {
+        display: block;
+        width: min(1440px, 100%);
+        max-width: 1440px;
+        margin: 0 auto;
+      }
+
+      .projects-track-wrapper {
+        overflow: visible;
+      }
+
+      .projects-track {
+        display: grid;
+        grid-template-columns: 1fr 1.28fr 1fr 1fr;
+        gap: 14px;
+        align-items: stretch;
+        transform: none !important;
+        transition: none;
+      }
+
+      .proj-nav {
+        display: none;
+      }
+
+      .project-card {
+        position: relative;
+        min-height: 225px;
+        padding: 28px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, .16);
+        background: #fcfaf6;
+        color: #111 !important;
+        box-shadow: none;
+        display: flex;
+        align-items: flex-end;
+      }
+
+      .project-card:first-child {
+        border-radius: 92px 18px 18px 18px;
+      }
+
+      .project-card:nth-child(2) {
+        border-radius: 18px;
+      }
+
+      .project-card:nth-child(3) {
+        border-radius: 18px;
+      }
+
+      .project-card:last-child {
+        border-radius: 18px 92px 18px 18px;
+      }
+
+      .project-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 26px 58px rgba(0, 0, 0, .24);
+      }
+
+      .project-card::after {
+        content: "Ver projeto →";
+        position: absolute;
+        right: 22px;
+        bottom: 22px;
+        font-weight: 800;
+        font-size: 13px;
+        color: #ff6a00;
+        opacity: 0;
+        transform: translateY(8px);
+        transition: .25s ease;
+      }
+
+      .project-card:hover::after {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .project-card.featured-project {
+        min-height: 265px;
+        background: linear-gradient(135deg, #ff8c00 0%, #ff6a00 48%, #ff9b2f 100%);
+        color: #fff !important;
+        box-shadow: 0 28px 70px rgba(255, 106, 0, .30);
+      }
+
+      .project-card.featured-project::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, rgba(0, 0, 0, .28), transparent 58%);
+        pointer-events: none;
+      }
+
+      .project-card.featured-project::after {
+        color: #fff;
+      }
+
+      .project-image {
+        display: none;
+      }
+
+      .project-mobile-image {
+        display: none !important;
+      }
+
+      .project-card.featured-project .project-image {
+        display: block;
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        opacity: .72;
+      }
+
+      .project-card.featured-project .project-feature-image {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transform: none;
+      }
+
+      .project-card.featured-project:hover .project-feature-image {
+        transform: scale(1.04);
+      }
+
+      .project-copy {
+        position: relative;
+        z-index: 2;
+        display: block;
+        max-width: 280px;
+      }
+
+      .project-category {
+        display: inline-flex;
+        margin-bottom: 10px;
+        padding: 7px 12px;
+        border-radius: 999px;
+        background: #fff3e4;
+        color: #ff6a00;
+        font-size: 12px;
+        font-weight: 900;
+        letter-spacing: .3px;
+        text-transform: uppercase;
+      }
+
+      .featured-project .project-category {
+        background: rgba(255, 255, 255, .18);
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, .24);
+      }
+
+      .project-copy h3 {
+        margin: 0 0 8px;
+        max-width: 260px;
+        font-size: clamp(23px, 2vw, 32px);
+        font-weight: 950;
+        line-height: .98;
+        letter-spacing: -1.2px;
+      }
+
+      .project-copy p {
+        margin: 0;
+        max-width: 245px;
+        color: #6a645c;
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      .featured-project .project-copy p {
+        color: rgba(255, 255, 255, .88);
+      }
+
+      .project-label {
+        display: none;
       }
     }
 
@@ -2245,25 +2472,41 @@
           <div class="projects-track" id="projectsTrack">
 
             <!-- CARD 1 -->
-            <a href="saboratti.html" class="project-card">
-              <div class="project-image">
-                <img src="img/projeto1.png">
-              </div>
-              <p class="project-label">→ Branding</p>
-            </a>
-
-            <!-- CARD 2 -->
             <a href="pagbanknext.html" class="project-card">
               <div class="project-image">
-                <img src="img/projeto3.png">
+                <img src="img/projeto3.png" alt="Projeto PagBank Next">
+              </div>
+              <div class="project-copy">
+                <span class="project-category">UI Design</span>
+                <h3>PagBank Next</h3>
+                <p>Experiência digital para uma solução financeira moderna, clara e confiável.</p>
               </div>
               <p class="project-label">→ UI Design</p>
+            </a>
+
+            <!-- CARD 2 - DESTAQUE -->
+            <a href="saboratti.html" class="project-card featured-project">
+              <div class="project-image">
+                <img class="project-mobile-image" src="img/projeto1.png" alt="Projeto Saboratti">
+                <img class="project-feature-image" src="img/destaque.png" alt="Imagem de destaque do projeto Saboratti">
+              </div>
+              <div class="project-copy">
+                <span class="project-category">Projeto em destaque</span>
+                <h3>Saboratti</h3>
+                <p>Branding com personalidade, presença visual marcante e comunicação feita para vender.</p>
+              </div>
+              <p class="project-label">→ Branding</p>
             </a>
 
             <!-- CARD 3 -->
             <a href="larrisamoraes.html" class="project-card">
               <div class="project-image">
-                <img src="img/projeto2.png">
+                <img src="img/projeto2.png" alt="Projeto Larissa Moraes">
+              </div>
+              <div class="project-copy">
+                <span class="project-category">Site institucional</span>
+                <h3>Larissa Moraes</h3>
+                <p>Site profissional para fortalecer autoridade, posicionamento e captação de contatos.</p>
               </div>
               <p class="project-label">→ Site institucional</p>
             </a>
@@ -2271,7 +2514,12 @@
             <!-- CARD 4 -->
             <a href="velora.html" class="project-card">
               <div class="project-image">
-                <img src="img/projeto4.png">
+                <img src="img/projeto4.png" alt="Projeto Velora">
+              </div>
+              <div class="project-copy">
+                <span class="project-category">E-commerce</span>
+                <h3>Velora</h3>
+                <p>Loja digital pensada para valorizar produtos, jornada de compra e conversão.</p>
               </div>
               <p class="project-label">→ E-commerce</p>
             </a>
