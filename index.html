@@ -1133,7 +1133,9 @@
       }
 
       .project-card.featured-project {
+        z-index: 2;
         min-height: 265px;
+        overflow: visible;
         background: linear-gradient(135deg, #ff8c00 0%, #ff6a00 52%, #ff9b2f 100%);
         color: #fff !important;
         box-shadow: 0 28px 70px rgba(255, 106, 0, .30);
@@ -1170,21 +1172,28 @@
       .project-card.featured-project .project-image {
         display: block;
         position: absolute;
-        inset: 0;
-        border-radius: inherit;
-        opacity: .72;
+        top: -118px;
+        right: 28px;
+        z-index: 3;
+        width: min(250px, 46%);
+        height: 170px;
+        border-radius: 26px;
+        overflow: visible;
+        opacity: 1;
+        pointer-events: none;
       }
 
       .project-card.featured-project .project-feature-image {
         display: block;
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        object-fit: contain;
         transform: none;
+        filter: drop-shadow(0 22px 28px rgba(0, 0, 0, .20));
       }
 
       .project-card.featured-project:hover .project-feature-image {
-        transform: scale(1.04);
+        transform: translateY(-4px) scale(1.04);
       }
 
       .project-copy {
