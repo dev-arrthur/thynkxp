@@ -1016,8 +1016,8 @@
         margin-left: 50%;
         padding: 92px 46px 104px;
         transform: translateX(-50%);
-        background: #111;
-        color: #fff;
+        background: #fff;
+        color: #111;
       }
 
       .projects-left {
@@ -1030,7 +1030,7 @@
         font-size: clamp(44px, 6vw, 86px);
         line-height: .92;
         letter-spacing: -3px;
-        color: #fff;
+        color: #111;
       }
 
       .projects-left h2 span {
@@ -1042,7 +1042,7 @@
       .projects-left p {
         max-width: 720px;
         margin: 18px auto 24px;
-        color: #d8d1c7;
+        color: #6a645c;
         font-size: 17px;
         line-height: 1.65;
       }
@@ -1083,10 +1083,11 @@
         min-height: 225px;
         padding: 28px;
         overflow: hidden;
-        border: 1px solid rgba(255, 255, 255, .16);
-        background: #fcfaf6;
+        border: 1px solid rgba(17, 17, 17, .08);
+        background:
+          linear-gradient(145deg, #fff 0%, #fcfaf6 62%, #fff3e4 100%);
         color: #111 !important;
-        box-shadow: none;
+        box-shadow: 0 18px 44px rgba(0, 0, 0, .065);
         display: flex;
         align-items: flex-end;
       }
@@ -1109,7 +1110,7 @@
 
       .project-card:hover {
         transform: translateY(-6px);
-        box-shadow: 0 26px 58px rgba(0, 0, 0, .24);
+        box-shadow: 0 28px 62px rgba(255, 106, 0, .16);
       }
 
       .project-card::after {
@@ -1132,16 +1133,41 @@
 
       .project-card.featured-project {
         min-height: 265px;
-        background: linear-gradient(135deg, #ff8c00 0%, #ff6a00 48%, #ff9b2f 100%);
+        background: linear-gradient(135deg, #ff8c00 0%, #ff6a00 52%, #ff9b2f 100%);
         color: #fff !important;
         box-shadow: 0 28px 70px rgba(255, 106, 0, .30);
       }
 
-      .project-card.featured-project::before {
+      .project-card:not(.featured-project)::before {
         content: "";
         position: absolute;
-        inset: 0;
-        background: linear-gradient(90deg, rgba(0, 0, 0, .28), transparent 58%);
+        top: 22px;
+        right: 22px;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: rgba(255, 106, 0, .10);
+        border: 1px solid rgba(255, 106, 0, .16);
+        transition: .25s ease;
+      }
+
+      .project-card:not(.featured-project):hover::before {
+        transform: scale(1.12);
+        background: rgba(255, 106, 0, .16);
+      }
+
+      .project-card.featured-project::before {
+        content: "Saboratti";
+        position: absolute;
+        right: -18px;
+        top: 44%;
+        z-index: 1;
+        transform: translateY(-50%);
+        color: rgba(255, 255, 255, .16);
+        font-size: clamp(58px, 6vw, 104px);
+        font-weight: 950;
+        line-height: .82;
+        letter-spacing: -5px;
         pointer-events: none;
       }
 
@@ -1203,6 +1229,18 @@
         border: 1px solid rgba(255, 255, 255, .24);
       }
 
+
+      .project-card:not(.featured-project) .project-copy::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: calc(100% + 18px);
+        width: 54px;
+        height: 4px;
+        border-radius: 999px;
+        background: linear-gradient(135deg, #ff8c00, #ff5e00, #ff9b2f);
+      }
+
       .project-copy h3 {
         margin: 0 0 8px;
         max-width: 260px;
@@ -1221,7 +1259,7 @@
       }
 
       .featured-project .project-copy p {
-        color: rgba(255, 255, 255, .88);
+        color: rgba(255, 255, 255, .90);
       }
 
       .project-label {
@@ -2491,7 +2529,6 @@
                 <img class="project-feature-image" src="img/destaque.png" alt="Imagem de destaque do projeto Saboratti">
               </div>
               <div class="project-copy">
-                <span class="project-category">Projeto em destaque</span>
                 <h3>Saboratti</h3>
                 <p>Branding com personalidade, presença visual marcante e comunicação feita para vender.</p>
               </div>
