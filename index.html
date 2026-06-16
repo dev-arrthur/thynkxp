@@ -587,12 +587,15 @@
 
     /* =================== TEXT MARQUEE (NOVO) =================== */
     .marquee-section {
-      margin-top: 30px;
+      width: 100vw;
+      margin-top: 34px;
+      margin-left: calc(50% - 50vw);
       padding: 32px 0 18px;
       overflow: hidden;
       display: grid;
       gap: 10px;
       position: relative;
+      box-sizing: border-box;
     }
 
     .marquee-track {
@@ -742,12 +745,36 @@
       }
 
       .marquee-section {
-        gap: 10px;
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        padding: 24px 0 18px;
+        gap: 8px;
+      }
+
+      .marquee-track {
+        min-width: 240%;
+        padding: 12px 0;
+        rotate: -.6deg;
+      }
+
+      .marquee-track.reverse {
+        margin-left: -120px;
+        rotate: .6deg;
       }
 
       .marquee-track span {
-        padding: 10px 18px;
-        font-size: 14px;
+        padding: 0 26px;
+        font-size: clamp(15px, 4.3vw, 18px);
+        letter-spacing: .06em;
+      }
+
+      .marquee-track span::after {
+        right: -4px;
+        width: 7px;
+        height: 7px;
+        box-shadow:
+          0 0 0 5px rgba(255, 106, 0, .10),
+          0 0 18px rgba(255, 106, 0, .24);
       }
     }
 
