@@ -427,13 +427,13 @@
 
     .tools-track {
       display: flex;
-      gap: 60px;
+      gap: 72px;
       align-items: center;
-      opacity: .85;
+      opacity: .92;
     }
 
     .tools-track img {
-      height: 72px;
+      height: 92px;
       filter: grayscale(100%);
       opacity: .9;
       transition: .25s;
@@ -474,14 +474,14 @@
     .trusted-track {
       display: flex;
       align-items: center;
-      gap: 34px;
+      gap: 48px;
       width: max-content;
       animation: trustedScroll 24s linear infinite;
     }
 
     .trusted-track img {
-      width: 130px;
-      height: 56px;
+      width: 172px;
+      height: 76px;
       object-fit: contain;
       flex-shrink: 0;
       filter: grayscale(100%);
@@ -587,25 +587,40 @@
 
     /* =================== TEXT MARQUEE (NOVO) =================== */
     .marquee-section {
-      margin-top: 20px;
-      padding: 26px 0;
+      margin-top: 30px;
+      padding: 22px 0 4px;
       overflow: hidden;
+      display: grid;
+      gap: 14px;
     }
 
     .marquee-track {
       display: flex;
-      gap: 60px;
+      gap: 14px;
       white-space: nowrap;
-      animation: marqueeScroll 22s linear infinite;
-      opacity: .65;
+      width: max-content;
+      animation: marqueeScroll 24s linear infinite;
+    }
+
+    .marquee-track.reverse {
+      animation: marqueeScrollReverse 26s linear infinite;
+      margin-left: -140px;
     }
 
     .marquee-track span {
-      font-size: 28px;
-      font-weight: 800;
-      color: #3b3b39;
-      /* cinza escuro porém legível */
-      letter-spacing: .5px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: max-content;
+      padding: 12px 24px;
+      border-radius: 999px;
+      background: #fff;
+      color: #ff6a00;
+      font-size: 17px;
+      font-weight: 900;
+      letter-spacing: .4px;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, .12);
+      border: 1px solid rgba(255, 255, 255, .72);
     }
 
     @keyframes marqueeScroll {
@@ -615,6 +630,16 @@
 
       to {
         transform: translateX(-50%);
+      }
+    }
+
+    @keyframes marqueeScrollReverse {
+      from {
+        transform: translateX(-50%);
+      }
+
+      to {
+        transform: translateX(0);
       }
     }
 
@@ -640,11 +665,11 @@
       }
 
       .tools-track {
-        gap: 34px;
+        gap: 42px;
       }
 
       .tools-track img {
-        height: 34px;
+        height: 50px;
       }
 
       .trusted-section {
@@ -656,12 +681,12 @@
       }
 
       .trusted-track {
-        gap: 18px;
+        gap: 24px;
       }
 
       .trusted-track img {
-        width: 90px;
-        height: 42px;
+        width: 126px;
+        height: 58px;
       }
 
       .about-section {
@@ -679,8 +704,13 @@
         width: 320px;
       }
 
+      .marquee-section {
+        gap: 10px;
+      }
+
       .marquee-track span {
-        font-size: 20px;
+        padding: 10px 18px;
+        font-size: 14px;
       }
     }
 
@@ -1011,10 +1041,12 @@
         overflow-y: hidden;
         padding: 18px 20px 24px;
         scroll-snap-type: x mandatory;
+        scroll-padding-left: 20px;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
-        touch-action: pan-x;
+        touch-action: pan-x pan-y;
         overscroll-behavior-x: contain;
+        overscroll-behavior-y: auto;
       }
 
       .projects-track-wrapper::-webkit-scrollbar {
@@ -1064,7 +1096,8 @@
         padding: 18px;
         overflow: hidden;
         border-radius: 30px;
-        scroll-snap-align: center;
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
         background: #111;
         border: 1px solid rgba(255, 106, 0, .18);
         box-shadow: 0 22px 46px rgba(0, 0, 0, .14);
@@ -2167,6 +2200,192 @@
         left: 10px;
       }
 
+      .ts-dots {
+        margin-top: 10px;
+      }
+    }
+
+
+    /* DESKTOP - depoimentos flutuantes integrados à página */
+    @media(min-width:992px) {
+      .testimonials-section {
+        width: 100vw;
+        margin-left: 50%;
+        padding: 92px 46px 86px;
+        transform: translateX(-50%);
+      }
+
+      .testimonials-section h2 {
+        text-align: center;
+        font-size: 38px;
+        margin-bottom: 22px;
+      }
+
+      .testimonials-wrapper {
+        position: relative;
+        display: block;
+        min-height: 750px;
+        overflow: visible;
+        max-width: 1500px;
+        margin: 0 auto;
+        padding: 0;
+        border: none;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
+      }
+
+      .testimonial-visual {
+        position: absolute;
+        inset: 152px 50% 0 auto;
+        z-index: 1;
+        display: flex;
+        width: min(640px, 44vw);
+        transform: translateX(50%);
+        align-items: flex-end;
+        justify-content: center;
+        pointer-events: none;
+      }
+
+      .testimonial-visual::before {
+        display: none;
+      }
+
+      .testimonial-visual img {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-height: 590px;
+        object-fit: contain;
+        border-radius: 32px;
+        filter: drop-shadow(0 30px 46px rgba(0, 0, 0, .22));
+      }
+
+      .testimonials-track-wrapper {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        overflow: visible;
+      }
+
+      .testimonials-track {
+        position: relative;
+        display: block;
+        width: 100%;
+        height: 100%;
+        gap: 0;
+        transform: none !important;
+        transition: none;
+      }
+
+      .testimonial-card {
+        --card-x: 0;
+        position: absolute;
+        width: clamp(240px, 19vw, 310px);
+        min-height: auto;
+        padding: 22px 22px 20px;
+        border: 1px solid rgba(255, 106, 0, .18);
+        border-radius: 24px;
+        background: rgba(252, 250, 246, .92);
+        box-shadow: 0 18px 38px rgba(0, 0, 0, .08);
+        color: #111;
+        transform: translate(var(--card-x), 0);
+        transition: .28s ease;
+      }
+
+      .testimonial-card:hover {
+        transform: translate(var(--card-x), -6px);
+        border-color: rgba(255, 122, 0, .38);
+        box-shadow: 0 30px 70px rgba(255, 106, 0, .16);
+      }
+
+      .testimonial-card:nth-child(1) {
+        top: 160px;
+        left: max(26px, 5vw);
+      }
+
+      .testimonial-card:nth-child(2) {
+        left: max(72px, 9vw);
+        bottom: 108px;
+      }
+
+      .testimonial-card:nth-child(3) {
+        --card-x: -50%;
+        top: 20px;
+        left: 50%;
+      }
+
+      .testimonial-card:nth-child(4) {
+        top: 170px;
+        right: max(26px, 5vw);
+      }
+
+      .testimonial-card:nth-child(5) {
+        right: max(72px, 9vw);
+        bottom: 112px;
+      }
+
+      .testimonial-text {
+        color: #4d4a45;
+        font-weight: 700;
+        line-height: 1.5;
+        text-align: center;
+        margin: 0 0 14px;
+      }
+
+      .testimonial-user {
+        justify-content: center;
+        color: #111;
+      }
+
+      .testimonial-user img {
+        width: 38px;
+        height: 38px;
+        border: 2px solid rgba(255, 122, 0, .38);
+        box-shadow: 0 8px 18px rgba(255, 106, 0, .18);
+      }
+
+      .testimonial-user strong {
+        color: #111;
+        font-size: 14px;
+      }
+
+      .testimonial-user span {
+        display: block;
+        color: #7c766e;
+        font-size: 12px;
+      }
+
+      .ts-nav,
+      .ts-dots {
+        display: none;
+      }
+    }
+
+    @media(min-width:992px) and (max-width:1180px) {
+      .testimonials-section {
+        padding-left: 24px;
+        padding-right: 24px;
+      }
+
+      .testimonials-wrapper {
+        min-height: 720px;
+      }
+
+      .testimonial-visual {
+        top: 170px;
+        width: min(500px, 40vw);
+      }
+
+      .testimonial-card {
+        width: 220px;
+        padding: 18px;
+      }
+
+      .testimonial-card:nth-child(1) {
+        left: 10px;
+      }
+
       .testimonial-card:nth-child(2) {
         left: 38px;
         bottom: 72px;
@@ -2704,6 +2923,48 @@
       }
     }
 
+    /* ===== SCROLL TO TOP BUTTON ===== */
+
+    .scroll-top-btn {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      z-index: 9998;
+      width: 52px;
+      height: 52px;
+      border: none;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: linear-gradient(135deg, #ff8c00, #ff5e00, #ff9b2f);
+      box-shadow: 0 16px 36px rgba(255, 106, 0, .32);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(12px) scale(.94);
+      transition: .25s ease;
+    }
+
+    .scroll-top-btn.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0) scale(1);
+    }
+
+    .scroll-top-btn:hover {
+      transform: translateY(-3px) scale(1.04);
+      box-shadow: 0 22px 44px rgba(255, 106, 0, .40);
+    }
+
+    @media(max-width:991px) {
+      .scroll-top-btn {
+        right: 16px;
+        bottom: 16px;
+        width: 46px;
+        height: 46px;
+      }
+    }
+
     /* ===== FOOTER COPYRIGHT BAR ===== */
 
     .footer-bottom {
@@ -2909,11 +3170,26 @@
 
       </div>
       <!-- ===== TEXT MARQUEE (NOVO) ===== -->
-      <section class="marquee-section">
+      <section class="marquee-section" aria-label="Diferenciais ThynkXP">
         <div class="marquee-track">
-          <span>Seja Thynk * Seja Criativo * Seja Diferente * Seja Thynk *</span>
-          <span>Seja Thynk * Seja Criativo * Seja Diferente * Seja Thynk *</span>
-          <span>Seja Thynk * Seja Criativo * Seja Diferente * Seja Thynk *</span>
+          <span>Estratégia que vende</span>
+          <span>Design com propósito</span>
+          <span>Sistemas sob medida</span>
+          <span>Performance real</span>
+          <span>Experiência memorável</span>
+          <span>Seja Thynk</span>
+          <span>Estratégia que vende</span>
+          <span>Design com propósito</span>
+        </div>
+        <div class="marquee-track reverse">
+          <span>Marcas mais fortes</span>
+          <span>Sites de alta conversão</span>
+          <span>Automações inteligentes</span>
+          <span>Clareza visual</span>
+          <span>Crescimento digital</span>
+          <span>Seja diferente</span>
+          <span>Marcas mais fortes</span>
+          <span>Sites de alta conversão</span>
         </div>
       </section>
     </section>
@@ -3554,6 +3830,10 @@
 
   </div>
 
+  <button class="scroll-top-btn" id="scrollTopBtn" type="button" aria-label="Voltar ao topo">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
+
   <section class="footer-bottom">
     <p>
       © <span id="year"></span> ThynkXP — Todos os direitos reservados.
@@ -3562,6 +3842,18 @@
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+  <script>
+    const scrollTopBtn = document.getElementById("scrollTopBtn");
+
+    window.addEventListener("scroll", () => {
+      scrollTopBtn.classList.toggle("active", window.scrollY > 260);
+    }, { passive: true });
+
+    scrollTopBtn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
   </script>
 
 
