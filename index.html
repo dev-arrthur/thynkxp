@@ -690,6 +690,16 @@
       }
     }
 
+    @keyframes marqueeScrollReverse {
+      from {
+        transform: translateX(-50%);
+      }
+
+      to {
+        transform: translateX(0);
+      }
+    }
+
     /* =================== MOBILE =================== */
     @media(max-width:991px) {
       .desktop-nav {
@@ -1125,6 +1135,29 @@
       }
 
       .projects-track {
+        display: inline-flex;
+        gap: 18px;
+        width: auto;
+        min-width: max-content;
+        max-width: none;
+        transform: none !important;
+        transition: none;
+      }
+
+      .project-card {
+        position: relative;
+        flex: 0 0 min(76vw, 320px);
+        width: min(76vw, 320px);
+        max-width: none;
+        min-height: 430px;
+        margin: 0;
+        padding: 18px;
+        overflow: hidden;
+        border-radius: 30px;
+        scroll-snap-align: center;
+        background: #111;
+        border: 1px solid rgba(255, 106, 0, .18);
+        box-shadow: 0 22px 46px rgba(0, 0, 0, .14);
         display: flex;
         flex-wrap: nowrap;
         gap: 18px;
@@ -1639,6 +1672,24 @@
       .project-copy {
         z-index: 2;
         max-width: 100%;
+        color: rgba(255, 255, 255, .88);
+        font-size: 14px;
+      }
+
+      .project-label {
+        display: block;
+        position: absolute;
+        z-index: 5;
+        left: 24px;
+        top: 24px;
+        margin: 0;
+        padding: 8px 12px;
+        border-radius: 999px;
+        color: #fff;
+        background: rgba(17, 17, 17, .46);
+        backdrop-filter: blur(10px);
+        font-size: 12px;
+        font-weight: 850;
       }
 
       .project-card:not(.featured-project) .project-copy::before {
