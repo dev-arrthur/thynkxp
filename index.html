@@ -990,13 +990,15 @@
       .projects-track-wrapper {
         width: 100%;
         max-width: 100%;
-        overflow-x: auto;
-        overflow-y: visible;
+        overflow-x: scroll;
+        overflow-y: hidden;
         padding: 18px 18px 24px;
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
         touch-action: pan-x;
+        cursor: grab;
+        user-select: none;
         overscroll-behavior-x: contain;
       }
 
@@ -1008,6 +1010,7 @@
         display: flex;
         gap: 18px;
         width: max-content;
+        min-width: max-content;
         max-width: none;
         transform: none !important;
         transition: none;
@@ -3207,30 +3210,53 @@
     let projectsStartX = 0;
     let projectsStartScrollLeft = 0;
 
+    function startProjectsDrag(clientX) {
+      if (window.innerWidth > 991 || !projectsScrollWrapper) return;
+      projectsIsDragging = true;
+      projectsDidDrag = false;
+      projectsStartX = clientX;
+      projectsStartScrollLeft = projectsScrollWrapper.scrollLeft;
+    }
+
+    function moveProjectsDrag(clientX) {
+      if (!projectsIsDragging || window.innerWidth > 991 || !projectsScrollWrapper) return;
+      const delta = clientX - projectsStartX;
+      if (Math.abs(delta) > 6) projectsDidDrag = true;
+      projectsScrollWrapper.scrollLeft = projectsStartScrollLeft - delta;
+    }
+
+    function stopProjectsDrag() {
+      projectsIsDragging = false;
+    }
+
     if (projectsScrollWrapper) {
       projectsScrollWrapper.addEventListener("pointerdown", (event) => {
-        if (window.innerWidth > 991) return;
-        projectsIsDragging = true;
-        projectsDidDrag = false;
-        projectsStartX = event.clientX;
-        projectsStartScrollLeft = projectsScrollWrapper.scrollLeft;
-        projectsScrollWrapper.setPointerCapture(event.pointerId);
+        startProjectsDrag(event.clientX);
+        if (window.innerWidth <= 991 && projectsScrollWrapper.setPointerCapture) {
+          projectsScrollWrapper.setPointerCapture(event.pointerId);
+        }
       });
 
       projectsScrollWrapper.addEventListener("pointermove", (event) => {
-        if (!projectsIsDragging || window.innerWidth > 991) return;
-        const delta = event.clientX - projectsStartX;
-        if (Math.abs(delta) > 6) projectsDidDrag = true;
-        projectsScrollWrapper.scrollLeft = projectsStartScrollLeft - delta;
+        moveProjectsDrag(event.clientX);
       });
 
-      ["pointerup", "pointercancel", "pointerleave"].forEach((eventName) => {
-        projectsScrollWrapper.addEventListener(eventName, () => {
-          projectsIsDragging = false;
-        });
+      projectsScrollWrapper.addEventListener("touchstart", (event) => {
+        startProjectsDrag(event.touches[0].clientX);
+      }, { passive: true });
+
+      projectsScrollWrapper.addEventListener("touchmove", (event) => {
+        if (!projectsIsDragging || window.innerWidth > 991) return;
+        moveProjectsDrag(event.touches[0].clientX);
+        if (projectsDidDrag) event.preventDefault();
+      }, { passive: false });
+
+      ["pointerup", "pointercancel", "pointerleave", "touchend", "touchcancel"].forEach((eventName) => {
+        projectsScrollWrapper.addEventListener(eventName, stopProjectsDrag);
       });
 
       projectsScrollWrapper.querySelectorAll(".project-card").forEach((card) => {
+        card.addEventListener("dragstart", (event) => event.preventDefault());
         card.addEventListener("click", (event) => {
           if (projectsDidDrag) {
             event.preventDefault();
