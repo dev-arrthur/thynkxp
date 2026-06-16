@@ -588,10 +588,33 @@
     /* =================== TEXT MARQUEE (NOVO) =================== */
     .marquee-section {
       margin-top: 30px;
-      padding: 26px 0 8px;
+      padding: 34px 0 18px;
       overflow: hidden;
       display: grid;
-      gap: 12px;
+      gap: 10px;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .marquee-section::before,
+    .marquee-section::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 110px;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .marquee-section::before {
+      left: 0;
+      background: linear-gradient(90deg, #fff7ed 18%, rgba(255, 247, 237, 0));
+    }
+
+    .marquee-section::after {
+      right: 0;
+      background: linear-gradient(270deg, #fff7ed 18%, rgba(255, 247, 237, 0));
     }
 
     .marquee-track {
@@ -601,19 +624,31 @@
       white-space: nowrap;
       width: max-content;
       min-width: 200%;
-      padding: 13px 0;
-      background: #fff;
+      padding: 16px 0;
+      background:
+        linear-gradient(90deg, rgba(255, 106, 0, .08), rgba(255, 255, 255, 0) 22%, rgba(255, 106, 0, .08) 78%),
+        #fff;
       color: #ff6a00;
-      border-top: 1px solid rgba(255, 106, 0, .16);
-      border-bottom: 1px solid rgba(255, 106, 0, .16);
-      box-shadow: 0 16px 34px rgba(0, 0, 0, .10);
+      border-top: 2px solid rgba(255, 106, 0, .18);
+      border-bottom: 2px solid rgba(255, 106, 0, .18);
+      box-shadow:
+        0 18px 40px rgba(0, 0, 0, .10),
+        inset 0 1px 0 rgba(255, 255, 255, .96),
+        inset 0 -1px 0 rgba(255, 106, 0, .08);
       animation: marqueeScroll 24s linear infinite;
+      rotate: -1.2deg;
+      transform-origin: center;
+      will-change: transform;
     }
 
     .marquee-track.reverse {
       animation: marqueeScrollReverse 26s linear infinite;
-      margin-left: -140px;
-      box-shadow: 0 12px 28px rgba(255, 106, 0, .10);
+      margin-left: -180px;
+      rotate: 1.2deg;
+      box-shadow:
+        0 14px 30px rgba(255, 106, 0, .12),
+        inset 0 1px 0 rgba(255, 255, 255, .96),
+        inset 0 -1px 0 rgba(255, 106, 0, .08);
     }
 
     .marquee-track span {
@@ -621,24 +656,33 @@
       align-items: center;
       justify-content: center;
       min-width: max-content;
-      padding: 0 34px;
+      padding: 0 42px;
       color: inherit;
-      font-size: 18px;
+      font-size: clamp(18px, 2vw, 25px);
       font-weight: 900;
-      letter-spacing: .9px;
+      letter-spacing: 1.2px;
       text-transform: uppercase;
       position: relative;
+      text-shadow: 0 8px 18px rgba(255, 106, 0, .14);
+    }
+
+    .marquee-track span:nth-child(even) {
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255, 106, 0, .92);
+      text-shadow: none;
     }
 
     .marquee-track span::after {
       content: "";
       position: absolute;
-      right: -5px;
-      width: 9px;
-      height: 9px;
+      right: -6px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
       background: #ff6a00;
-      box-shadow: 0 0 0 6px rgba(255, 106, 0, .10);
+      box-shadow:
+        0 0 0 7px rgba(255, 106, 0, .10),
+        0 0 24px rgba(255, 106, 0, .28);
     }
 
     @keyframes marqueeScroll {
