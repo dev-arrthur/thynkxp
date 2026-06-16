@@ -597,10 +597,10 @@
       width: 100vw;
       margin-top: 34px;
       margin-left: calc(50% - 50vw);
-      padding: 38px 0 34px;
-      overflow: hidden;
+      padding: 48px 0 46px;
+      overflow: visible;
       display: grid;
-      gap: 18px;
+      gap: 24px;
       position: relative;
       box-sizing: border-box;
     }
@@ -611,7 +611,7 @@
       gap: 0;
       white-space: nowrap;
       width: max-content;
-      min-width: 200%;
+      min-width: max-content;
       padding: 16px 0;
       background:
         linear-gradient(90deg, rgba(255, 106, 0, .05), rgba(255, 255, 255, 0) 48%, rgba(255, 106, 0, .05)),
@@ -623,15 +623,15 @@
         0 18px 40px rgba(0, 0, 0, .10),
         inset 0 -1px 0 rgba(255, 106, 0, .08);
       animation: marqueeScroll 24s linear infinite;
-      rotate: -1.2deg;
+      rotate: -1.6deg;
       transform-origin: center;
       will-change: transform;
     }
 
     .marquee-track.reverse {
       animation: marqueeScrollReverse 26s linear infinite;
-      margin-left: -180px;
-      rotate: 1.2deg;
+      margin-left: -220px;
+      rotate: 1.6deg;
       box-shadow:
         0 14px 30px rgba(255, 106, 0, .12),
         inset 0 -1px 0 rgba(255, 106, 0, .08);
@@ -687,12 +687,6 @@
 
       to {
         transform: translateX(0);
-      }
-    }
-
-    @keyframes marqueeScrollReverse {
-      from {
-        transform: translateX(-50%);
       }
 
       to {
@@ -764,24 +758,28 @@
       .marquee-section {
         width: 100vw;
         margin-left: calc(50% - 50vw);
-        padding: 36px 0 34px;
-        gap: 30px;
+        padding: 34px 0 34px;
+        overflow: hidden;
+        gap: 26px;
       }
 
       .marquee-track {
-        min-width: 240%;
-        padding: 13px 0;
-        rotate: -.7deg;
+        min-width: max-content;
+        padding: 11px 0;
+        rotate: -.45deg;
+        box-shadow:
+          0 10px 22px rgba(0, 0, 0, .10),
+          inset 0 -1px 0 rgba(255, 106, 0, .08);
       }
 
       .marquee-track.reverse {
-        margin-left: -80px;
-        rotate: .7deg;
+        margin-left: -120px;
+        rotate: .45deg;
       }
 
       .marquee-track span {
-        padding: 0 26px;
-        font-size: clamp(15px, 4.3vw, 18px);
+        padding: 0 24px;
+        font-size: clamp(14px, 4vw, 17px);
         letter-spacing: .06em;
       }
 
@@ -1672,24 +1670,6 @@
       .project-copy {
         z-index: 2;
         max-width: 100%;
-        color: rgba(255, 255, 255, .88);
-        font-size: 14px;
-      }
-
-      .project-label {
-        display: block;
-        position: absolute;
-        z-index: 5;
-        left: 24px;
-        top: 24px;
-        margin: 0;
-        padding: 8px 12px;
-        border-radius: 999px;
-        color: #fff;
-        background: rgba(17, 17, 17, .46);
-        backdrop-filter: blur(10px);
-        font-size: 12px;
-        font-weight: 850;
       }
 
       .project-card:not(.featured-project) .project-copy::before {
