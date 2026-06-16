@@ -688,6 +688,10 @@
       to {
         transform: translateX(0);
       }
+
+      to {
+        transform: translateX(0);
+      }
     }
 
     /* =================== MOBILE =================== */
@@ -1129,6 +1133,29 @@
       }
 
       .projects-track {
+        display: inline-flex;
+        gap: 18px;
+        width: auto;
+        min-width: max-content;
+        max-width: none;
+        transform: none !important;
+        transition: none;
+      }
+
+      .project-card {
+        position: relative;
+        flex: 0 0 min(76vw, 320px);
+        width: min(76vw, 320px);
+        max-width: none;
+        min-height: 430px;
+        margin: 0;
+        padding: 18px;
+        overflow: hidden;
+        border-radius: 30px;
+        scroll-snap-align: center;
+        background: #111;
+        border: 1px solid rgba(255, 106, 0, .18);
+        box-shadow: 0 22px 46px rgba(0, 0, 0, .14);
         display: flex;
         flex-wrap: nowrap;
         gap: 18px;
