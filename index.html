@@ -403,8 +403,12 @@
 
     /* =================== CARROSSEL DE LOGOS =================== */
     .tools-section {
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
       padding: 40px 0 45px;
       text-align: center;
+      overflow: hidden;
+      box-sizing: border-box;
     }
 
     .tools-title {
@@ -427,13 +431,13 @@
 
     .tools-track {
       display: flex;
-      gap: 60px;
+      gap: 72px;
       align-items: center;
-      opacity: .85;
+      opacity: .92;
     }
 
     .tools-track img {
-      height: 72px;
+      height: 92px;
       filter: grayscale(100%);
       opacity: .9;
       transition: .25s;
@@ -454,9 +458,12 @@
     }
 
     .trusted-section {
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
       padding: 14px 0 30px;
       overflow: hidden;
       text-align: center;
+      box-sizing: border-box;
     }
 
     .trusted-title {
@@ -474,14 +481,14 @@
     .trusted-track {
       display: flex;
       align-items: center;
-      gap: 34px;
+      gap: 48px;
       width: max-content;
       animation: trustedScroll 24s linear infinite;
     }
 
     .trusted-track img {
-      width: 130px;
-      height: 56px;
+      width: 172px;
+      height: 76px;
       object-fit: contain;
       flex-shrink: 0;
       filter: grayscale(100%);
@@ -587,25 +594,80 @@
 
     /* =================== TEXT MARQUEE (NOVO) =================== */
     .marquee-section {
-      margin-top: 20px;
-      padding: 26px 0;
-      overflow: hidden;
+      width: 100vw;
+      margin-top: 34px;
+      margin-left: calc(50% - 50vw);
+      padding: 48px 0 46px;
+      overflow: visible;
+      display: grid;
+      gap: 24px;
+      position: relative;
+      box-sizing: border-box;
     }
 
     .marquee-track {
       display: flex;
-      gap: 60px;
+      align-items: center;
+      gap: 0;
       white-space: nowrap;
-      animation: marqueeScroll 22s linear infinite;
-      opacity: .65;
+      width: max-content;
+      min-width: max-content;
+      padding: 16px 0;
+      background:
+        linear-gradient(90deg, rgba(255, 106, 0, .05), rgba(255, 255, 255, 0) 48%, rgba(255, 106, 0, .05)),
+        #fff;
+      color: #ff6a00;
+      border-top: 2px solid rgba(255, 106, 0, .24);
+      border-bottom: 2px solid rgba(255, 106, 0, .24);
+      box-shadow:
+        0 18px 40px rgba(0, 0, 0, .10),
+        inset 0 -1px 0 rgba(255, 106, 0, .08);
+      animation: marqueeScroll 24s linear infinite;
+      rotate: -1.6deg;
+      transform-origin: center;
+      will-change: transform;
+    }
+
+    .marquee-track.reverse {
+      animation: marqueeScrollReverse 26s linear infinite;
+      margin-left: -220px;
+      rotate: 1.6deg;
+      box-shadow:
+        0 14px 30px rgba(255, 106, 0, .12),
+        inset 0 -1px 0 rgba(255, 106, 0, .08);
     }
 
     .marquee-track span {
-      font-size: 28px;
-      font-weight: 800;
-      color: #3b3b39;
-      /* cinza escuro porém legível */
-      letter-spacing: .5px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: max-content;
+      padding: 0 42px;
+      color: inherit;
+      font-family: "Inter", "Arial Black", system-ui, sans-serif;
+      font-size: clamp(20px, 2.2vw, 30px);
+      font-weight: 950;
+      line-height: 1;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      position: relative;
+    }
+
+    .marquee-track span:nth-child(even) {
+      color: #e85f00;
+    }
+
+    .marquee-track span::after {
+      content: "";
+      position: absolute;
+      right: -6px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ff6a00;
+      box-shadow:
+        0 0 0 7px rgba(255, 106, 0, .10),
+        0 0 24px rgba(255, 106, 0, .28);
     }
 
     @keyframes marqueeScroll {
@@ -614,7 +676,17 @@
       }
 
       to {
-        transform: translateX(-50%);
+        transform: translateX(-33.333%);
+      }
+    }
+
+    @keyframes marqueeScrollReverse {
+      from {
+        transform: translateX(-33.333%);
+      }
+
+      to {
+        transform: translateX(0);
       }
     }
 
@@ -640,11 +712,11 @@
       }
 
       .tools-track {
-        gap: 34px;
+        gap: 42px;
       }
 
       .tools-track img {
-        height: 34px;
+        height: 50px;
       }
 
       .trusted-section {
@@ -656,12 +728,12 @@
       }
 
       .trusted-track {
-        gap: 18px;
+        gap: 24px;
       }
 
       .trusted-track img {
-        width: 90px;
-        height: 42px;
+        width: 126px;
+        height: 58px;
       }
 
       .about-section {
@@ -679,8 +751,41 @@
         width: 320px;
       }
 
+      .marquee-section {
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        padding: 34px 0 34px;
+        overflow: hidden;
+        gap: 26px;
+      }
+
+      .marquee-track {
+        min-width: max-content;
+        padding: 11px 0;
+        rotate: -.45deg;
+        box-shadow:
+          0 10px 22px rgba(0, 0, 0, .10),
+          inset 0 -1px 0 rgba(255, 106, 0, .08);
+      }
+
+      .marquee-track.reverse {
+        margin-left: -120px;
+        rotate: .45deg;
+      }
+
       .marquee-track span {
-        font-size: 20px;
+        padding: 0 24px;
+        font-size: clamp(14px, 4vw, 17px);
+        letter-spacing: .06em;
+      }
+
+      .marquee-track span::after {
+        right: -4px;
+        width: 7px;
+        height: 7px;
+        box-shadow:
+          0 0 0 5px rgba(255, 106, 0, .10),
+          0 0 18px rgba(255, 106, 0, .24);
       }
     }
 
@@ -940,6 +1045,11 @@
       color: #3d3731;
     }
 
+    .project-copy,
+    .project-feature-image {
+      display: none;
+    }
+
     /* ARROWS */
     .proj-nav {
       width: 38px;
@@ -957,48 +1067,630 @@
       background: #ffead3;
     }
 
-    /* ===== MOBILE — 1 card por vez e sem scroll lateral ===== */
+    /* ===== MOBILE — somente os cards arrastam para o lado ===== */
     @media(max-width:991px) {
 
       .projects-section {
         grid-template-columns: 1fr;
-        padding: 40px 18px;
-        overflow: hidden;
+        padding: 56px 0 60px;
+        overflow-x: hidden;
+        overflow-y: visible;
+      }
+
+      .projects-left {
+        padding: 0 20px;
+        text-align: center;
+      }
+
+      .projects-left h2 {
+        font-size: 31px;
+        line-height: 1.05;
+        margin-bottom: 10px;
+      }
+
+      .projects-left p {
+        max-width: 100%;
+        margin: 10px auto 18px;
+        line-height: 1.6;
+      }
+
+      .projects-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
       }
 
       .projects-right {
-        display: flex;
-        align-items: center;
-        gap: 10px;
+        display: block;
         width: 100%;
-        max-width: 100%;
+        max-width: 100vw;
+        margin-top: 20px;
         overflow: hidden;
       }
 
       .projects-track-wrapper {
+        display: block;
         width: 100%;
-        max-width: 100%;
-        overflow: hidden;
+        max-width: 100vw;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 18px 20px 24px;
+        scroll-snap-type: x mandatory;
+        scroll-padding-left: 20px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        touch-action: pan-x pan-y;
+        overscroll-behavior-x: contain;
+        overscroll-behavior-y: auto;
+      }
+
+      .projects-track-wrapper::-webkit-scrollbar {
+        display: none;
       }
 
       .projects-track {
         display: flex;
-        gap: 16px;
+        flex-wrap: nowrap;
+        gap: 18px;
         width: 100%;
-        max-width: 100%;
-        transform: translateX(0);
+        max-width: none;
+        transform: none !important;
+        transition: none;
       }
 
-      /* 👉 1 card por tela */
       .project-card {
-        flex: 0 0 100%;
-        max-width: 100%;
+        position: relative;
+        flex: 0 0 min(78vw, 320px);
+        width: min(78vw, 320px);
+        max-width: none;
+        min-height: 430px;
         margin: 0;
+        padding: 18px;
+        overflow: hidden;
+        border-radius: 30px;
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+        background: #111;
+        border: 1px solid rgba(255, 106, 0, .18);
+        box-shadow: 0 22px 46px rgba(0, 0, 0, .14);
+        display: flex;
+        align-items: flex-end;
+        color: #fff !important;
       }
 
-      .project-image img {
+      .project-card.featured-project {
+        background: linear-gradient(135deg, #ff8c00, #ff5e00, #ff9b2f);
+      }
+
+      .project-image,
+      .project-card.featured-project .project-image {
+        display: block;
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        overflow: hidden;
+      }
+
+      .project-image::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(0, 0, 0, .08) 0%, rgba(0, 0, 0, .62) 100%);
+      }
+
+      .project-image img,
+      .project-card.featured-project .project-mobile-image {
+        display: block !important;
         width: 100%;
+        height: 100%;
+        max-width: none;
+        object-fit: cover;
+      }
+
+      .project-feature-image {
+        display: none !important;
+      }
+
+      .project-copy {
+        position: relative;
+        z-index: 2;
+        display: block;
         max-width: 100%;
+      }
+
+      .project-category {
+        display: inline-flex;
+        margin-bottom: 10px;
+        padding: 8px 13px;
+        border-radius: 999px;
+        background: rgba(255, 106, 0, .92);
+        color: #fff;
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: .35px;
+        text-transform: uppercase;
+      }
+
+      .featured-project .project-category {
+        display: none;
+      }
+
+      .project-copy h3 {
+        margin: 0 0 8px;
+        color: #fff;
+        font-size: 30px;
+        font-weight: 950;
+        line-height: .92;
+        letter-spacing: -1.2px;
+      }
+
+      .project-copy p {
+        margin: 0;
+        color: rgba(255, 255, 255, .86);
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      .project-label {
+        position: absolute;
+        z-index: 3;
+        left: 18px;
+        top: 18px;
+        margin: 0;
+        padding: 8px 12px;
+        border-radius: 999px;
+        color: #fff;
+        background: rgba(17, 17, 17, .48);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .proj-nav {
+        display: none;
+      }
+    }
+
+    /* ===== PROJECTS DESKTOP — NEXT-GEN CARDS ===== */
+    @media(min-width:992px) {
+      .projects-section {
+        display: block;
+        width: 100vw;
+        max-width: none;
+        margin-left: 50%;
+        padding: 92px 46px 104px;
+        transform: translateX(-50%);
+        background: #f3efe8 !important;
+        background-color: #f3efe8 !important;
+        color: #111;
+      }
+
+      .projects-left {
+        max-width: 980px;
+        margin: 0 auto 34px;
+        text-align: center;
+      }
+
+      .projects-left h2 {
+        font-size: clamp(44px, 6vw, 86px);
+        line-height: .92;
+        letter-spacing: -3px;
+        color: #111;
+      }
+
+      .projects-left h2 span {
+        background: linear-gradient(135deg, #ff8c00, #ff5e00, #ff9b2f);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .projects-left p {
+        max-width: 720px;
+        margin: 18px auto 24px;
+        color: #6a645c;
+        font-size: 17px;
+        line-height: 1.65;
+      }
+
+      .projects-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 12px 28px rgba(255, 125, 0, .30);
+      }
+
+      .projects-right {
+        display: block;
+        width: min(1440px, 100%);
+        max-width: 1440px;
+        margin: 92px auto 0;
+      }
+
+      .projects-track-wrapper {
+        overflow: visible;
+      }
+
+      .projects-track {
+        display: grid;
+        grid-template-columns: 1fr 1.28fr 1fr 1fr;
+        gap: 18px 14px;
+        align-items: stretch;
+        transform: none !important;
+        transition: none;
+      }
+
+      .proj-nav {
+        display: none;
+      }
+
+      .project-card {
+        position: relative;
+        min-height: 225px;
+        padding: 28px;
+        overflow: hidden;
+        border: 1px solid rgba(17, 17, 17, .08);
+        background:
+          linear-gradient(145deg, #fff 0%, #fcfaf6 62%, #fff3e4 100%);
+        color: #111 !important;
+        box-shadow: 0 18px 44px rgba(0, 0, 0, .065);
+        display: flex;
+        align-items: flex-end;
+      }
+
+      .project-card:first-child {
+        border-radius: 92px 18px 18px 18px;
+      }
+
+      .project-card:nth-child(2),
+      .project-card:nth-child(3),
+      .project-card:nth-child(6),
+      .project-card:nth-child(7) {
+        border-radius: 18px;
+      }
+
+      .project-card:nth-child(4) {
+        border-radius: 18px 92px 18px 18px;
+      }
+
+      .project-card:nth-child(5) {
+        border-radius: 18px 18px 18px 92px;
+      }
+
+      .project-card:nth-child(8) {
+        border-radius: 18px 18px 92px 18px;
+      }
+
+      .project-card-clone {
+        display: none !important;
+      }
+
+      .project-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 28px 62px rgba(255, 106, 0, .16);
+      }
+
+      .project-card::after {
+        content: "☰";
+        position: absolute;
+        left: 22px;
+        top: 22px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font-weight: 900;
+        font-size: 18px;
+        line-height: 1;
+        color: #ff6a00;
+        background: #fff3e4;
+        border: 1px solid rgba(255, 106, 0, .18);
+        transition: .25s ease;
+      }
+
+      .project-card:hover::after {
+        transform: translateY(-2px) scale(1.04);
+      }
+
+      .project-card.featured-project {
+        z-index: 2;
+        min-height: 265px;
+        overflow: visible;
+        background: linear-gradient(135deg, #ff8c00 0%, #ff6a00 52%, #ff9b2f 100%);
+        color: #fff !important;
+        box-shadow: 0 28px 70px rgba(255, 106, 0, .30);
+      }
+
+
+      .project-card.featured-project::before {
+        content: "Saboratti";
+        position: absolute;
+        right: -18px;
+        top: 44%;
+        z-index: 1;
+        transform: translateY(-50%);
+        color: rgba(255, 255, 255, .16);
+        font-size: clamp(58px, 6vw, 104px);
+        font-weight: 950;
+        line-height: .82;
+        letter-spacing: -5px;
+        pointer-events: none;
+      }
+
+      .project-card.featured-project::after {
+        color: #ff6a00;
+        background: #fff;
+      }
+
+      .project-image {
+        display: none;
+      }
+
+      .project-mobile-image {
+        display: none !important;
+      }
+
+      .project-card.featured-project .project-image {
+        display: block;
+        position: absolute;
+        top: -118px;
+        right: 28px;
+        z-index: 3;
+        width: min(250px, 46%);
+        height: 170px;
+        border-radius: 26px;
+        overflow: visible;
+        opacity: 1;
+        pointer-events: none;
+      }
+
+      .project-card.featured-project .project-feature-image {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        transform: none;
+        filter: drop-shadow(0 22px 28px rgba(0, 0, 0, .20));
+      }
+
+      .project-card.featured-project:hover .project-feature-image {
+        transform: translateY(-4px) scale(1.04);
+      }
+
+      .project-copy {
+        position: relative;
+        z-index: 2;
+        display: block;
+        max-width: 280px;
+      }
+
+      .project-category {
+        display: inline-flex;
+        margin-bottom: 10px;
+        padding: 7px 12px;
+        border-radius: 999px;
+        background: #fff3e4;
+        color: #ff6a00;
+        font-size: 12px;
+        font-weight: 900;
+        letter-spacing: .3px;
+        text-transform: uppercase;
+      }
+
+      .featured-project .project-category {
+        background: rgba(255, 255, 255, .18);
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, .24);
+      }
+
+
+      .project-card:not(.featured-project) .project-copy::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: calc(100% + 18px);
+        width: 54px;
+        height: 4px;
+        border-radius: 999px;
+        background: linear-gradient(135deg, #ff8c00, #ff5e00, #ff9b2f);
+      }
+
+      .project-copy h3 {
+        margin: 0 0 8px;
+        max-width: 260px;
+        font-size: clamp(23px, 2vw, 32px);
+        font-weight: 950;
+        line-height: .98;
+        letter-spacing: -1.2px;
+      }
+
+      .project-copy p {
+        margin: 0;
+        max-width: 245px;
+        color: #6a645c;
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      .featured-project .project-copy p {
+        color: rgba(255, 255, 255, .90);
+      }
+
+      .project-label {
+        display: none;
+      }
+
+      /* Desktop com o mesmo modelo visual do mobile: 4 cards por linha, 2 linhas */
+      .projects-right {
+        width: min(1480px, 100%);
+        max-width: 1480px;
+        margin: 56px auto 0;
+      }
+
+      .projects-track {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 22px;
+      }
+
+      .project-card,
+      .project-card.featured-project {
+        min-height: 430px;
+        padding: 24px;
+        border-radius: 32px;
+        background: #111;
+        border: 1px solid rgba(255, 106, 0, .18);
+        box-shadow: 0 24px 54px rgba(0, 0, 0, .12);
+        color: #fff !important;
+        align-items: flex-end;
+      }
+
+      .project-card:first-child {
+        border-radius: 92px 32px 32px 32px;
+      }
+
+      .project-card:nth-child(2),
+      .project-card:nth-child(3),
+      .project-card:nth-child(6),
+      .project-card:nth-child(7) {
+        border-radius: 32px;
+      }
+
+      .project-card:nth-child(4) {
+        border-radius: 32px 92px 32px 32px;
+      }
+
+      .project-card:nth-child(5) {
+        border-radius: 32px 32px 32px 92px;
+      }
+
+      .project-card:nth-child(8) {
+        border-radius: 32px 32px 92px 32px;
+      }
+
+      .project-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 34px 72px rgba(0, 0, 0, .18);
+      }
+
+      .project-card::after {
+        left: 22px;
+        top: 22px;
+        z-index: 4;
+        color: #fff;
+        background: rgba(17, 17, 17, .42);
+        border-color: rgba(255, 255, 255, .16);
+        backdrop-filter: blur(10px);
+      }
+
+      .project-card.featured-project {
+        overflow: hidden;
+        background: linear-gradient(135deg, #ff8c00, #ff5e00, #ff9b2f);
+        box-shadow: 0 30px 78px rgba(255, 106, 0, .24);
+      }
+
+      .project-card.featured-project::before {
+        right: -18px;
+        top: auto;
+        bottom: 18px;
+        z-index: 2;
+        transform: none;
+        color: rgba(255, 255, 255, .12);
+        font-size: clamp(58px, 6vw, 98px);
+      }
+
+      .project-card.featured-project::after {
+        color: #ff6a00;
+        background: #fff;
+        border-color: rgba(255, 255, 255, .4);
+      }
+
+      .project-image,
+      .project-card.featured-project .project-image {
+        display: block;
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: inherit;
+        overflow: hidden;
+        opacity: 1;
+        pointer-events: none;
+      }
+
+      .project-image::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background:
+          linear-gradient(180deg, rgba(0, 0, 0, .06) 0%, rgba(0, 0, 0, .68) 100%),
+          radial-gradient(circle at 20% 14%, rgba(255, 106, 0, .22), transparent 38%);
+      }
+
+      .project-image img,
+      .project-card.featured-project .project-mobile-image {
+        display: block !important;
+        width: 100%;
+        height: 100%;
+        max-width: none;
+        object-fit: cover;
+      }
+
+      .project-card.featured-project .project-feature-image {
+        display: none !important;
+      }
+
+      .project-copy {
+        z-index: 2;
+        max-width: 100%;
+      }
+
+      .project-card:not(.featured-project) .project-copy::before {
+        display: none;
+      }
+
+      .project-category {
+        margin-bottom: 12px;
+        padding: 8px 13px;
+        border-radius: 999px;
+        background: rgba(255, 106, 0, .92);
+        color: #fff;
+        font-size: 11px;
+      }
+
+      .featured-project .project-category {
+        display: none;
+      }
+
+      .project-copy h3 {
+        max-width: 100%;
+        color: #fff;
+        font-size: clamp(27px, 2.4vw, 38px);
+        line-height: .92;
+        letter-spacing: -1.4px;
+      }
+
+      .project-copy p,
+      .featured-project .project-copy p {
+        max-width: 100%;
+        color: rgba(255, 255, 255, .88);
+        font-size: 14px;
+      }
+
+      .project-label {
+        display: block;
+        position: absolute;
+        z-index: 5;
+        left: 24px;
+        top: 24px;
+        margin: 0;
+        padding: 8px 12px;
+        border-radius: 999px;
+        color: #fff;
+        background: rgba(17, 17, 17, .46);
+        backdrop-filter: blur(10px);
+        font-size: 12px;
+        font-weight: 850;
       }
     }
 
@@ -1025,6 +1717,10 @@
       border: 1px solid #e7dfd2;
       border-radius: 24px;
       padding: 14px;
+    }
+
+    .testimonial-visual {
+      display: none;
     }
 
     /* CAROUSEL */
@@ -1146,6 +1842,206 @@
 
       .ts-dots {
         margin-top: 10px;
+      }
+    }
+
+
+    /* DESKTOP - depoimentos flutuantes integrados à página */
+    @media(min-width:992px) {
+      .testimonials-section {
+        width: 100vw;
+        margin-left: 50%;
+        padding: 92px 46px 86px;
+        transform: translateX(-50%);
+      }
+
+      .testimonials-section h2 {
+        text-align: center;
+        font-size: 38px;
+        margin-bottom: 22px;
+      }
+
+      .testimonials-wrapper {
+        position: relative;
+        display: block;
+        min-height: 750px;
+        overflow: visible;
+        max-width: 1500px;
+        margin: 0 auto;
+        padding: 0;
+        border: none;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
+      }
+
+      .testimonial-visual {
+        position: absolute;
+        inset: 152px 50% 0 auto;
+        z-index: 1;
+        display: flex;
+        width: min(640px, 44vw);
+        transform: translateX(50%);
+        align-items: flex-end;
+        justify-content: center;
+        pointer-events: none;
+      }
+
+      .testimonial-visual::before {
+        display: none;
+      }
+
+      .testimonial-visual img {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-height: 590px;
+        object-fit: contain;
+        border-radius: 32px;
+        filter: drop-shadow(0 30px 46px rgba(0, 0, 0, .22));
+      }
+
+      .testimonials-track-wrapper {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        overflow: visible;
+      }
+
+      .testimonials-track {
+        position: relative;
+        display: block;
+        width: 100%;
+        height: 100%;
+        gap: 0;
+        transform: none !important;
+        transition: none;
+      }
+
+      .testimonial-card {
+        --card-x: 0;
+        position: absolute;
+        width: clamp(240px, 19vw, 310px);
+        min-height: auto;
+        padding: 22px 22px 20px;
+        border: 1px solid rgba(255, 106, 0, .18);
+        border-radius: 24px;
+        background: rgba(252, 250, 246, .92);
+        box-shadow: 0 18px 38px rgba(0, 0, 0, .08);
+        color: #111;
+        transform: translate(var(--card-x), 0);
+        transition: .28s ease;
+      }
+
+      .testimonial-card:hover {
+        transform: translate(var(--card-x), -6px);
+        border-color: rgba(255, 122, 0, .38);
+        box-shadow: 0 30px 70px rgba(255, 106, 0, .16);
+      }
+
+      .testimonial-card:nth-child(1) {
+        top: 160px;
+        left: max(26px, 5vw);
+      }
+
+      .testimonial-card:nth-child(2) {
+        left: max(72px, 9vw);
+        bottom: 108px;
+      }
+
+      .testimonial-card:nth-child(3) {
+        --card-x: -50%;
+        top: 20px;
+        left: 50%;
+      }
+
+      .testimonial-card:nth-child(4) {
+        top: 170px;
+        right: max(26px, 5vw);
+      }
+
+      .testimonial-card:nth-child(5) {
+        right: max(72px, 9vw);
+        bottom: 112px;
+      }
+
+      .testimonial-text {
+        color: #4d4a45;
+        font-weight: 700;
+        line-height: 1.5;
+        text-align: center;
+        margin: 0 0 14px;
+      }
+
+      .testimonial-user {
+        justify-content: center;
+        color: #111;
+      }
+
+      .testimonial-user img {
+        width: 38px;
+        height: 38px;
+        border: 2px solid rgba(255, 122, 0, .38);
+        box-shadow: 0 8px 18px rgba(255, 106, 0, .18);
+      }
+
+      .testimonial-user strong {
+        color: #111;
+        font-size: 14px;
+      }
+
+      .testimonial-user span {
+        display: block;
+        color: #7c766e;
+        font-size: 12px;
+      }
+
+      .ts-nav,
+      .ts-dots {
+        display: none;
+      }
+    }
+
+    @media(min-width:992px) and (max-width:1180px) {
+      .testimonials-section {
+        padding-left: 24px;
+        padding-right: 24px;
+      }
+
+      .testimonials-wrapper {
+        min-height: 720px;
+      }
+
+      .testimonial-visual {
+        top: 170px;
+        width: min(500px, 40vw);
+      }
+
+      .testimonial-card {
+        width: 220px;
+        padding: 18px;
+      }
+
+      .testimonial-card:nth-child(1) {
+        left: 10px;
+      }
+
+      .testimonial-card:nth-child(2) {
+        left: 38px;
+        bottom: 72px;
+      }
+
+      .testimonial-card:nth-child(3) {
+        top: 18px;
+      }
+
+      .testimonial-card:nth-child(4) {
+        right: 10px;
+      }
+
+      .testimonial-card:nth-child(5) {
+        right: 38px;
+        bottom: 76px;
       }
     }
 
@@ -1280,6 +2176,222 @@
 
       .resource-card h3 {
         font-size: 20px;
+      }
+    }
+
+
+    /* ===== FAQ SECTION — ACCORDION PREMIUM ===== */
+
+    .faq-section {
+      padding: 84px 46px 70px;
+      background: transparent;
+    }
+
+    .faq-heading {
+      text-align: center;
+      max-width: 780px;
+      margin: 0 auto 34px;
+    }
+
+    .faq-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      color: #ff6a00;
+      background: #fff3e4;
+      border: 1px solid rgba(255, 106, 0, .18);
+      font-weight: 800;
+      font-size: 14px;
+      margin-bottom: 14px;
+    }
+
+    .faq-heading h2 {
+      font-size: 42px;
+      font-weight: 900;
+      line-height: 1.08;
+      margin-bottom: 12px;
+      color: #111;
+    }
+
+    .faq-heading h2 span {
+      background: linear-gradient(135deg, #ff8c00, #ff5e00, #ff9b2f);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .faq-heading p {
+      color: #6a645c;
+      line-height: 1.65;
+      margin: 0 auto;
+      max-width: 700px;
+    }
+
+    .faq-list {
+      display: grid;
+      gap: 16px;
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      background: #fcfaf6;
+      border: 1px solid rgba(0, 0, 0, .07);
+      border-radius: 24px;
+      box-shadow: none;
+      overflow: hidden;
+      transition: .28s ease;
+    }
+
+    .faq-item[open] {
+      border-color: rgba(255, 106, 0, .36);
+      box-shadow: none;
+    }
+
+    .faq-item:hover {
+      transform: translateY(-2px);
+      box-shadow: none;
+    }
+
+    .faq-item summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 24px 28px;
+      font-size: 18px;
+      font-weight: 900;
+      color: #111;
+    }
+
+    .faq-item summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-icon {
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: #111;
+      transition: .25s ease;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, .18);
+    }
+
+    .faq-item[open] .faq-icon {
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, #ff8c00, #ff5e00, #ff9b2f);
+      box-shadow: 0 12px 26px rgba(255, 106, 0, .32);
+    }
+
+    .faq-answer {
+      padding: 0 28px 26px;
+      color: #5f5a53;
+      line-height: 1.72;
+      max-width: 860px;
+    }
+
+    .faq-answer p {
+      margin: 0;
+    }
+
+    .faq-answer ul {
+      margin: 12px 0 0;
+      padding-left: 18px;
+    }
+
+    .faq-answer li {
+      margin-bottom: 6px;
+    }
+
+    .faq-cta {
+      max-width: 980px;
+      margin: 26px auto 0;
+      background: #111;
+      color: #fff;
+      border-radius: 28px;
+      padding: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+      box-shadow: none;
+    }
+
+    .faq-cta h3 {
+      font-size: 24px;
+      font-weight: 900;
+      margin-bottom: 6px;
+    }
+
+    .faq-cta p {
+      color: #d8d1c7;
+      margin: 0;
+      line-height: 1.55;
+    }
+
+    .faq-cta a {
+      white-space: nowrap;
+      padding: 12px 22px;
+      border-radius: 999px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      background: linear-gradient(135deg, #ff8c00, #ff5e00, #ff9b2f);
+      box-shadow: 0 12px 28px rgba(255, 125, 0, .35);
+      transition: .25s ease;
+    }
+
+    .faq-cta a:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 18px 38px rgba(255, 125, 0, .45);
+    }
+
+    @media(max-width:991px) {
+      .faq-section {
+        padding: 46px 16px;
+      }
+
+      .faq-heading h2 {
+        font-size: 31px;
+      }
+
+      .faq-item {
+        border-radius: 20px;
+      }
+
+      .faq-item summary {
+        align-items: flex-start;
+        padding: 20px;
+        font-size: 16px;
+      }
+
+      .faq-icon {
+        width: 34px;
+        height: 34px;
+        min-width: 34px;
+        font-size: 14px;
+      }
+
+      .faq-answer {
+        padding: 0 20px 22px;
+      }
+
+      .faq-cta {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 24px;
+      }
+
+      .faq-cta a {
+        width: 100%;
+        text-align: center;
       }
     }
 
@@ -1451,6 +2563,48 @@
       }
     }
 
+    /* ===== SCROLL TO TOP BUTTON ===== */
+
+    .scroll-top-btn {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      z-index: 9998;
+      width: 52px;
+      height: 52px;
+      border: none;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: linear-gradient(135deg, #ff8c00, #ff5e00, #ff9b2f);
+      box-shadow: 0 16px 36px rgba(255, 106, 0, .32);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(12px) scale(.94);
+      transition: .25s ease;
+    }
+
+    .scroll-top-btn.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0) scale(1);
+    }
+
+    .scroll-top-btn:hover {
+      transform: translateY(-3px) scale(1.04);
+      box-shadow: 0 22px 44px rgba(255, 106, 0, .40);
+    }
+
+    @media(max-width:991px) {
+      .scroll-top-btn {
+        right: 16px;
+        bottom: 16px;
+        width: 46px;
+        height: 46px;
+      }
+    }
+
     /* ===== FOOTER COPYRIGHT BAR ===== */
 
     .footer-bottom {
@@ -1479,6 +2633,7 @@
         <a href="#sobre-nos">Sobre nós</a>
         <a href="#servicos">Serviços</a>
         <a href="#projetos">Projetos</a>
+        <a href="#faq">FAQ</a>
         <a href="trabalhe-conosco.html">Trabalhe Conosco</a>
       </div>
 
@@ -1515,6 +2670,7 @@
         <a class="mobile-link" href="#sobre-nos">Sobre nós</a>
         <a class="mobile-link" href="#servicos">Serviços</a>
         <a class="mobile-link" href="#projetos">Projetos</a>
+        <a class="mobile-link" href="#faq">FAQ</a>
         <a class="mobile-link" href="trabalhe-conosco.html">Trabalhe Conosco</a>
 
         <a class="btn-orange d-inline-block text-center text-decoration-none" href="https://wa.me/5532984690215?text=Ol%C3%A1%21%20Tudo%20bem%3F%20Conheci%20a%20ThynkXP%20pelo%20site%20e%20gostaria%20de%20solicitar%20um%20or%C3%A7amento%20para%20o%20meu%20projeto.%20Poderiam%20me%20orientar%20sobre%20os%20pr%C3%B3ximos%20passos%3F" target="_blank" rel="noopener noreferrer">Quero um orçamento →</a>
@@ -1654,11 +2810,46 @@
 
       </div>
       <!-- ===== TEXT MARQUEE (NOVO) ===== -->
-      <section class="marquee-section">
+      <section class="marquee-section" aria-label="Diferenciais ThynkXP">
         <div class="marquee-track">
-          <span>Seja Thynk * Seja Criativo * Seja Diferente * Seja Thynk *</span>
-          <span>Seja Thynk * Seja Criativo * Seja Diferente * Seja Thynk *</span>
-          <span>Seja Thynk * Seja Criativo * Seja Diferente * Seja Thynk *</span>
+          <span>Estratégia que vende</span>
+          <span>Design com propósito</span>
+          <span>Sistemas sob medida</span>
+          <span>Performance real</span>
+          <span>Experiência memorável</span>
+          <span>Seja Thynk</span>
+          <span>Estratégia que vende</span>
+          <span>Design com propósito</span>
+          <span>Sistemas sob medida</span>
+          <span>Performance real</span>
+          <span>Experiência memorável</span>
+          <span>Seja Thynk</span>
+          <span>Estratégia que vende</span>
+          <span>Design com propósito</span>
+          <span>Sistemas sob medida</span>
+          <span>Performance real</span>
+          <span>Experiência memorável</span>
+          <span>Seja Thynk</span>
+        </div>
+        <div class="marquee-track reverse">
+          <span>Marcas mais fortes</span>
+          <span>Sites de alta conversão</span>
+          <span>Automações inteligentes</span>
+          <span>Clareza visual</span>
+          <span>Crescimento digital</span>
+          <span>Seja diferente</span>
+          <span>Marcas mais fortes</span>
+          <span>Sites de alta conversão</span>
+          <span>Automações inteligentes</span>
+          <span>Clareza visual</span>
+          <span>Crescimento digital</span>
+          <span>Seja diferente</span>
+          <span>Marcas mais fortes</span>
+          <span>Sites de alta conversão</span>
+          <span>Automações inteligentes</span>
+          <span>Clareza visual</span>
+          <span>Crescimento digital</span>
+          <span>Seja diferente</span>
         </div>
       </section>
     </section>
@@ -1823,25 +3014,40 @@
           <div class="projects-track" id="projectsTrack">
 
             <!-- CARD 1 -->
-            <a href="saboratti.html" class="project-card">
-              <div class="project-image">
-                <img src="img/projeto1.png">
-              </div>
-              <p class="project-label">→ Branding</p>
-            </a>
-
-            <!-- CARD 2 -->
             <a href="pagbanknext.html" class="project-card">
               <div class="project-image">
-                <img src="img/projeto3.png">
+                <img src="img/projeto3.png" alt="Projeto PagBank Next">
+              </div>
+              <div class="project-copy">
+                <span class="project-category">UI Design</span>
+                <h3>PagBank Next</h3>
+                <p>Experiência digital para uma solução financeira moderna, clara e confiável.</p>
               </div>
               <p class="project-label">→ UI Design</p>
+            </a>
+
+            <!-- CARD 2 - DESTAQUE -->
+            <a href="saboratti.html" class="project-card featured-project">
+              <div class="project-image">
+                <img class="project-mobile-image" src="img/projeto1.png" alt="Projeto Saboratti">
+                <img class="project-feature-image" src="img/destaque.png" alt="Imagem de destaque do projeto Saboratti">
+              </div>
+              <div class="project-copy">
+                <h3>Saboratti</h3>
+                <p>Branding com personalidade, presença visual marcante e comunicação feita para vender.</p>
+              </div>
+              <p class="project-label">→ Branding</p>
             </a>
 
             <!-- CARD 3 -->
             <a href="larrisamoraes.html" class="project-card">
               <div class="project-image">
-                <img src="img/projeto2.png">
+                <img src="img/projeto2.png" alt="Projeto Larissa Moraes">
+              </div>
+              <div class="project-copy">
+                <span class="project-category">Site institucional</span>
+                <h3>Larissa Moraes</h3>
+                <p>Site profissional para fortalecer autoridade, posicionamento e captação de contatos.</p>
               </div>
               <p class="project-label">→ Site institucional</p>
             </a>
@@ -1849,9 +3055,66 @@
             <!-- CARD 4 -->
             <a href="velora.html" class="project-card">
               <div class="project-image">
-                <img src="img/projeto4.png">
+                <img src="img/projeto4.png" alt="Projeto Velora">
+              </div>
+              <div class="project-copy">
+                <span class="project-category">E-commerce</span>
+                <h3>Velora</h3>
+                <p>Loja digital pensada para valorizar produtos, jornada de compra e conversão.</p>
               </div>
               <p class="project-label">→ E-commerce</p>
+            </a>
+
+            <!-- CARD 5 -->
+            <a href="projetos-em-breve.html" class="project-card">
+              <div class="project-image">
+                <img src="img/imagem1.png" alt="Projeto Portal Ágil">
+              </div>
+              <div class="project-copy">
+                <span class="project-category">Portal web</span>
+                <h3>Portal Ágil</h3>
+                <p>Experiência digital para organizar jornadas, conteúdos e pontos de contato da operação.</p>
+              </div>
+              <p class="project-label">→ Portal web</p>
+            </a>
+
+            <!-- CARD 6 -->
+            <a href="projetos-em-breve.html" class="project-card">
+              <div class="project-image">
+                <img src="img/imagem2.png" alt="Projeto Fluxo Inteligente">
+              </div>
+              <div class="project-copy">
+                <span class="project-category">Automação</span>
+                <h3>Fluxo Inteligente</h3>
+                <p>Automações para reduzir tarefas manuais e deixar a operação mais rápida e previsível.</p>
+              </div>
+              <p class="project-label">→ Automação</p>
+            </a>
+
+            <!-- CARD 7 -->
+            <a href="projetos-em-breve.html" class="project-card">
+              <div class="project-image">
+                <img src="img/imagem3.png" alt="Projeto Growth Lab">
+              </div>
+              <div class="project-copy">
+                <span class="project-category">Performance</span>
+                <h3>Growth Lab</h3>
+                <p>Estratégia digital com criativos, páginas e tráfego para acelerar aquisição de clientes.</p>
+              </div>
+              <p class="project-label">→ Performance</p>
+            </a>
+
+            <!-- CARD 8 -->
+            <a href="projetos-em-breve.html" class="project-card">
+              <div class="project-image">
+                <img src="img/projeto1.png" alt="Projeto Marca Viva">
+              </div>
+              <div class="project-copy">
+                <span class="project-category">Brand experience</span>
+                <h3>Marca Viva</h3>
+                <p>Identidade visual aplicada em uma experiência digital consistente, memorável e comercial.</p>
+              </div>
+              <p class="project-label">→ Branding</p>
             </a>
 
           </div>
@@ -1873,6 +3136,10 @@
       </h2>
 
       <div class="testimonials-wrapper">
+
+        <div class="testimonial-visual" aria-hidden="true">
+          <img src="img/imagem3.png" alt="">
+        </div>
 
         <button class="ts-nav prev" id="tsPrev">
           <i class="fa-solid fa-chevron-left"></i>
@@ -2023,6 +3290,116 @@
 
     </section>
 
+
+    <section class="faq-section" id="faq">
+      <div class="faq-heading">
+        <span class="faq-kicker"><i class="fa-regular fa-circle-question"></i> Dúvidas frequentes</span>
+        <h2>Perguntas <span>Frequentes</span></h2>
+        <p>
+          Reunimos as principais dúvidas de quem está planejando criar um site, landing page,
+          e-commerce ou sistema sob medida com estratégia, design e foco em resultado.
+        </p>
+      </div>
+
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>
+            Quanto tempo leva para criar um site profissional?
+            <span class="faq-icon"><i class="fa-solid fa-plus"></i></span>
+          </summary>
+          <div class="faq-answer">
+            <p>
+              O prazo depende do tamanho do projeto, quantidade de páginas, nível de personalização,
+              integrações e velocidade de aprovação dos materiais. Landing pages costumam ser mais rápidas,
+              enquanto sites institucionais completos, e-commerces e sistemas personalizados exigem mais etapas
+              de estratégia, design, desenvolvimento, testes e publicação.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            Vocês criam apenas o visual ou também desenvolvem o site/sistema?
+            <span class="faq-icon"><i class="fa-solid fa-plus"></i></span>
+          </summary>
+          <div class="faq-answer">
+            <p>
+              Atuamos do planejamento à entrega: entendemos o objetivo do negócio, estruturamos a experiência,
+              criamos o design, desenvolvemos a solução e orientamos a publicação. Quando necessário, também
+              podemos apoiar com copy, organização de conteúdo, automações e integrações.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            Qual é a diferença entre site institucional, landing page e sistema personalizado?
+            <span class="faq-icon"><i class="fa-solid fa-plus"></i></span>
+          </summary>
+          <div class="faq-answer">
+            <p>
+              O site institucional apresenta sua empresa, serviços, diferenciais e canais de contato. A landing page
+              é uma página focada em conversão, ideal para campanhas, captação de leads ou venda de uma oferta específica.
+              Já um sistema personalizado resolve processos internos, como dashboards, áreas de cliente, gestão de pedidos,
+              cadastros, relatórios e fluxos operacionais sob medida.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            Meu projeto pode ter WhatsApp, formulários, pagamentos ou integrações?
+            <span class="faq-icon"><i class="fa-solid fa-plus"></i></span>
+          </summary>
+          <div class="faq-answer">
+            <p>
+              Pode. Desenvolvemos integrações conforme a necessidade do negócio, como botões e mensagens para WhatsApp,
+              formulários de contato, captura de leads, pixels de anúncios, ferramentas de análise, meios de pagamento,
+              CRMs, automações, planilhas e outras plataformas compatíveis com o escopo do projeto.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            Como funciona o processo de criação com a ThynkXP?
+            <span class="faq-icon"><i class="fa-solid fa-plus"></i></span>
+          </summary>
+          <div class="faq-answer">
+            <p>
+              Normalmente seguimos um fluxo com diagnóstico, definição de escopo, arquitetura da solução, design, aprovação,
+              desenvolvimento, testes e publicação. Durante o processo, mantemos comunicação clara para alinhar expectativas,
+              validar decisões importantes e garantir que a entrega esteja conectada aos objetivos do seu negócio.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            Como é definido o investimento de um site ou sistema?
+            <span class="faq-icon"><i class="fa-solid fa-plus"></i></span>
+          </summary>
+          <div class="faq-answer">
+            <p>
+              O investimento varia conforme escopo, quantidade de telas, funcionalidades, integrações, prazos, complexidade
+              técnica e nível de estratégia envolvido. Por isso, primeiro entendemos sua necessidade e depois apresentamos
+              uma proposta compatível com o objetivo, evitando pacotes genéricos que não resolvem o problema real.
+            </p>
+          </div>
+        </details>
+      </div>
+
+      <div class="faq-cta">
+        <div>
+          <h3>Ainda ficou com alguma dúvida?</h3>
+          <p>Fale com a ThynkXP e receba uma orientação personalizada para o seu site, sistema ou estratégia digital.</p>
+        </div>
+        <a href="https://wa.me/5532984690215?text=Ol%C3%A1%21%20Tudo%20bem%3F%20Vim%20pelo%20site%20da%20ThynkXP%20e%20tenho%20algumas%20d%C3%BAvidas%20sobre%20sites%2C%20sistemas%20ou%20solu%C3%A7%C3%B5es%20digitais.%20Podem%20me%20ajudar%3F" target="_blank" rel="noopener noreferrer">
+          Tirar dúvidas pelo WhatsApp
+        </a>
+      </div>
+    </section>
+
     <section class="cta-final">
 
       <div class="cta-content">
@@ -2098,9 +3475,10 @@
           <h4>Mapa do site:</h4>
 
           <ul class="footer-links">
-            <li><a href="#">Sobre nós</a></li>
-            <li><a href="#">Serviços</a></li>
-            <li><a href="#">Projetos</a></li>
+            <li><a href="#sobre-nos">Sobre nós</a></li>
+            <li><a href="#servicos">Serviços</a></li>
+            <li><a href="#projetos">Projetos</a></li>
+            <li><a href="#faq">FAQ</a></li>
             <li><a href="fale-conosco.html">Fale Conosco</a></li>
             <li><a href="#">Metodologia</a></li>
           </ul>
@@ -2112,6 +3490,10 @@
 
   </div>
 
+  <button class="scroll-top-btn" id="scrollTopBtn" type="button" aria-label="Voltar ao topo">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
+
   <section class="footer-bottom">
     <p>
       © <span id="year"></span> ThynkXP — Todos os direitos reservados.
@@ -2120,6 +3502,18 @@
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+  <script>
+    const scrollTopBtn = document.getElementById("scrollTopBtn");
+
+    window.addEventListener("scroll", () => {
+      scrollTopBtn.classList.toggle("active", window.scrollY > 260);
+    }, { passive: true });
+
+    scrollTopBtn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
   </script>
 
 
@@ -2152,6 +3546,19 @@
     }
   </script>
 
+
+  <script>
+    document.querySelectorAll(".faq-item").forEach((item) => {
+      item.addEventListener("toggle", () => {
+        if (item.open) {
+          document.querySelectorAll(".faq-item").forEach((otherItem) => {
+            if (otherItem !== item) otherItem.removeAttribute("open");
+          });
+        }
+      });
+    });
+  </script>
+
   <script>
     const track = document.getElementById("projectsTrack");
     const next = document.getElementById("projNext");
@@ -2166,8 +3573,8 @@
       const step = cardWidth + gap;
 
       if (isMobile) {
-        track.style.transform = `translateX(${-step * index}px)`;
-        track.style.maxWidth = "100%";
+        track.style.transform = "none";
+        track.style.maxWidth = "none";
         return;
       }
 
@@ -2188,6 +3595,40 @@
 
     window.addEventListener("resize", updateCarousel);
     updateCarousel();
+  </script>
+
+  <script>
+    const projectsInfiniteWrapper = document.querySelector(".projects-track-wrapper");
+    const projectsInfiniteTrack = document.getElementById("projectsTrack");
+
+    if (projectsInfiniteWrapper && projectsInfiniteTrack && !projectsInfiniteTrack.dataset.infiniteReady) {
+      const originalProjectCards = Array.from(projectsInfiniteTrack.children);
+      originalProjectCards.forEach((card) => {
+        const clone = card.cloneNode(true);
+        clone.classList.add("project-card-clone");
+        projectsInfiniteTrack.appendChild(clone);
+      });
+      projectsInfiniteTrack.dataset.infiniteReady = "true";
+
+      function getProjectsLoopWidth() {
+        const firstClone = projectsInfiniteTrack.children[originalProjectCards.length];
+        if (!firstClone || !originalProjectCards[0]) return 0;
+        return firstClone.offsetLeft - originalProjectCards[0].offsetLeft;
+      }
+
+      function normalizeProjectsScroll() {
+        if (window.innerWidth > 991) return;
+        const loopWidth = getProjectsLoopWidth();
+        if (!loopWidth) return;
+
+        if (projectsInfiniteWrapper.scrollLeft >= loopWidth) {
+          projectsInfiniteWrapper.scrollLeft -= loopWidth;
+        }
+      }
+
+      projectsInfiniteWrapper.addEventListener("scroll", normalizeProjectsScroll, { passive: true });
+      window.addEventListener("resize", normalizeProjectsScroll);
+    }
   </script>
 
   <script>
