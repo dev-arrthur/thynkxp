@@ -1184,7 +1184,7 @@
       .projects-track {
         display: grid;
         grid-template-columns: 1fr 1.28fr 1fr 1fr;
-        gap: 14px;
+        gap: 18px 14px;
         align-items: stretch;
         transform: none !important;
         transition: none;
@@ -1212,16 +1212,23 @@
         border-radius: 92px 18px 18px 18px;
       }
 
-      .project-card:nth-child(2) {
+      .project-card:nth-child(2),
+      .project-card:nth-child(3),
+      .project-card:nth-child(6),
+      .project-card:nth-child(7) {
         border-radius: 18px;
       }
 
-      .project-card:nth-child(3) {
-        border-radius: 18px;
+      .project-card:nth-child(4) {
+        border-radius: 18px 92px 18px 18px;
+      }
+
+      .project-card:nth-child(5) {
+        border-radius: 18px 18px 18px 92px;
       }
 
       .project-card:last-child {
-        border-radius: 18px 92px 18px 18px;
+        border-radius: 18px 18px 92px 18px;
       }
 
       .project-card:hover {
@@ -1280,259 +1287,6 @@
       .project-card.featured-project::after {
         color: #ff6a00;
         background: #fff;
-      }
-
-      .project-image {
-        display: none;
-      }
-
-      .project-mobile-image {
-        display: none !important;
-      }
-
-      .project-card.featured-project .project-image {
-        display: block;
-        position: absolute;
-        top: -118px;
-        right: 28px;
-        z-index: 3;
-        width: min(250px, 46%);
-        height: 170px;
-        border-radius: 26px;
-        overflow: visible;
-        opacity: 1;
-        pointer-events: none;
-      }
-
-      .project-card.featured-project .project-feature-image {
-        display: block;
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        transform: none;
-        filter: drop-shadow(0 22px 28px rgba(0, 0, 0, .20));
-      }
-
-      .project-card.featured-project:hover .project-feature-image {
-        transform: translateY(-4px) scale(1.04);
-      }
-
-      .project-copy {
-        position: relative;
-        z-index: 2;
-        display: block;
-        max-width: 280px;
-      }
-
-      .project-category {
-        display: inline-flex;
-        margin-bottom: 10px;
-        padding: 7px 12px;
-        border-radius: 999px;
-        background: #fff3e4;
-        color: #ff6a00;
-        font-size: 12px;
-        font-weight: 900;
-        letter-spacing: .3px;
-        text-transform: uppercase;
-      }
-
-      .featured-project .project-category {
-        background: rgba(255, 255, 255, .18);
-        color: #fff;
-        border: 1px solid rgba(255, 255, 255, .24);
-      }
-
-
-      .project-card:not(.featured-project) .project-copy::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        bottom: calc(100% + 18px);
-        width: 54px;
-        height: 4px;
-        border-radius: 999px;
-        background: linear-gradient(135deg, #ff8c00, #ff5e00, #ff9b2f);
-      }
-
-      .project-copy h3 {
-        margin: 0 0 8px;
-        max-width: 260px;
-        font-size: clamp(23px, 2vw, 32px);
-        font-weight: 950;
-        line-height: .98;
-        letter-spacing: -1.2px;
-      }
-
-      .project-copy p {
-        margin: 0;
-        max-width: 245px;
-        color: #6a645c;
-        font-size: 13px;
-        line-height: 1.45;
-      }
-
-      .featured-project .project-copy p {
-        color: rgba(255, 255, 255, .90);
-      }
-
-      .project-label {
-        display: none;
-      }
-    }
-
-    /* ===== PROJECTS DESKTOP — NEXT-GEN CARDS ===== */
-    @media(min-width:992px) {
-      .projects-section {
-        display: block;
-        width: 100vw;
-        max-width: none;
-        margin-left: 50%;
-        padding: 92px 46px 104px;
-        transform: translateX(-50%);
-        background: #f3efe8 !important;
-        background-color: #f3efe8 !important;
-        color: #111;
-      }
-
-      .projects-left {
-        max-width: 980px;
-        margin: 0 auto 34px;
-        text-align: center;
-      }
-
-      .projects-left h2 {
-        font-size: clamp(44px, 6vw, 86px);
-        line-height: .92;
-        letter-spacing: -3px;
-        color: #111;
-      }
-
-      .projects-left h2 span {
-        background: linear-gradient(135deg, #ff8c00, #ff5e00, #ff9b2f);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-
-      .projects-left p {
-        max-width: 720px;
-        margin: 18px auto 24px;
-        color: #6a645c;
-        font-size: 17px;
-        line-height: 1.65;
-      }
-
-      .projects-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 12px 28px rgba(255, 125, 0, .30);
-      }
-
-      .projects-right {
-        display: block;
-        width: min(1440px, 100%);
-        max-width: 1440px;
-        margin: 0 auto;
-      }
-
-      .projects-track-wrapper {
-        overflow: visible;
-      }
-
-      .projects-track {
-        display: grid;
-        grid-template-columns: 1fr 1.28fr 1fr 1fr;
-        gap: 14px;
-        align-items: stretch;
-        transform: none !important;
-        transition: none;
-      }
-
-      .proj-nav {
-        display: none;
-      }
-
-      .project-card {
-        position: relative;
-        min-height: 225px;
-        padding: 28px;
-        overflow: hidden;
-        border: 1px solid rgba(17, 17, 17, .08);
-        background:
-          linear-gradient(145deg, #fff 0%, #fcfaf6 62%, #fff3e4 100%);
-        color: #111 !important;
-        box-shadow: 0 18px 44px rgba(0, 0, 0, .065);
-        display: flex;
-        align-items: flex-end;
-      }
-
-      .project-card:first-child {
-        border-radius: 92px 18px 18px 18px;
-      }
-
-      .project-card:nth-child(2) {
-        border-radius: 18px;
-      }
-
-      .project-card:nth-child(3) {
-        border-radius: 18px;
-      }
-
-      .project-card:last-child {
-        border-radius: 18px 92px 18px 18px;
-      }
-
-      .project-card:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 28px 62px rgba(255, 106, 0, .16);
-      }
-
-      .project-card::after {
-        content: "Ver projeto →";
-        position: absolute;
-        right: 22px;
-        bottom: 22px;
-        font-weight: 800;
-        font-size: 13px;
-        color: #ff6a00;
-        opacity: 0;
-        transform: translateY(8px);
-        transition: .25s ease;
-      }
-
-      .project-card:hover::after {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      .project-card.featured-project {
-        z-index: 2;
-        min-height: 265px;
-        overflow: visible;
-        background: linear-gradient(135deg, #ff8c00 0%, #ff6a00 52%, #ff9b2f 100%);
-        color: #fff !important;
-        box-shadow: 0 28px 70px rgba(255, 106, 0, .30);
-      }
-
-
-      .project-card.featured-project::before {
-        content: "Saboratti";
-        position: absolute;
-        right: -18px;
-        top: 44%;
-        z-index: 1;
-        transform: translateY(-50%);
-        color: rgba(255, 255, 255, .16);
-        font-size: clamp(58px, 6vw, 104px);
-        font-weight: 950;
-        line-height: .82;
-        letter-spacing: -5px;
-        pointer-events: none;
-      }
-
-      .project-card.featured-project::after {
-        color: #fff;
       }
 
       .project-image {
@@ -2926,6 +2680,58 @@
                 <p>Loja digital pensada para valorizar produtos, jornada de compra e conversão.</p>
               </div>
               <p class="project-label">→ E-commerce</p>
+            </a>
+
+            <!-- CARD 5 -->
+            <a href="empresas/imgs/docs/controlcenter/index.html" class="project-card">
+              <div class="project-image">
+                <img src="img/imagem1.png" alt="Projeto Control Center">
+              </div>
+              <div class="project-copy">
+                <span class="project-category">Sistema web</span>
+                <h3>Control Center</h3>
+                <p>Painel para centralizar dados, acompanhar indicadores e organizar decisões operacionais.</p>
+              </div>
+              <p class="project-label">→ Sistema web</p>
+            </a>
+
+            <!-- CARD 6 -->
+            <a href="fale-conosco.html" class="project-card">
+              <div class="project-image">
+                <img src="img/imagem2.png" alt="Projeto Fluxo Inteligente">
+              </div>
+              <div class="project-copy">
+                <span class="project-category">Automação</span>
+                <h3>Fluxo Inteligente</h3>
+                <p>Automações para reduzir tarefas manuais e deixar a operação mais rápida e previsível.</p>
+              </div>
+              <p class="project-label">→ Automação</p>
+            </a>
+
+            <!-- CARD 7 -->
+            <a href="fale-conosco.html" class="project-card">
+              <div class="project-image">
+                <img src="img/imagem3.png" alt="Projeto Growth Lab">
+              </div>
+              <div class="project-copy">
+                <span class="project-category">Performance</span>
+                <h3>Growth Lab</h3>
+                <p>Estratégia digital com criativos, páginas e tráfego para acelerar aquisição de clientes.</p>
+              </div>
+              <p class="project-label">→ Performance</p>
+            </a>
+
+            <!-- CARD 8 -->
+            <a href="fale-conosco.html" class="project-card">
+              <div class="project-image">
+                <img src="img/projeto1.png" alt="Projeto Marca Viva">
+              </div>
+              <div class="project-copy">
+                <span class="project-category">Brand experience</span>
+                <h3>Marca Viva</h3>
+                <p>Identidade visual aplicada em uma experiência digital consistente, memorável e comercial.</p>
+              </div>
+              <p class="project-label">→ Branding</p>
             </a>
 
           </div>
