@@ -996,6 +996,8 @@
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
+        touch-action: pan-x;
+        overscroll-behavior-x: contain;
       }
 
       .projects-track-wrapper::-webkit-scrollbar {
@@ -2683,20 +2685,20 @@
             </a>
 
             <!-- CARD 5 -->
-            <a href="empresas/imgs/docs/controlcenter/index.html" class="project-card">
+            <a href="projetos-em-breve.html" class="project-card">
               <div class="project-image">
-                <img src="img/imagem1.png" alt="Projeto Control Center">
+                <img src="img/imagem1.png" alt="Projeto Portal Ágil">
               </div>
               <div class="project-copy">
-                <span class="project-category">Sistema web</span>
-                <h3>Control Center</h3>
-                <p>Painel para centralizar dados, acompanhar indicadores e organizar decisões operacionais.</p>
+                <span class="project-category">Portal web</span>
+                <h3>Portal Ágil</h3>
+                <p>Experiência digital para organizar jornadas, conteúdos e pontos de contato da operação.</p>
               </div>
-              <p class="project-label">→ Sistema web</p>
+              <p class="project-label">→ Portal web</p>
             </a>
 
             <!-- CARD 6 -->
-            <a href="fale-conosco.html" class="project-card">
+            <a href="projetos-em-breve.html" class="project-card">
               <div class="project-image">
                 <img src="img/imagem2.png" alt="Projeto Fluxo Inteligente">
               </div>
@@ -2709,7 +2711,7 @@
             </a>
 
             <!-- CARD 7 -->
-            <a href="fale-conosco.html" class="project-card">
+            <a href="projetos-em-breve.html" class="project-card">
               <div class="project-image">
                 <img src="img/imagem3.png" alt="Projeto Growth Lab">
               </div>
@@ -2722,7 +2724,7 @@
             </a>
 
             <!-- CARD 8 -->
-            <a href="fale-conosco.html" class="project-card">
+            <a href="projetos-em-breve.html" class="project-card">
               <div class="project-image">
                 <img src="img/projeto1.png" alt="Projeto Marca Viva">
               </div>
@@ -3196,6 +3198,47 @@
 
     window.addEventListener("resize", updateCarousel);
     updateCarousel();
+  </script>
+
+  <script>
+    const projectsScrollWrapper = document.querySelector(".projects-track-wrapper");
+    let projectsIsDragging = false;
+    let projectsDidDrag = false;
+    let projectsStartX = 0;
+    let projectsStartScrollLeft = 0;
+
+    if (projectsScrollWrapper) {
+      projectsScrollWrapper.addEventListener("pointerdown", (event) => {
+        if (window.innerWidth > 991) return;
+        projectsIsDragging = true;
+        projectsDidDrag = false;
+        projectsStartX = event.clientX;
+        projectsStartScrollLeft = projectsScrollWrapper.scrollLeft;
+        projectsScrollWrapper.setPointerCapture(event.pointerId);
+      });
+
+      projectsScrollWrapper.addEventListener("pointermove", (event) => {
+        if (!projectsIsDragging || window.innerWidth > 991) return;
+        const delta = event.clientX - projectsStartX;
+        if (Math.abs(delta) > 6) projectsDidDrag = true;
+        projectsScrollWrapper.scrollLeft = projectsStartScrollLeft - delta;
+      });
+
+      ["pointerup", "pointercancel", "pointerleave"].forEach((eventName) => {
+        projectsScrollWrapper.addEventListener(eventName, () => {
+          projectsIsDragging = false;
+        });
+      });
+
+      projectsScrollWrapper.querySelectorAll(".project-card").forEach((card) => {
+        card.addEventListener("click", (event) => {
+          if (projectsDidDrag) {
+            event.preventDefault();
+            projectsDidDrag = false;
+          }
+        });
+      });
+    }
   </script>
 
   <script>
