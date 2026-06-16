@@ -676,7 +676,17 @@
       }
 
       to {
-        transform: translateX(-50%);
+        transform: translateX(-33.333%);
+      }
+    }
+
+    @keyframes marqueeScrollReverse {
+      from {
+        transform: translateX(-33.333%);
+      }
+
+      to {
+        transform: translateX(0);
       }
     }
 
@@ -754,8 +764,8 @@
       .marquee-section {
         width: 100vw;
         margin-left: calc(50% - 50vw);
-        padding: 32px 0 30px;
-        gap: 22px;
+        padding: 36px 0 34px;
+        gap: 30px;
       }
 
       .marquee-track {
@@ -1662,6 +1672,24 @@
       .project-copy {
         z-index: 2;
         max-width: 100%;
+        color: rgba(255, 255, 255, .88);
+        font-size: 14px;
+      }
+
+      .project-label {
+        display: block;
+        position: absolute;
+        z-index: 5;
+        left: 24px;
+        top: 24px;
+        margin: 0;
+        padding: 8px 12px;
+        border-radius: 999px;
+        color: #fff;
+        background: rgba(17, 17, 17, .46);
+        backdrop-filter: blur(10px);
+        font-size: 12px;
+        font-weight: 850;
       }
 
       .project-card:not(.featured-project) .project-copy::before {
@@ -2843,8 +2871,20 @@
           <span>Performance real</span>
           <span>Experiência memorável</span>
           <span>Seja Thynk</span>
+          <span>Estratégia que vende</span>
+          <span>Design com propósito</span>
+          <span>Sistemas sob medida</span>
+          <span>Performance real</span>
+          <span>Experiência memorável</span>
+          <span>Seja Thynk</span>
         </div>
         <div class="marquee-track reverse">
+          <span>Marcas mais fortes</span>
+          <span>Sites de alta conversão</span>
+          <span>Automações inteligentes</span>
+          <span>Clareza visual</span>
+          <span>Crescimento digital</span>
+          <span>Seja diferente</span>
           <span>Marcas mais fortes</span>
           <span>Sites de alta conversão</span>
           <span>Automações inteligentes</span>
