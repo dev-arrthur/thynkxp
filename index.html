@@ -1022,6 +1022,29 @@
       }
 
       .projects-track {
+        display: inline-flex;
+        gap: 18px;
+        width: auto;
+        min-width: max-content;
+        max-width: none;
+        transform: none !important;
+        transition: none;
+      }
+
+      .project-card {
+        position: relative;
+        flex: 0 0 min(76vw, 320px);
+        width: min(76vw, 320px);
+        max-width: none;
+        min-height: 430px;
+        margin: 0;
+        padding: 18px;
+        overflow: hidden;
+        border-radius: 30px;
+        scroll-snap-align: center;
+        background: #111;
+        border: 1px solid rgba(255, 106, 0, .18);
+        box-shadow: 0 22px 46px rgba(0, 0, 0, .14);
         display: flex;
         flex-wrap: nowrap;
         gap: 18px;
@@ -1556,6 +1579,206 @@
 
       .ts-dots {
         margin-top: 10px;
+      }
+    }
+
+
+    /* DESKTOP - depoimentos flutuantes integrados à página */
+    @media(min-width:992px) {
+      .testimonials-section {
+        width: 100vw;
+        margin-left: 50%;
+        padding: 92px 46px 86px;
+        transform: translateX(-50%);
+      }
+
+      .testimonials-section h2 {
+        text-align: center;
+        font-size: 38px;
+        margin-bottom: 22px;
+      }
+
+      .testimonials-wrapper {
+        position: relative;
+        display: block;
+        min-height: 750px;
+        overflow: visible;
+        max-width: 1500px;
+        margin: 0 auto;
+        padding: 0;
+        border: none;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
+      }
+
+      .testimonial-visual {
+        position: absolute;
+        inset: 152px 50% 0 auto;
+        z-index: 1;
+        display: flex;
+        width: min(640px, 44vw);
+        transform: translateX(50%);
+        align-items: flex-end;
+        justify-content: center;
+        pointer-events: none;
+      }
+
+      .testimonial-visual::before {
+        display: none;
+      }
+
+      .testimonial-visual img {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-height: 590px;
+        object-fit: contain;
+        border-radius: 32px;
+        filter: drop-shadow(0 30px 46px rgba(0, 0, 0, .22));
+      }
+
+      .testimonials-track-wrapper {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        overflow: visible;
+      }
+
+      .testimonials-track {
+        position: relative;
+        display: block;
+        width: 100%;
+        height: 100%;
+        gap: 0;
+        transform: none !important;
+        transition: none;
+      }
+
+      .testimonial-card {
+        --card-x: 0;
+        position: absolute;
+        width: clamp(240px, 19vw, 310px);
+        min-height: auto;
+        padding: 22px 22px 20px;
+        border: 1px solid rgba(255, 106, 0, .18);
+        border-radius: 24px;
+        background: rgba(252, 250, 246, .92);
+        box-shadow: 0 18px 38px rgba(0, 0, 0, .08);
+        color: #111;
+        transform: translate(var(--card-x), 0);
+        transition: .28s ease;
+      }
+
+      .testimonial-card:hover {
+        transform: translate(var(--card-x), -6px);
+        border-color: rgba(255, 122, 0, .38);
+        box-shadow: 0 30px 70px rgba(255, 106, 0, .16);
+      }
+
+      .testimonial-card:nth-child(1) {
+        top: 160px;
+        left: max(26px, 5vw);
+      }
+
+      .testimonial-card:nth-child(2) {
+        left: max(72px, 9vw);
+        bottom: 108px;
+      }
+
+      .testimonial-card:nth-child(3) {
+        --card-x: -50%;
+        top: 20px;
+        left: 50%;
+      }
+
+      .testimonial-card:nth-child(4) {
+        top: 170px;
+        right: max(26px, 5vw);
+      }
+
+      .testimonial-card:nth-child(5) {
+        right: max(72px, 9vw);
+        bottom: 112px;
+      }
+
+      .testimonial-text {
+        color: #4d4a45;
+        font-weight: 700;
+        line-height: 1.5;
+        text-align: center;
+        margin: 0 0 14px;
+      }
+
+      .testimonial-user {
+        justify-content: center;
+        color: #111;
+      }
+
+      .testimonial-user img {
+        width: 38px;
+        height: 38px;
+        border: 2px solid rgba(255, 122, 0, .38);
+        box-shadow: 0 8px 18px rgba(255, 106, 0, .18);
+      }
+
+      .testimonial-user strong {
+        color: #111;
+        font-size: 14px;
+      }
+
+      .testimonial-user span {
+        display: block;
+        color: #7c766e;
+        font-size: 12px;
+      }
+
+      .ts-nav,
+      .ts-dots {
+        display: none;
+      }
+    }
+
+    @media(min-width:992px) and (max-width:1180px) {
+      .testimonials-section {
+        padding-left: 24px;
+        padding-right: 24px;
+      }
+
+      .testimonials-wrapper {
+        min-height: 720px;
+      }
+
+      .testimonial-visual {
+        top: 170px;
+        width: min(500px, 40vw);
+      }
+
+      .testimonial-card {
+        width: 220px;
+        padding: 18px;
+      }
+
+      .testimonial-card:nth-child(1) {
+        left: 10px;
+      }
+
+      .testimonial-card:nth-child(2) {
+        left: 38px;
+        bottom: 72px;
+      }
+
+      .testimonial-card:nth-child(3) {
+        top: 18px;
+      }
+
+      .testimonial-card:nth-child(4) {
+        right: 10px;
+      }
+
+      .testimonial-card:nth-child(5) {
+        right: 38px;
+        bottom: 76px;
       }
     }
 
@@ -3216,6 +3439,69 @@
 
     window.addEventListener("resize", updateCarousel);
     updateCarousel();
+  </script>
+
+  <script>
+    const projectsScrollWrapper = document.querySelector(".projects-track-wrapper");
+    let projectsIsDragging = false;
+    let projectsDidDrag = false;
+    let projectsStartX = 0;
+    let projectsStartScrollLeft = 0;
+
+    function startProjectsDrag(clientX) {
+      if (window.innerWidth > 991 || !projectsScrollWrapper) return;
+      projectsIsDragging = true;
+      projectsDidDrag = false;
+      projectsStartX = clientX;
+      projectsStartScrollLeft = projectsScrollWrapper.scrollLeft;
+    }
+
+    function moveProjectsDrag(clientX, shouldScroll = false) {
+      if (!projectsIsDragging || window.innerWidth > 991 || !projectsScrollWrapper) return;
+      const delta = clientX - projectsStartX;
+      if (Math.abs(delta) > 6) projectsDidDrag = true;
+      if (shouldScroll) projectsScrollWrapper.scrollLeft = projectsStartScrollLeft - delta;
+    }
+
+    function stopProjectsDrag() {
+      projectsIsDragging = false;
+    }
+
+    if (projectsScrollWrapper) {
+      projectsScrollWrapper.addEventListener("pointerdown", (event) => {
+        startProjectsDrag(event.clientX);
+        if (window.innerWidth <= 991 && projectsScrollWrapper.setPointerCapture) {
+          projectsScrollWrapper.setPointerCapture(event.pointerId);
+        }
+      });
+
+      projectsScrollWrapper.addEventListener("pointermove", (event) => {
+        moveProjectsDrag(event.clientX, event.pointerType === "mouse");
+      });
+
+      projectsScrollWrapper.addEventListener("touchstart", (event) => {
+        startProjectsDrag(event.touches[0].clientX);
+      }, { passive: true });
+
+      projectsScrollWrapper.addEventListener("touchmove", (event) => {
+        if (!projectsIsDragging || window.innerWidth > 991) return;
+        moveProjectsDrag(event.touches[0].clientX);
+      }, { passive: true });
+
+      ["pointerup", "pointercancel", "pointerleave", "touchend", "touchcancel"].forEach((eventName) => {
+        projectsScrollWrapper.addEventListener(eventName, stopProjectsDrag);
+      });
+
+      projectsScrollWrapper.querySelectorAll(".project-card").forEach((card) => {
+        card.addEventListener("dragstart", (event) => event.preventDefault());
+        card.addEventListener("click", (event) => {
+          if (projectsDidDrag) {
+            event.preventDefault();
+            projectsDidDrag = false;
+          }
+        });
+      });
+    }
   </script>
 
   <script>
