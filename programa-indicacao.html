@@ -214,33 +214,20 @@
       position: relative;
       width: min(100%, 430px);
       min-height: 500px;
-      border-radius: 44px;
-      overflow: hidden;
-      background:
-        linear-gradient(160deg, rgba(255, 106, 0, .22), rgba(255, 255, 255, .55) 42%),
-        #fffaf3;
-      border: 1px solid rgba(255, 106, 0, .16);
-      box-shadow: 0 34px 84px rgba(17, 17, 17, .14);
+      overflow: visible;
+      background: transparent;
+      border: none;
+      box-shadow: none;
       animation: heroFloat 5.6s ease-in-out infinite;
     }
 
     .hero-visual-card::before {
-      content: "Indique";
-      position: absolute;
-      left: -18px;
-      bottom: 28px;
-      z-index: 1;
-      color: rgba(255, 106, 0, .11);
-      font-size: clamp(68px, 8vw, 116px);
-      font-weight: 950;
-      line-height: .75;
-      letter-spacing: -6px;
-      pointer-events: none;
+      display: none;
     }
 
     .hero-visual-card img {
       position: absolute;
-      inset: auto -36px -4px auto;
+      inset: auto -36px 0 auto;
       z-index: 2;
       width: min(520px, 122%);
       max-width: none;
@@ -1328,21 +1315,6 @@
         </div>
       </section>
 
-      <section class="level-up-section">
-        <p class="section-kicker">Como sobe de nível</p>
-        <h2 class="levels-heading">O avanço é simples: quanto mais indicações qualificadas, maior o nível.</h2>
-        <div class="level-up-grid">
-          <article class="level-up-card" data-step="1→2">
-            <h3>Do Spark ao Pulse</h3>
-            <p>Para sair do <strong>Nível 1</strong> e chegar ao <strong>Nível 2</strong>, você precisa realizar <strong>3 indicações qualificadas</strong>. A partir daí, sua parceria ganha ritmo e passa a ter benefícios maiores.</p>
-          </article>
-          <article class="level-up-card" data-step="2→3">
-            <h3>Do Pulse ao Legacy</h3>
-            <p>Para sair do <strong>Nível 2</strong> e chegar ao <strong>Nível 3</strong>, você precisa alcançar <strong>7 indicações qualificadas</strong>. Esse é o estágio de parceiros recorrentes, fortes e estratégicos.</p>
-          </article>
-        </div>
-      </section>
-
       <section class="program-faq">
         <div class="program-faq-header">
           <h2>Dúvidas <span>frequentes.</span></h2>
@@ -1361,6 +1333,14 @@
           <details class="program-faq-item">
             <summary>Quando os honorários começam a contar?</summary>
             <p>Os honorários são considerados a partir do fechamento do projeto indicado e seguem o percentual do seu nível por até 12 meses, conforme a condição aplicável ao projeto.</p>
+          </details>
+          <details class="program-faq-item">
+            <summary>Como subo do Nível 1 para o Nível 2?</summary>
+            <p>Para sair do Thynk Spark e chegar ao Thynk Pulse, você precisa realizar <strong>3 indicações qualificadas</strong>. A partir daí, a parceria ganha ritmo e os benefícios aumentam.</p>
+          </details>
+          <details class="program-faq-item">
+            <summary>Como subo do Nível 2 para o Nível 3?</summary>
+            <p>Para sair do Thynk Pulse e chegar ao Thynk Legacy, você precisa alcançar <strong>7 indicações qualificadas</strong>. Esse é o estágio de parceiros recorrentes, fortes e estratégicos.</p>
           </details>
           <details class="program-faq-item">
             <summary>Minha indicação recebe desconto?</summary>
