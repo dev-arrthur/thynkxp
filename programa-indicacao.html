@@ -36,13 +36,14 @@
     }
 
     .wrapper {
-      width: min(1200px, calc(100% - 48px));
+      max-width: 1200px;
       margin: 0 auto;
+      padding: 0 24px;
     }
 
     .desktop-nav {
-      background: var(--bg);
-      padding: 2px 0;
+      background: #f3efe8;
+      padding: 2px 46px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -60,17 +61,17 @@
       align-items: center;
       justify-content: center;
       gap: 18px;
+      margin-right: 0;
       flex: 1;
       min-width: 0;
     }
 
     .nav-links a {
-      font-weight: 600;
-      color: var(--ink);
+      font-weight: 500;
+      color: #111;
       position: relative;
       text-decoration: none;
       transition: .25s;
-      white-space: nowrap;
     }
 
     .nav-links a::after {
@@ -85,14 +86,12 @@
       transition: .25s;
     }
 
-    .nav-links a:hover::after,
-    .nav-links a.active::after {
-      width: 100%;
+    .nav-links a:hover {
+      transform: translateY(-1px);
     }
 
-    .nav-links a.active {
-      color: var(--orange);
-      font-weight: 800;
+    .nav-links a:hover::after {
+      width: 100%;
     }
 
     .desktop-actions {
@@ -102,7 +101,24 @@
       flex-shrink: 0;
     }
 
-    .btn-budget,
+    .btn-budget {
+      border-radius: 999px;
+      padding: 10px 22px;
+      font-weight: 600;
+      color: #fff;
+      border: none;
+      background: linear-gradient(135deg, #ff8c00, #ff5e00, #ff9b2f);
+      box-shadow: 0 6px 16px rgba(255, 120, 0, .35);
+      transition: .28s;
+      text-decoration: none !important;
+    }
+
+    .btn-budget:hover {
+      color: #fff;
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 10px 26px rgba(255, 120, 0, .5);
+    }
+
     .hero-cta,
     .final-cta a {
       border-radius: 999px;
@@ -116,7 +132,6 @@
       transition: .25s;
     }
 
-    .btn-budget:hover,
     .hero-cta:hover,
     .final-cta a:hover {
       color: #fff;
@@ -125,15 +140,160 @@
     }
 
     .icon-link {
-      color: var(--ink);
+      color: #111;
       font-size: 20px;
       text-decoration: none !important;
+      transition: .25s;
     }
 
-    .mobile-bar,
-    .mobile-menu,
-    .overlay {
+    .icon-link:hover {
+      color: #ff7a00;
+      transform: translateY(-2px) scale(1.1);
+    }
+
+    .mobile-bar {
       display: none;
+      background: #f3efe8;
+      padding: 16px 22px;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .menu-btn {
+      border: none;
+      background: transparent;
+      font-size: 24px;
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .35);
+      opacity: 0;
+      pointer-events: none;
+      transition: .3s;
+      z-index: 9998;
+    }
+
+    .overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      left: -420px;
+      width: 340px;
+      height: 100vh;
+      background: #f3efe8;
+      border-top-right-radius: 26px;
+      border-bottom-right-radius: 26px;
+      padding: 26px 26px 20px;
+      box-shadow: 12px 0 28px rgba(0, 0, 0, .18);
+      transition: .35s ease;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mobile-menu.active {
+      left: 0;
+    }
+
+    .mobile-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .close-btn {
+      border: none;
+      background: transparent;
+      font-size: 24px;
+    }
+
+    .menu-title {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .menu-sep {
+      height: 1px;
+      background: #d6d0c4;
+      margin: 12px 0 14px;
+    }
+
+    .mobile-link {
+      display: block;
+      font-weight: 500;
+      margin: 10px 0;
+      color: #111;
+      text-decoration: none;
+      transition: .25s;
+    }
+
+    .mobile-link:hover {
+      transform: translateX(6px);
+    }
+
+    .mobile-menu-content {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 4px;
+      margin-right: -4px;
+    }
+
+    .mobile-group-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+      color: #6f675d;
+      margin: 16px 0 8px;
+    }
+
+    .btn-orange {
+      width: 100%;
+      border-radius: 999px;
+      padding: 12px 18px;
+      margin-top: 10px;
+      border: none;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(135deg, #ff8c00, #ff5e00, #ff9b2f);
+    }
+
+    .btn-black {
+      width: 100%;
+      border-radius: 999px;
+      padding: 12px 18px;
+      margin-top: 8px;
+      border: none;
+      font-weight: 600;
+      color: #fff;
+      background: #111;
+    }
+
+    .menu-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      font-size: 20px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid #dcd3c5;
+    }
+
+    .menu-footer a {
+      text-decoration: none;
+      color: #111;
+    }
+
+    .menu-footer a:hover {
+      color: #ff7a00;
     }
 
     .partner-hero {
@@ -943,93 +1103,6 @@
 
       .mobile-bar {
         display: flex;
-        background: var(--bg);
-        padding: 14px 0;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .menu-btn,
-      .close-btn {
-        border: none;
-        background: #111;
-        color: #fff;
-        border-radius: 50%;
-        width: 42px;
-        height: 42px;
-      }
-
-      .overlay {
-        display: block;
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, .45);
-        opacity: 0;
-        pointer-events: none;
-        transition: .25s;
-        z-index: 40;
-      }
-
-      .overlay.active {
-        opacity: 1;
-        pointer-events: auto;
-      }
-
-      .mobile-menu {
-        display: flex;
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100vh;
-        width: min(86vw, 360px);
-        padding: 22px;
-        z-index: 50;
-        background: var(--bg);
-        transform: translateX(-100%);
-        transition: .28s ease;
-        flex-direction: column;
-      }
-
-      .mobile-menu.active {
-        transform: translateX(0);
-      }
-
-      .mobile-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-
-      .mobile-menu .logo-img {
-        height: 78px;
-      }
-
-      .menu-title {
-        margin: 22px 0 8px;
-        color: var(--muted);
-        font-weight: 900;
-        text-transform: uppercase;
-        letter-spacing: .12em;
-        font-size: 12px;
-      }
-
-      .mobile-menu-content {
-        display: grid;
-        gap: 10px;
-      }
-
-      .mobile-link {
-        padding: 13px 14px;
-        border-radius: 16px;
-        color: #111;
-        background: #fff;
-        text-decoration: none;
-        font-weight: 800;
-      }
-
-      .mobile-link.active {
-        color: #fff;
-        background: linear-gradient(135deg, var(--orange-2), #ff5e00, #ff9b2f);
       }
 
       .partner-hero {
@@ -1127,14 +1200,14 @@
 <body>
   <div class="wrapper">
     <nav class="desktop-nav">
-      <a href="index.html"><img src="img/logo.png" class="logo-img" alt="Logo ThynkXP"></a>
+      <img src="img/logo.png" class="logo-img" alt="Logo">
 
       <div class="nav-links">
         <a href="index.html#sobre-nos">Sobre nós</a>
         <a href="index.html#servicos">Serviços</a>
         <a href="index.html#projetos">Projetos</a>
         <a href="index.html#faq">FAQ</a>
-        <a href="programa-indicacao.html" class="active">Programa de Indicação</a>
+        <a href="programa-indicacao.html">Programa de Indicação</a>
       </div>
 
       <div class="desktop-actions">
@@ -1149,7 +1222,7 @@
 
     <nav class="mobile-bar">
       <button class="menu-btn" id="openMenu" aria-label="Abrir menu"><i class="fa-solid fa-bars"></i></button>
-      <a href="index.html"><img src="img/logo.png" class="logo-img" alt="Logo ThynkXP"></a>
+      <img src="img/logo.png" class="logo-img" alt="Logo ThynkXP">
     </nav>
 
     <div class="overlay" id="overlay"></div>
@@ -1160,12 +1233,24 @@
         <button class="close-btn" id="closeMenu" aria-label="Fechar menu"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <p class="menu-title">Menu</p>
+      <div class="menu-sep"></div>
+
       <div class="mobile-menu-content">
+        <p class="mobile-group-label">Navegação</p>
         <a class="mobile-link" href="index.html#sobre-nos">Sobre nós</a>
         <a class="mobile-link" href="index.html#servicos">Serviços</a>
         <a class="mobile-link" href="index.html#projetos">Projetos</a>
         <a class="mobile-link" href="index.html#faq">FAQ</a>
-        <a class="mobile-link active" href="programa-indicacao.html">Programa de Indicação</a>
+        <a class="mobile-link" href="programa-indicacao.html">Programa de Indicação</a>
+
+        <a class="btn-orange d-inline-block text-center text-decoration-none" href="https://wa.me/5532984690215?text=Ol%C3%A1%21%20Tudo%20bem%3F%20Conheci%20a%20ThynkXP%20pelo%20site%20e%20gostaria%20de%20solicitar%20um%20or%C3%A7amento%20para%20o%20meu%20projeto.%20Poderiam%20me%20orientar%20sobre%20os%20pr%C3%B3ximos%20passos%3F" target="_blank" rel="noopener noreferrer">Quero um orçamento →</a>
+        <a class="btn-black d-inline-block text-center text-decoration-none" href="https://wa.me/5532984690215?text=Ol%C3%A1%21%20Tudo%20bem%3F%20Encontrei%20voc%C3%AAs%20pelo%20site%20e%20gostaria%20de%20conversar%20com%20um%20especialista%20para%20entender%20como%20a%20ThynkXP%20pode%20ajudar%20meu%20neg%C3%B3cio." target="_blank" rel="noopener noreferrer">Converse conosco <i class="fa-brands fa-whatsapp ms-1"></i></a>
+      </div>
+
+      <div class="menu-footer">
+        <a href="https://www.instagram.com/thynkxp/"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+        <a href="https://wa.me/5532984690215" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp"></i></a>
       </div>
     </div>
 
