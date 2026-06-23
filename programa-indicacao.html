@@ -238,6 +238,19 @@
 
     .levels-section {
       padding: 86px 0 76px;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .levels-section::before {
+      content: "";
+      position: absolute;
+      inset: 80px auto auto -18vw;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 106, 0, .12), transparent 68%);
+      z-index: -1;
     }
 
     .section-kicker {
@@ -267,17 +280,28 @@
 
     .level-card {
       position: relative;
-      min-height: 430px;
+      min-height: 610px;
       padding: 28px;
       border-radius: 36px;
       overflow: hidden;
-      background: var(--card);
+      background:
+        linear-gradient(160deg, rgba(255, 106, 0, .08), rgba(255, 255, 255, 0) 42%),
+        var(--card);
       border: 1px solid rgba(17, 17, 17, .08);
       box-shadow: 0 24px 58px rgba(0, 0, 0, .08);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       transition: .25s ease;
+    }
+
+    .level-card::after {
+      content: "";
+      position: absolute;
+      inset: 14px;
+      border-radius: 28px;
+      border: 1px solid rgba(255, 106, 0, .10);
+      pointer-events: none;
     }
 
     .level-card:hover {
@@ -317,6 +341,42 @@
       box-shadow: 0 14px 28px rgba(17, 17, 17, .18);
     }
 
+    .level-head-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .level-rate {
+      min-width: 88px;
+      padding: 12px 14px;
+      border-radius: 22px;
+      text-align: center;
+      background: #111;
+      color: #fff;
+      box-shadow: 0 14px 28px rgba(17, 17, 17, .14);
+    }
+
+    .level-rate b {
+      display: block;
+      font-size: 32px;
+      line-height: .9;
+      letter-spacing: -1.5px;
+      font-weight: 950;
+    }
+
+    .level-rate span {
+      display: block;
+      margin-top: 5px;
+      font-size: 10px;
+      font-weight: 950;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      opacity: .74;
+    }
+
     .level-card h2 {
       margin: 0 0 10px;
       font-size: clamp(30px, 3vw, 46px);
@@ -334,6 +394,41 @@
 
     .level-card strong {
       color: var(--ink);
+    }
+
+    .benefits-list {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      gap: 10px;
+      margin: 24px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .benefits-list li {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 12px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, .72);
+      border: 1px solid rgba(255, 106, 0, .10);
+      color: #3d3731;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .benefits-list i {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: #fff3e4;
+      color: var(--orange);
+      font-size: 12px;
     }
 
     .level-tags {
@@ -373,9 +468,26 @@
       color: var(--orange);
     }
 
+    .level-card.featured .level-rate {
+      background: #fff;
+      color: var(--orange);
+      box-shadow: 0 16px 32px rgba(255, 255, 255, .18);
+    }
+
     .level-card.featured p,
     .level-card.featured strong {
       color: rgba(255, 255, 255, .92);
+    }
+
+    .level-card.featured .benefits-list li {
+      background: rgba(255, 255, 255, .16);
+      border-color: rgba(255, 255, 255, .20);
+      color: rgba(255, 255, 255, .92);
+    }
+
+    .level-card.featured .benefits-list i {
+      background: #fff;
+      color: var(--orange);
     }
 
     .level-card.featured .level-tags span {
@@ -613,8 +725,20 @@
 
       .level-card,
       .level-card.featured {
-        min-height: 340px;
+        min-height: auto;
         transform: none;
+      }
+
+      .level-head-row {
+        align-items: center;
+      }
+
+      .level-rate {
+        min-width: 78px;
+      }
+
+      .level-rate b {
+        font-size: 26px;
       }
 
       .journey-box {
@@ -698,9 +822,18 @@
         <div class="levels-grid">
           <article class="level-card" data-level="Spark">
             <div class="level-top">
-              <div class="level-number">01</div>
+              <div class="level-head-row">
+                <div class="level-number">01</div>
+                <div class="level-rate"><b>5%</b><span>honorários</span></div>
+              </div>
               <h2>Thynk Spark</h2>
               <p><strong>Para quem começa a indicar.</strong> É o primeiro sinal de movimento: uma faísca que abre portas, conecta oportunidades e inicia a jornada como parceiro ThynkXP.</p>
+              <ul class="benefits-list">
+                <li><i class="fa-solid fa-check"></i><span><strong>5% de honorários</strong> durante 12 meses em indicações fechadas.</span></li>
+                <li><i class="fa-solid fa-tag"></i><span>Até <strong>5% de desconto</strong> para suas indicações iniciarem com mais facilidade.</span></li>
+                <li><i class="fa-solid fa-file-lines"></i><span>Materiais de apresentação para explicar a ThynkXP com clareza.</span></li>
+                <li><i class="fa-solid fa-headset"></i><span>Acompanhamento comercial para validar se a oportunidade faz sentido.</span></li>
+              </ul>
             </div>
             <div class="level-tags">
               <span>Entrada</span>
@@ -711,9 +844,18 @@
 
           <article class="level-card featured" data-level="Pulse">
             <div class="level-top">
-              <div class="level-number">02</div>
+              <div class="level-head-row">
+                <div class="level-number">02</div>
+                <div class="level-rate"><b>10%</b><span>honorários</span></div>
+              </div>
               <h2>Thynk Pulse</h2>
               <p><strong>Para quem indica com frequência e movimenta oportunidades.</strong> Aqui a parceria ganha ritmo, previsibilidade e presença: você passa a fazer parte ativa do crescimento.</p>
+              <ul class="benefits-list">
+                <li><i class="fa-solid fa-check"></i><span><strong>10% de honorários</strong> durante 12 meses em oportunidades convertidas.</span></li>
+                <li><i class="fa-solid fa-tag"></i><span>Até <strong>10% de desconto</strong> para suas indicações começarem com vantagem.</span></li>
+                <li><i class="fa-solid fa-chart-line"></i><span>Atualizações de status das oportunidades indicadas.</span></li>
+                <li><i class="fa-solid fa-bolt"></i><span>Prioridade na análise de leads e alinhamento de propostas.</span></li>
+              </ul>
             </div>
             <div class="level-tags">
               <span>Frequência</span>
@@ -724,9 +866,18 @@
 
           <article class="level-card" data-level="Legacy">
             <div class="level-top">
-              <div class="level-number">03</div>
+              <div class="level-head-row">
+                <div class="level-number">03</div>
+                <div class="level-rate"><b>15%</b><span>honorários</span></div>
+              </div>
               <h2>Thynk Legacy</h2>
               <p><strong>Para parceiros fortes, recorrentes e estratégicos.</strong> O nível de quem constrói relação de longo prazo, gera impacto real e deixa uma marca na rede ThynkXP.</p>
+              <ul class="benefits-list">
+                <li><i class="fa-solid fa-check"></i><span><strong>15% de honorários</strong> durante 12 meses em projetos fechados.</span></li>
+                <li><i class="fa-solid fa-tag"></i><span>Até <strong>15% de desconto</strong> para suas indicações mais estratégicas.</span></li>
+                <li><i class="fa-solid fa-gem"></i><span><strong>10% de desconto</strong> em nossos serviços para sua própria empresa.</span></li>
+                <li><i class="fa-solid fa-handshake-angle"></i><span>Contato direto para co-criação de oportunidades e ações conjuntas.</span></li>
+              </ul>
             </div>
             <div class="level-tags">
               <span>Estratégia</span>
