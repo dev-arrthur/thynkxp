@@ -375,7 +375,7 @@
       }
 
       to {
-        transform: translateX(-33.333%);
+        transform: translateX(-50%);
       }
     }
 
@@ -713,6 +713,142 @@
       line-height: 1.45;
     }
 
+    .level-up-section,
+    .program-faq {
+      padding: 0 0 86px;
+    }
+
+    .level-up-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+
+    .level-up-card {
+      position: relative;
+      overflow: hidden;
+      padding: 28px;
+      border-radius: 34px;
+      background: #fffaf3;
+      border: 1px solid rgba(255, 106, 0, .14);
+      box-shadow: 0 24px 58px rgba(0, 0, 0, .075);
+    }
+
+    .level-up-card::before {
+      content: attr(data-step);
+      position: absolute;
+      right: -10px;
+      bottom: -8px;
+      color: rgba(255, 106, 0, .08);
+      font-size: clamp(68px, 8vw, 116px);
+      font-weight: 950;
+      line-height: .8;
+      letter-spacing: -5px;
+    }
+
+    .level-up-card h3 {
+      margin: 0 0 12px;
+      font-size: clamp(28px, 3vw, 44px);
+      line-height: .95;
+      letter-spacing: -1.8px;
+      font-weight: 950;
+    }
+
+    .level-up-card p {
+      position: relative;
+      z-index: 2;
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .level-up-card strong {
+      color: var(--orange);
+    }
+
+    .program-faq-header {
+      max-width: 760px;
+      margin-bottom: 24px;
+    }
+
+    .program-faq-header h2 {
+      margin: 0 0 10px;
+      font-size: clamp(34px, 5vw, 70px);
+      line-height: .95;
+      letter-spacing: -3px;
+      font-weight: 950;
+    }
+
+    .program-faq-header h2 span {
+      color: var(--orange);
+    }
+
+    .program-faq-header p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    .program-faq-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .program-faq-item {
+      border-radius: 24px;
+      background: #fffaf3;
+      border: 1px solid rgba(17, 17, 17, .08);
+      box-shadow: 0 16px 38px rgba(0, 0, 0, .055);
+      overflow: hidden;
+    }
+
+    .program-faq-item summary {
+      cursor: pointer;
+      list-style: none;
+      padding: 20px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      color: #111;
+      font-weight: 900;
+      font-size: 18px;
+    }
+
+    .program-faq-item summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .program-faq-item summary::after {
+      content: "+";
+      width: 34px;
+      height: 34px;
+      flex: 0 0 34px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: #fff3e4;
+      color: var(--orange);
+      font-size: 22px;
+      font-weight: 900;
+      transition: .25s;
+    }
+
+    .program-faq-item[open] summary::after {
+      content: "−";
+      color: #fff;
+      background: linear-gradient(135deg, var(--orange-2), #ff5e00, #ff9b2f);
+    }
+
+    .program-faq-item p {
+      margin: 0;
+      padding: 0 22px 22px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
     .final-cta {
       padding: 0 0 92px;
       text-align: center;
@@ -896,7 +1032,8 @@
       }
 
       .levels-grid,
-      .journey-flow {
+      .journey-flow,
+      .level-up-grid {
         grid-template-columns: 1fr;
       }
 
@@ -988,7 +1125,7 @@
 
           <div class="hero-visual" aria-hidden="true">
             <div class="hero-visual-card">
-              <img src="img/imagem3.png" alt="">
+              <img src="img/parceiros.png" alt="">
             </div>
             <div class="hero-orbit spark"><b>5%</b><span>comece com Spark</span></div>
             <div class="hero-orbit legacy"><b>15%</b><span>evolua até Legacy</span></div>
@@ -998,6 +1135,11 @@
 
       <section class="story-strip" aria-label="Narrativa do programa de indicação">
         <div class="story-strip-track">
+          <span>Faísca <i class="fa-solid fa-circle"></i> Ritmo <i class="fa-solid fa-circle"></i> Legado</span>
+          <span>Faísca <i class="fa-solid fa-circle"></i> Ritmo <i class="fa-solid fa-circle"></i> Legado</span>
+          <span>Faísca <i class="fa-solid fa-circle"></i> Ritmo <i class="fa-solid fa-circle"></i> Legado</span>
+          <span>Faísca <i class="fa-solid fa-circle"></i> Ritmo <i class="fa-solid fa-circle"></i> Legado</span>
+          <span>Faísca <i class="fa-solid fa-circle"></i> Ritmo <i class="fa-solid fa-circle"></i> Legado</span>
           <span>Faísca <i class="fa-solid fa-circle"></i> Ritmo <i class="fa-solid fa-circle"></i> Legado</span>
           <span>Faísca <i class="fa-solid fa-circle"></i> Ritmo <i class="fa-solid fa-circle"></i> Legado</span>
           <span>Faísca <i class="fa-solid fa-circle"></i> Ritmo <i class="fa-solid fa-circle"></i> Legado</span>
@@ -1092,6 +1234,47 @@
         </div>
       </section>
 
+      <section class="level-up-section">
+        <p class="section-kicker">Como sobe de nível</p>
+        <h2 class="levels-heading">O avanço é simples: quanto mais indicações qualificadas, maior o nível.</h2>
+        <div class="level-up-grid">
+          <article class="level-up-card" data-step="1→2">
+            <h3>Do Spark ao Pulse</h3>
+            <p>Para sair do <strong>Nível 1</strong> e chegar ao <strong>Nível 2</strong>, você precisa realizar <strong>3 indicações qualificadas</strong>. A partir daí, sua parceria ganha ritmo e passa a ter benefícios maiores.</p>
+          </article>
+          <article class="level-up-card" data-step="2→3">
+            <h3>Do Pulse ao Legacy</h3>
+            <p>Para sair do <strong>Nível 2</strong> e chegar ao <strong>Nível 3</strong>, você precisa alcançar <strong>7 indicações qualificadas</strong>. Esse é o estágio de parceiros recorrentes, fortes e estratégicos.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="program-faq">
+        <div class="program-faq-header">
+          <h2>Dúvidas <span>frequentes.</span></h2>
+          <p>Respostas rápidas para entender melhor como funciona o programa, os benefícios e a evolução entre níveis.</p>
+        </div>
+
+        <div class="program-faq-list">
+          <details class="program-faq-item" open>
+            <summary>O que conta como indicação qualificada?</summary>
+            <p>É uma empresa ou pessoa com necessidade real de site, sistema, branding, automação ou crescimento digital, apresentada com contexto suficiente para iniciarmos uma conversa comercial.</p>
+          </details>
+          <details class="program-faq-item">
+            <summary>Quando os honorários começam a contar?</summary>
+            <p>Os honorários são considerados a partir do fechamento do projeto indicado e seguem o percentual do seu nível por até 12 meses, conforme a condição aplicável ao projeto.</p>
+          </details>
+          <details class="program-faq-item">
+            <summary>Minha indicação recebe desconto?</summary>
+            <p>Sim. Cada nível permite oferecer um desconto progressivo para as indicações: até 5% no Spark, até 10% no Pulse e até 15% no Legacy.</p>
+          </details>
+          <details class="program-faq-item">
+            <summary>Posso indicar mais de uma empresa ao mesmo tempo?</summary>
+            <p>Pode. Quanto mais oportunidades qualificadas você movimenta, mais rápido evolui entre os níveis e mais forte se torna sua parceria com a ThynkXP.</p>
+          </details>
+        </div>
+      </section>
+
       <section class="final-cta">
         <h2>Pronto para indicar como parceiro?</h2>
         <p>Entre em contato com a ThynkXP e vamos entender qual nível combina com o seu momento, sua rede e seu potencial de indicação.</p>
@@ -1103,6 +1286,15 @@
   </div>
 
   <script>
+    document.querySelectorAll(".program-faq-item").forEach((item) => {
+      item.addEventListener("toggle", () => {
+        if (!item.open) return;
+        document.querySelectorAll(".program-faq-item").forEach((otherItem) => {
+          if (otherItem !== item) otherItem.open = false;
+        });
+      });
+    });
+
     const menu = document.getElementById("mobileMenu");
     const overlay = document.getElementById("overlay");
     const openMenu = document.getElementById("openMenu");
