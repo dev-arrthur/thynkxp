@@ -714,8 +714,82 @@
     }
 
     .level-up-section,
-    .program-faq {
+    .program-faq,
+    .remember-section {
       padding: 0 0 86px;
+    }
+
+    .remember-box {
+      display: grid;
+      grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+      gap: 22px;
+      align-items: stretch;
+      padding: 28px;
+      border-radius: 38px;
+      background:
+        linear-gradient(135deg, rgba(255, 106, 0, .14), rgba(255, 255, 255, .58) 42%),
+        #fffaf3;
+      border: 1px solid rgba(255, 106, 0, .16);
+      box-shadow: 0 28px 68px rgba(0, 0, 0, .08);
+    }
+
+    .remember-copy h2 {
+      margin: 0 0 14px;
+      font-size: clamp(34px, 5vw, 70px);
+      line-height: .94;
+      letter-spacing: -3px;
+      font-weight: 950;
+    }
+
+    .remember-copy h2 span {
+      color: var(--orange);
+    }
+
+    .remember-copy p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    .remember-steps {
+      display: grid;
+      gap: 12px;
+    }
+
+    .remember-step {
+      display: grid;
+      grid-template-columns: 46px 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 16px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, .74);
+      border: 1px solid rgba(255, 106, 0, .10);
+    }
+
+    .remember-step i {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: linear-gradient(135deg, var(--orange-2), #ff5e00, #ff9b2f);
+      box-shadow: 0 12px 24px rgba(255, 106, 0, .22);
+    }
+
+    .remember-step b {
+      display: block;
+      margin-bottom: 4px;
+      color: #111;
+      font-size: 17px;
+    }
+
+    .remember-step span {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
     }
 
     .level-up-grid {
@@ -1033,7 +1107,8 @@
 
       .levels-grid,
       .journey-flow,
-      .level-up-grid {
+      .level-up-grid,
+      .remember-box {
         grid-template-columns: 1fr;
       }
 
@@ -1114,9 +1189,9 @@
             <div class="hero-badge"><i class="fa-solid fa-bolt"></i> Programa de parceiros ThynkXP</div>
             <h1>Indique. Cresça. Deixe um <span>legado.</span></h1>
             <p class="hero-copy">
-              Nosso programa de indicação foi pensado para transformar conexões em oportunidades reais.
-              A indicação começa como uma faísca, ganha ritmo com recorrência e vira legado quando a parceria
-              se torna estratégica.
+              Nosso programa de indicação foi pensado para uma coisa simples: você lembra da ThynkXP,
+              indica alguém que precisa de solução digital e nós conduzimos todo o atendimento. Você não vende,
+              não apresenta proposta e não precisa negociar nada.
             </p>
             <a class="hero-cta" href="https://wa.me/5532984690215?text=Ol%C3%A1%21%20Quero%20saber%20mais%20sobre%20o%20Programa%20de%20Indica%C3%A7%C3%A3o%20da%20ThynkXP." target="_blank" rel="noopener noreferrer">
               Quero participar <i class="fa-solid fa-arrow-right ms-1"></i>
@@ -1146,6 +1221,25 @@
         </div>
       </section>
 
+      <section class="remember-section">
+        <div class="remember-box">
+          <div class="remember-copy">
+            <p class="section-kicker">Indicação sem venda</p>
+            <h2>Você só indica. <span>A ThynkXP faz o resto.</span></h2>
+            <p>
+              A lógica do programa é recompensar a lembrança certa. Se alguém da sua rede precisa de site,
+              sistema, branding, automação ou crescimento digital, você apenas aproxima essa pessoa da ThynkXP.
+              Nosso time conversa, entende, propõe e conduz todo o processo.
+            </p>
+          </div>
+          <div class="remember-steps">
+            <div class="remember-step"><i class="fa-solid fa-user-plus"></i><span><b>1. Você lembra e indica</b>Envie o contato ou faça uma ponte simples. Não precisa vender, apresentar ou defender proposta.</span></div>
+            <div class="remember-step"><i class="fa-solid fa-comments"></i><span><b>2. Nós conduzimos a conversa</b>A ThynkXP faz diagnóstico, atendimento, reunião, proposta e negociação diretamente com a indicação.</span></div>
+            <div class="remember-step"><i class="fa-solid fa-hand-holding-dollar"></i><span><b>3. Você recebe o reconhecimento</b>Se o projeto fecha, você pode ganhar honorários por 12 meses e ainda liberar desconto para sua indicação.</span></div>
+          </div>
+        </div>
+      </section>
+
       <section class="levels-section">
         <p class="section-kicker">Três níveis de parceria</p>
         <h2 class="levels-heading">Cada indicação aproxima você do próximo nível.</h2>
@@ -1158,12 +1252,12 @@
                 <div class="level-rate"><b>5%</b><span>honorários</span></div>
               </div>
               <h2>Thynk Spark</h2>
-              <p><strong>Para quem começa a indicar.</strong> É o primeiro sinal de movimento: uma faísca que abre portas, conecta oportunidades e inicia a jornada como parceiro ThynkXP.</p>
+              <p><strong>Para quem começa a indicar.</strong> É o primeiro sinal de movimento: uma faísca que nasce quando você lembra da ThynkXP e aproxima uma oportunidade.</p>
               <ul class="benefits-list">
                 <li><i class="fa-solid fa-check"></i><span><strong>5% de honorários</strong> durante 12 meses em indicações fechadas.</span></li>
                 <li><i class="fa-solid fa-tag"></i><span>Até <strong>5% de desconto</strong> para suas indicações iniciarem com mais facilidade.</span></li>
-                <li><i class="fa-solid fa-file-lines"></i><span>Materiais de apresentação para explicar a ThynkXP com clareza.</span></li>
-                <li><i class="fa-solid fa-headset"></i><span>Acompanhamento comercial para validar se a oportunidade faz sentido.</span></li>
+                <li><i class="fa-solid fa-paper-plane"></i><span>Indicação simples: envie o contato e a ThynkXP assume a conversa.</span></li>
+                <li><i class="fa-solid fa-headset"></i><span>Nosso time valida a necessidade, atende e conduz a negociação.</span></li>
               </ul>
             </div>
             <div class="level-tags">
@@ -1180,12 +1274,12 @@
                 <div class="level-rate"><b>10%</b><span>honorários</span></div>
               </div>
               <h2>Thynk Pulse</h2>
-              <p><strong>Para quem indica com frequência e movimenta oportunidades.</strong> Aqui a parceria ganha ritmo, previsibilidade e presença: você passa a fazer parte ativa do crescimento.</p>
+              <p><strong>Para quem indica com frequência e movimenta oportunidades.</strong> Aqui a parceria ganha ritmo: você segue indicando, e a ThynkXP continua conduzindo todo o processo.</p>
               <ul class="benefits-list">
                 <li><i class="fa-solid fa-check"></i><span><strong>10% de honorários</strong> durante 12 meses em oportunidades convertidas.</span></li>
                 <li><i class="fa-solid fa-tag"></i><span>Até <strong>10% de desconto</strong> para suas indicações começarem com vantagem.</span></li>
                 <li><i class="fa-solid fa-chart-line"></i><span>Atualizações de status das oportunidades indicadas.</span></li>
-                <li><i class="fa-solid fa-bolt"></i><span>Prioridade na análise de leads e alinhamento de propostas.</span></li>
+                <li><i class="fa-solid fa-bolt"></i><span>Prioridade na análise das indicações para acelerar o primeiro contato.</span></li>
               </ul>
             </div>
             <div class="level-tags">
@@ -1202,12 +1296,12 @@
                 <div class="level-rate"><b>15%</b><span>honorários</span></div>
               </div>
               <h2>Thynk Legacy</h2>
-              <p><strong>Para parceiros fortes, recorrentes e estratégicos.</strong> O nível de quem constrói relação de longo prazo, gera impacto real e deixa uma marca na rede ThynkXP.</p>
+              <p><strong>Para parceiros fortes, recorrentes e estratégicos.</strong> O nível de quem lembra da ThynkXP com frequência, indica boas oportunidades e constrói uma relação de longo prazo.</p>
               <ul class="benefits-list">
                 <li><i class="fa-solid fa-check"></i><span><strong>15% de honorários</strong> durante 12 meses em projetos fechados.</span></li>
                 <li><i class="fa-solid fa-tag"></i><span>Até <strong>15% de desconto</strong> para suas indicações mais estratégicas.</span></li>
                 <li><i class="fa-solid fa-gem"></i><span><strong>10% de desconto</strong> em nossos serviços para sua própria empresa.</span></li>
-                <li><i class="fa-solid fa-handshake-angle"></i><span>Contato direto para co-criação de oportunidades e ações conjuntas.</span></li>
+                <li><i class="fa-solid fa-handshake-angle"></i><span>Contato direto para acompanhar suas indicações com mais clareza.</span></li>
               </ul>
             </div>
             <div class="level-tags">
@@ -1223,13 +1317,13 @@
         <div class="journey-box">
           <h2>Uma indicação pode começar pequena. <span>Mas pode virar algo enorme.</span></h2>
           <p>
-            O programa funciona em níveis porque parceria boa evolui. Você começa indicando quando percebe uma oportunidade,
-            ganha ritmo quando isso se torna recorrente e chega ao legado quando a relação vira estratégia para todos os lados.
+            O programa funciona em níveis porque boas indicações geram continuidade. Você começa indicando quando lembra da ThynkXP,
+            ganha ritmo quando isso se torna recorrente e chega ao legado quando sua rede passa a gerar oportunidades com frequência.
           </p>
           <div class="journey-flow">
-            <div class="journey-step"><b>1. Acenda a faísca</b><span>Indique empresas que precisam de site, sistema, branding ou crescimento digital.</span></div>
-            <div class="journey-step"><b>2. Ganhe ritmo</b><span>Quanto mais oportunidades qualificadas você movimenta, mais forte fica sua posição como parceiro.</span></div>
-            <div class="journey-step"><b>3. Construa legado</b><span>Parceiros estratégicos crescem junto com a ThynkXP e participam de uma rede de oportunidades reais.</span></div>
+            <div class="journey-step"><b>1. Acenda a faísca</b><span>Indique empresas que precisam de site, sistema, branding ou crescimento digital. Só a lembrança já inicia o movimento.</span></div>
+            <div class="journey-step"><b>2. Ganhe ritmo</b><span>A ThynkXP conduz atendimento, proposta e negociação enquanto você acompanha a evolução da indicação.</span></div>
+            <div class="journey-step"><b>3. Construa legado</b><span>Quanto mais boas indicações você gera, maior seu nível, seus descontos e seus honorários.</span></div>
           </div>
         </div>
       </section>
@@ -1258,7 +1352,11 @@
         <div class="program-faq-list">
           <details class="program-faq-item" open>
             <summary>O que conta como indicação qualificada?</summary>
-            <p>É uma empresa ou pessoa com necessidade real de site, sistema, branding, automação ou crescimento digital, apresentada com contexto suficiente para iniciarmos uma conversa comercial.</p>
+            <p>É uma empresa ou pessoa com necessidade real de site, sistema, branding, automação ou crescimento digital. Você só precisa indicar ou fazer uma ponte simples; a ThynkXP conduz a conversa.</p>
+          </details>
+          <details class="program-faq-item">
+            <summary>Preciso vender ou apresentar a ThynkXP?</summary>
+            <p>Não. O programa não exige venda, apresentação, reunião comercial ou negociação por parte de quem indica. A sua função é lembrar da ThynkXP e aproximar a oportunidade.</p>
           </details>
           <details class="program-faq-item">
             <summary>Quando os honorários começam a contar?</summary>
