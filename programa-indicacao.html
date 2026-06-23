@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Programa de Indicação | ThynkXP</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #f3efe8;
+      --ink: #111;
+      --muted: #6a645c;
+      --orange: #ff6a00;
+      --orange-2: #ff8c00;
+      --cream: #fff7ed;
+      --card: #fffaf3;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      overflow-x: hidden;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Inter", system-ui, sans-serif;
+    }
+
+    .wrapper {
+      width: min(1200px, calc(100% - 48px));
+      margin: 0 auto;
+    }
+
+    .desktop-nav {
+      background: var(--bg);
+      padding: 2px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .logo-img {
+      height: 116px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .nav-links a {
+      font-weight: 600;
+      color: var(--ink);
+      position: relative;
+      text-decoration: none;
+      transition: .25s;
+      white-space: nowrap;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -6px;
+      width: 0;
+      height: 2px;
+      border-radius: 2px;
+      background: linear-gradient(135deg, var(--orange-2), #ff5e00, #ff9b2f);
+      transition: .25s;
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+      width: 100%;
+    }
+
+    .nav-links a.active {
+      color: var(--orange);
+      font-weight: 800;
+    }
+
+    .desktop-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .btn-budget,
+    .hero-cta,
+    .final-cta a {
+      border-radius: 999px;
+      padding: 12px 22px;
+      font-weight: 800;
+      color: #fff;
+      border: none;
+      background: linear-gradient(135deg, var(--orange-2), #ff5e00, #ff9b2f);
+      text-decoration: none !important;
+      box-shadow: 0 14px 30px rgba(255, 106, 0, .28);
+      transition: .25s;
+    }
+
+    .btn-budget:hover,
+    .hero-cta:hover,
+    .final-cta a:hover {
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 20px 42px rgba(255, 106, 0, .36);
+    }
+
+    .icon-link {
+      color: var(--ink);
+      font-size: 20px;
+      text-decoration: none !important;
+    }
+
+    .mobile-bar,
+    .mobile-menu,
+    .overlay {
+      display: none;
+    }
+
+    .partner-hero {
+      position: relative;
+      padding: 72px 0 54px;
+      isolation: isolate;
+    }
+
+    .partner-hero::before {
+      content: "";
+      position: absolute;
+      inset: 26px -18vw auto auto;
+      width: 520px;
+      height: 520px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 106, 0, .18), transparent 62%);
+      z-index: -1;
+    }
+
+    .partner-hero-inner {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, .72fr);
+      gap: 42px;
+      align-items: center;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-badge {
+      width: fit-content;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: #fff;
+      color: var(--orange);
+      font-weight: 900;
+      letter-spacing: .2px;
+      box-shadow: 0 12px 26px rgba(0, 0, 0, .08);
+      margin-bottom: 22px;
+    }
+
+    .partner-hero h1 {
+      max-width: 960px;
+      margin: 0;
+      font-size: clamp(48px, 8vw, 104px);
+      line-height: .88;
+      letter-spacing: -5px;
+      font-weight: 950;
+    }
+
+    .partner-hero h1 span {
+      background: linear-gradient(135deg, var(--orange-2), #ff5e00, #ff9b2f);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-copy {
+      max-width: 760px;
+      margin: 22px 0 28px;
+      color: var(--muted);
+      font-size: 19px;
+      line-height: 1.65;
+    }
+
+    .hero-visual {
+      position: relative;
+      min-height: 520px;
+      display: grid;
+      place-items: center;
+    }
+
+    .hero-visual-card {
+      position: relative;
+      width: min(100%, 430px);
+      min-height: 500px;
+      border-radius: 44px;
+      overflow: hidden;
+      background:
+        linear-gradient(160deg, rgba(255, 106, 0, .22), rgba(255, 255, 255, .55) 42%),
+        #fffaf3;
+      border: 1px solid rgba(255, 106, 0, .16);
+      box-shadow: 0 34px 84px rgba(17, 17, 17, .14);
+      animation: heroFloat 5.6s ease-in-out infinite;
+    }
+
+    .hero-visual-card::before {
+      content: "Indique";
+      position: absolute;
+      left: -18px;
+      bottom: 28px;
+      z-index: 1;
+      color: rgba(255, 106, 0, .11);
+      font-size: clamp(68px, 8vw, 116px);
+      font-weight: 950;
+      line-height: .75;
+      letter-spacing: -6px;
+      pointer-events: none;
+    }
+
+    .hero-visual-card img {
+      position: absolute;
+      inset: auto -36px -4px auto;
+      z-index: 2;
+      width: min(520px, 122%);
+      max-width: none;
+      filter: drop-shadow(0 26px 34px rgba(0, 0, 0, .18));
+    }
+
+    .hero-orbit {
+      position: absolute;
+      width: 132px;
+      padding: 12px 14px;
+      border-radius: 22px;
+      background: rgba(17, 17, 17, .88);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, .10);
+      box-shadow: 0 18px 38px rgba(0, 0, 0, .20);
+      backdrop-filter: blur(12px);
+      z-index: 4;
+      animation: pulseCard 3.2s ease-in-out infinite;
+    }
+
+    .hero-orbit b {
+      display: block;
+      color: var(--orange);
+      font-size: 26px;
+      line-height: 1;
+      font-weight: 950;
+    }
+
+    .hero-orbit span {
+      display: block;
+      margin-top: 5px;
+      color: rgba(255, 255, 255, .78);
+      font-size: 12px;
+      line-height: 1.25;
+      font-weight: 800;
+    }
+
+    .hero-orbit.spark {
+      top: 42px;
+      left: 0;
+    }
+
+    .hero-orbit.legacy {
+      right: 0;
+      bottom: 68px;
+      animation-delay: .8s;
+    }
+
+    @keyframes heroFloat {
+      0%, 100% {
+        transform: translateY(0) rotate(-1deg);
+      }
+
+      50% {
+        transform: translateY(-14px) rotate(1deg);
+      }
+    }
+
+    @keyframes pulseCard {
+      0%, 100% {
+        transform: translateY(0) scale(1);
+      }
+
+      50% {
+        transform: translateY(-8px) scale(1.03);
+      }
+    }
+
+    .story-strip {
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+      padding: 18px 0;
+      background:
+        linear-gradient(90deg, rgba(255, 106, 0, .18), transparent 18%, rgba(255, 106, 0, .18) 82%),
+        #111;
+      color: #fff;
+      overflow: hidden;
+      transform: rotate(-.65deg);
+      border-top: 2px solid rgba(255, 106, 0, .38);
+      border-bottom: 2px solid rgba(255, 106, 0, .38);
+      box-shadow: 0 28px 70px rgba(0, 0, 0, .20);
+      position: relative;
+    }
+
+    .story-strip::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .10), transparent);
+      transform: translateX(-100%);
+      animation: stripShine 4.8s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .story-strip-track {
+      display: flex;
+      width: max-content;
+      white-space: nowrap;
+      animation: stripMove 22s linear infinite;
+    }
+
+    .story-strip-track span {
+      display: inline-flex;
+      align-items: center;
+      gap: 18px;
+      padding: 0 28px;
+      color: #fff;
+      font-size: clamp(18px, 2vw, 30px);
+      font-weight: 950;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+
+    .story-strip-track i {
+      color: var(--orange);
+      font-size: .75em;
+    }
+
+    @keyframes stripShine {
+      0%, 35% {
+        transform: translateX(-100%);
+      }
+
+      70%, 100% {
+        transform: translateX(100%);
+      }
+    }
+
+    @keyframes stripMove {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-33.333%);
+      }
+    }
+
+    .levels-section {
+      padding: 86px 0 76px;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .levels-section::before {
+      content: "";
+      position: absolute;
+      inset: 80px auto auto -18vw;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 106, 0, .12), transparent 68%);
+      z-index: -1;
+    }
+
+    .section-kicker {
+      color: var(--orange);
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      font-size: 13px;
+      font-weight: 950;
+      margin-bottom: 10px;
+    }
+
+    .levels-heading {
+      max-width: 820px;
+      margin-bottom: 34px;
+      font-size: clamp(34px, 5vw, 72px);
+      line-height: .96;
+      letter-spacing: -3px;
+      font-weight: 950;
+    }
+
+    .levels-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .level-card {
+      position: relative;
+      min-height: 610px;
+      padding: 28px;
+      border-radius: 36px;
+      overflow: hidden;
+      background:
+        linear-gradient(160deg, rgba(255, 106, 0, .08), rgba(255, 255, 255, 0) 42%),
+        var(--card);
+      border: 1px solid rgba(17, 17, 17, .08);
+      box-shadow: 0 24px 58px rgba(0, 0, 0, .08);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: .25s ease;
+    }
+
+    .level-card::after {
+      content: "";
+      position: absolute;
+      inset: 14px;
+      border-radius: 28px;
+      border: 1px solid rgba(255, 106, 0, .10);
+      pointer-events: none;
+    }
+
+    .level-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 34px 76px rgba(255, 106, 0, .18);
+    }
+
+    .level-card::before {
+      content: attr(data-level);
+      position: absolute;
+      right: -12px;
+      bottom: -8px;
+      color: rgba(255, 106, 0, .08);
+      font-size: clamp(72px, 8vw, 124px);
+      font-weight: 950;
+      line-height: .8;
+      letter-spacing: -6px;
+      pointer-events: none;
+    }
+
+    .level-top {
+      position: relative;
+      z-index: 2;
+    }
+
+    .level-number {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      margin-bottom: 22px;
+      background: #111;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 950;
+      box-shadow: 0 14px 28px rgba(17, 17, 17, .18);
+    }
+
+    .level-head-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .level-rate {
+      min-width: 88px;
+      padding: 12px 14px;
+      border-radius: 22px;
+      text-align: center;
+      background: #111;
+      color: #fff;
+      box-shadow: 0 14px 28px rgba(17, 17, 17, .14);
+    }
+
+    .level-rate b {
+      display: block;
+      font-size: 32px;
+      line-height: .9;
+      letter-spacing: -1.5px;
+      font-weight: 950;
+    }
+
+    .level-rate span {
+      display: block;
+      margin-top: 5px;
+      font-size: 10px;
+      font-weight: 950;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      opacity: .74;
+    }
+
+    .level-card h2 {
+      margin: 0 0 10px;
+      font-size: clamp(30px, 3vw, 46px);
+      line-height: .92;
+      letter-spacing: -2px;
+      font-weight: 950;
+    }
+
+    .level-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.58;
+    }
+
+    .level-card strong {
+      color: var(--ink);
+    }
+
+    .benefits-list {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      gap: 10px;
+      margin: 24px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .benefits-list li {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 12px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, .72);
+      border: 1px solid rgba(255, 106, 0, .10);
+      color: #3d3731;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .benefits-list i {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: #fff3e4;
+      color: var(--orange);
+      font-size: 12px;
+    }
+
+    .level-tags {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: 26px;
+    }
+
+    .level-tags span {
+      padding: 8px 11px;
+      border-radius: 999px;
+      background: #fff3e4;
+      color: var(--orange);
+      font-size: 12px;
+      font-weight: 950;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .level-card.featured {
+      background: linear-gradient(135deg, var(--orange-2), #ff6a00 48%, #ff9b2f);
+      color: #fff;
+      border-color: rgba(255, 255, 255, .28);
+      box-shadow: 0 32px 82px rgba(255, 106, 0, .30);
+      transform: translateY(-14px);
+    }
+
+    .level-card.featured::before {
+      color: rgba(255, 255, 255, .13);
+    }
+
+    .level-card.featured .level-number {
+      background: #fff;
+      color: var(--orange);
+    }
+
+    .level-card.featured .level-rate {
+      background: #fff;
+      color: var(--orange);
+      box-shadow: 0 16px 32px rgba(255, 255, 255, .18);
+    }
+
+    .level-card.featured p,
+    .level-card.featured strong {
+      color: rgba(255, 255, 255, .92);
+    }
+
+    .level-card.featured .benefits-list li {
+      background: rgba(255, 255, 255, .16);
+      border-color: rgba(255, 255, 255, .20);
+      color: rgba(255, 255, 255, .92);
+    }
+
+    .level-card.featured .benefits-list i {
+      background: #fff;
+      color: var(--orange);
+    }
+
+    .level-card.featured .level-tags span {
+      background: rgba(255, 255, 255, .18);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, .22);
+    }
+
+    .journey-section {
+      padding: 0 0 86px;
+    }
+
+    .journey-box {
+      position: relative;
+      padding: 38px;
+      border-radius: 38px;
+      background: #111;
+      color: #fff;
+      overflow: hidden;
+      box-shadow: 0 28px 74px rgba(0, 0, 0, .22);
+    }
+
+    .journey-box::after {
+      content: "";
+      position: absolute;
+      inset: auto -120px -180px auto;
+      width: 380px;
+      height: 380px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 106, 0, .34), transparent 66%);
+    }
+
+    .journey-box h2 {
+      max-width: 760px;
+      margin: 0 0 18px;
+      font-size: clamp(32px, 4.8vw, 68px);
+      line-height: .96;
+      letter-spacing: -2.6px;
+      font-weight: 950;
+    }
+
+    .journey-box h2 span {
+      color: var(--orange);
+    }
+
+    .journey-box p {
+      max-width: 760px;
+      margin: 0;
+      color: rgba(255, 255, 255, .74);
+      font-size: 18px;
+      line-height: 1.65;
+    }
+
+    .journey-flow {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 30px;
+    }
+
+    .journey-step {
+      padding: 18px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid rgba(255, 255, 255, .12);
+    }
+
+    .journey-step b {
+      display: block;
+      color: #fff;
+      margin-bottom: 6px;
+      font-size: 18px;
+    }
+
+    .journey-step span {
+      color: rgba(255, 255, 255, .72);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .final-cta {
+      padding: 0 0 92px;
+      text-align: center;
+    }
+
+    .final-cta h2 {
+      max-width: 760px;
+      margin: 0 auto 16px;
+      font-size: clamp(34px, 5vw, 72px);
+      line-height: .94;
+      letter-spacing: -3px;
+      font-weight: 950;
+    }
+
+    .final-cta p {
+      max-width: 650px;
+      margin: 0 auto 26px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    @media(max-width:991px) {
+      .wrapper {
+        width: min(100% - 32px, 720px);
+      }
+
+      .desktop-nav {
+        display: none;
+      }
+
+      .mobile-bar {
+        display: flex;
+        background: var(--bg);
+        padding: 14px 0;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .menu-btn,
+      .close-btn {
+        border: none;
+        background: #111;
+        color: #fff;
+        border-radius: 50%;
+        width: 42px;
+        height: 42px;
+      }
+
+      .overlay {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, .45);
+        opacity: 0;
+        pointer-events: none;
+        transition: .25s;
+        z-index: 40;
+      }
+
+      .overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .mobile-menu {
+        display: flex;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: min(86vw, 360px);
+        padding: 22px;
+        z-index: 50;
+        background: var(--bg);
+        transform: translateX(-100%);
+        transition: .28s ease;
+        flex-direction: column;
+      }
+
+      .mobile-menu.active {
+        transform: translateX(0);
+      }
+
+      .mobile-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .mobile-menu .logo-img {
+        height: 78px;
+      }
+
+      .menu-title {
+        margin: 22px 0 8px;
+        color: var(--muted);
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: .12em;
+        font-size: 12px;
+      }
+
+      .mobile-menu-content {
+        display: grid;
+        gap: 10px;
+      }
+
+      .mobile-link {
+        padding: 13px 14px;
+        border-radius: 16px;
+        color: #111;
+        background: #fff;
+        text-decoration: none;
+        font-weight: 800;
+      }
+
+      .mobile-link.active {
+        color: #fff;
+        background: linear-gradient(135deg, var(--orange-2), #ff5e00, #ff9b2f);
+      }
+
+      .partner-hero {
+        padding: 42px 0 34px;
+      }
+
+      .partner-hero-inner {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+
+      .partner-hero h1 {
+        letter-spacing: -2.8px;
+      }
+
+      .hero-copy {
+        font-size: 16px;
+      }
+
+      .hero-visual {
+        min-height: 390px;
+      }
+
+      .hero-visual-card {
+        min-height: 380px;
+        border-radius: 34px;
+      }
+
+      .hero-visual-card img {
+        right: -28px;
+        width: min(430px, 124%);
+      }
+
+      .hero-orbit {
+        width: 118px;
+        padding: 10px 12px;
+      }
+
+      .hero-orbit.spark {
+        top: 18px;
+        left: -4px;
+      }
+
+      .hero-orbit.legacy {
+        right: -4px;
+        bottom: 36px;
+      }
+
+      .story-strip {
+        padding: 14px 0;
+        transform: rotate(-.25deg);
+      }
+
+      .story-strip-track span {
+        font-size: 15px;
+        padding: 0 20px;
+      }
+
+      .levels-section {
+        padding: 58px 0 54px;
+      }
+
+      .levels-grid,
+      .journey-flow {
+        grid-template-columns: 1fr;
+      }
+
+      .level-card,
+      .level-card.featured {
+        min-height: auto;
+        transform: none;
+      }
+
+      .level-head-row {
+        align-items: center;
+      }
+
+      .level-rate {
+        min-width: 78px;
+      }
+
+      .level-rate b {
+        font-size: 26px;
+      }
+
+      .journey-box {
+        padding: 28px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav class="desktop-nav">
+      <a href="index.html"><img src="img/logo.png" class="logo-img" alt="Logo ThynkXP"></a>
+
+      <div class="nav-links">
+        <a href="index.html#sobre-nos">Sobre nós</a>
+        <a href="index.html#servicos">Serviços</a>
+        <a href="index.html#projetos">Projetos</a>
+        <a href="index.html#faq">FAQ</a>
+        <a href="programa-indicacao.html" class="active">Programa de Indicação</a>
+      </div>
+
+      <div class="desktop-actions">
+        <a class="btn-budget" href="https://wa.me/5532984690215" target="_blank" rel="noopener noreferrer">
+          Quero um orçamento <i class="fa-solid fa-arrow-up-right-from-square ms-1"></i>
+        </a>
+        <a class="icon-link" href="https://www.instagram.com/thynkxp/"><i class="fa-brands fa-instagram"></i></a>
+        <a class="icon-link" href="#"><i class="fa-brands fa-linkedin"></i></a>
+        <a class="icon-link" href="https://wa.me/5532984690215" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp"></i></a>
+      </div>
+    </nav>
+
+    <nav class="mobile-bar">
+      <button class="menu-btn" id="openMenu" aria-label="Abrir menu"><i class="fa-solid fa-bars"></i></button>
+      <a href="index.html"><img src="img/logo.png" class="logo-img" alt="Logo ThynkXP"></a>
+    </nav>
+
+    <div class="overlay" id="overlay"></div>
+
+    <div class="mobile-menu" id="mobileMenu">
+      <div class="mobile-header">
+        <img src="img/logo.png" class="logo-img" alt="Logo ThynkXP">
+        <button class="close-btn" id="closeMenu" aria-label="Fechar menu"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <p class="menu-title">Menu</p>
+      <div class="mobile-menu-content">
+        <a class="mobile-link" href="index.html#sobre-nos">Sobre nós</a>
+        <a class="mobile-link" href="index.html#servicos">Serviços</a>
+        <a class="mobile-link" href="index.html#projetos">Projetos</a>
+        <a class="mobile-link" href="index.html#faq">FAQ</a>
+        <a class="mobile-link active" href="programa-indicacao.html">Programa de Indicação</a>
+      </div>
+    </div>
+
+    <main>
+      <section class="partner-hero">
+        <div class="partner-hero-inner">
+          <div class="hero-content">
+            <div class="hero-badge"><i class="fa-solid fa-bolt"></i> Programa de parceiros ThynkXP</div>
+            <h1>Indique. Cresça. Deixe um <span>legado.</span></h1>
+            <p class="hero-copy">
+              Nosso programa de indicação foi pensado para transformar conexões em oportunidades reais.
+              A indicação começa como uma faísca, ganha ritmo com recorrência e vira legado quando a parceria
+              se torna estratégica.
+            </p>
+            <a class="hero-cta" href="https://wa.me/5532984690215?text=Ol%C3%A1%21%20Quero%20saber%20mais%20sobre%20o%20Programa%20de%20Indica%C3%A7%C3%A3o%20da%20ThynkXP." target="_blank" rel="noopener noreferrer">
+              Quero participar <i class="fa-solid fa-arrow-right ms-1"></i>
+            </a>
+          </div>
+
+          <div class="hero-visual" aria-hidden="true">
+            <div class="hero-visual-card">
+              <img src="img/imagem3.png" alt="">
+            </div>
+            <div class="hero-orbit spark"><b>5%</b><span>comece com Spark</span></div>
+            <div class="hero-orbit legacy"><b>15%</b><span>evolua até Legacy</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="story-strip" aria-label="Narrativa do programa de indicação">
+        <div class="story-strip-track">
+          <span>Faísca <i class="fa-solid fa-circle"></i> Ritmo <i class="fa-solid fa-circle"></i> Legado</span>
+          <span>Faísca <i class="fa-solid fa-circle"></i> Ritmo <i class="fa-solid fa-circle"></i> Legado</span>
+          <span>Faísca <i class="fa-solid fa-circle"></i> Ritmo <i class="fa-solid fa-circle"></i> Legado</span>
+        </div>
+      </section>
+
+      <section class="levels-section">
+        <p class="section-kicker">Três níveis de parceria</p>
+        <h2 class="levels-heading">Cada indicação aproxima você do próximo nível.</h2>
+
+        <div class="levels-grid">
+          <article class="level-card" data-level="Spark">
+            <div class="level-top">
+              <div class="level-head-row">
+                <div class="level-number">01</div>
+                <div class="level-rate"><b>5%</b><span>honorários</span></div>
+              </div>
+              <h2>Thynk Spark</h2>
+              <p><strong>Para quem começa a indicar.</strong> É o primeiro sinal de movimento: uma faísca que abre portas, conecta oportunidades e inicia a jornada como parceiro ThynkXP.</p>
+              <ul class="benefits-list">
+                <li><i class="fa-solid fa-check"></i><span><strong>5% de honorários</strong> durante 12 meses em indicações fechadas.</span></li>
+                <li><i class="fa-solid fa-tag"></i><span>Até <strong>5% de desconto</strong> para suas indicações iniciarem com mais facilidade.</span></li>
+                <li><i class="fa-solid fa-file-lines"></i><span>Materiais de apresentação para explicar a ThynkXP com clareza.</span></li>
+                <li><i class="fa-solid fa-headset"></i><span>Acompanhamento comercial para validar se a oportunidade faz sentido.</span></li>
+              </ul>
+            </div>
+            <div class="level-tags">
+              <span>Entrada</span>
+              <span>Primeiras indicações</span>
+              <span>Faísca</span>
+            </div>
+          </article>
+
+          <article class="level-card featured" data-level="Pulse">
+            <div class="level-top">
+              <div class="level-head-row">
+                <div class="level-number">02</div>
+                <div class="level-rate"><b>10%</b><span>honorários</span></div>
+              </div>
+              <h2>Thynk Pulse</h2>
+              <p><strong>Para quem indica com frequência e movimenta oportunidades.</strong> Aqui a parceria ganha ritmo, previsibilidade e presença: você passa a fazer parte ativa do crescimento.</p>
+              <ul class="benefits-list">
+                <li><i class="fa-solid fa-check"></i><span><strong>10% de honorários</strong> durante 12 meses em oportunidades convertidas.</span></li>
+                <li><i class="fa-solid fa-tag"></i><span>Até <strong>10% de desconto</strong> para suas indicações começarem com vantagem.</span></li>
+                <li><i class="fa-solid fa-chart-line"></i><span>Atualizações de status das oportunidades indicadas.</span></li>
+                <li><i class="fa-solid fa-bolt"></i><span>Prioridade na análise de leads e alinhamento de propostas.</span></li>
+              </ul>
+            </div>
+            <div class="level-tags">
+              <span>Frequência</span>
+              <span>Movimento</span>
+              <span>Ritmo</span>
+            </div>
+          </article>
+
+          <article class="level-card" data-level="Legacy">
+            <div class="level-top">
+              <div class="level-head-row">
+                <div class="level-number">03</div>
+                <div class="level-rate"><b>15%</b><span>honorários</span></div>
+              </div>
+              <h2>Thynk Legacy</h2>
+              <p><strong>Para parceiros fortes, recorrentes e estratégicos.</strong> O nível de quem constrói relação de longo prazo, gera impacto real e deixa uma marca na rede ThynkXP.</p>
+              <ul class="benefits-list">
+                <li><i class="fa-solid fa-check"></i><span><strong>15% de honorários</strong> durante 12 meses em projetos fechados.</span></li>
+                <li><i class="fa-solid fa-tag"></i><span>Até <strong>15% de desconto</strong> para suas indicações mais estratégicas.</span></li>
+                <li><i class="fa-solid fa-gem"></i><span><strong>10% de desconto</strong> em nossos serviços para sua própria empresa.</span></li>
+                <li><i class="fa-solid fa-handshake-angle"></i><span>Contato direto para co-criação de oportunidades e ações conjuntas.</span></li>
+              </ul>
+            </div>
+            <div class="level-tags">
+              <span>Estratégia</span>
+              <span>Recorrência</span>
+              <span>Legado</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="journey-section">
+        <div class="journey-box">
+          <h2>Uma indicação pode começar pequena. <span>Mas pode virar algo enorme.</span></h2>
+          <p>
+            O programa funciona em níveis porque parceria boa evolui. Você começa indicando quando percebe uma oportunidade,
+            ganha ritmo quando isso se torna recorrente e chega ao legado quando a relação vira estratégia para todos os lados.
+          </p>
+          <div class="journey-flow">
+            <div class="journey-step"><b>1. Acenda a faísca</b><span>Indique empresas que precisam de site, sistema, branding ou crescimento digital.</span></div>
+            <div class="journey-step"><b>2. Ganhe ritmo</b><span>Quanto mais oportunidades qualificadas você movimenta, mais forte fica sua posição como parceiro.</span></div>
+            <div class="journey-step"><b>3. Construa legado</b><span>Parceiros estratégicos crescem junto com a ThynkXP e participam de uma rede de oportunidades reais.</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="final-cta">
+        <h2>Pronto para indicar como parceiro?</h2>
+        <p>Entre em contato com a ThynkXP e vamos entender qual nível combina com o seu momento, sua rede e seu potencial de indicação.</p>
+        <a href="https://wa.me/5532984690215?text=Ol%C3%A1%21%20Quero%20participar%20do%20Programa%20de%20Indica%C3%A7%C3%A3o%20da%20ThynkXP." target="_blank" rel="noopener noreferrer">
+          Falar sobre indicação <i class="fa-brands fa-whatsapp ms-1"></i>
+        </a>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const menu = document.getElementById("mobileMenu");
+    const overlay = document.getElementById("overlay");
+    const openMenu = document.getElementById("openMenu");
+    const closeMenu = document.getElementById("closeMenu");
+
+    openMenu.addEventListener("click", () => {
+      menu.classList.add("active");
+      overlay.classList.add("active");
+    });
+
+    const closeNavigation = () => {
+      menu.classList.remove("active");
+      overlay.classList.remove("active");
+    };
+
+    closeMenu.addEventListener("click", closeNavigation);
+    overlay.addEventListener("click", closeNavigation);
+  </script>
+</body>
+
+</html>
