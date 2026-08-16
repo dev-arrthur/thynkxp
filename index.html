@@ -2732,6 +2732,32 @@
       }
     }
 
+
+    /* Padronizacao visual dos cards Saboratti e PagBank Next */
+    .project-card,
+    .project-card.featured-project {
+      box-sizing: border-box;
+      border-width: 1px;
+      border-style: solid;
+    }
+
+    @media (min-width: 992px) {
+      .projects-track .project-card,
+      .projects-track .project-card.featured-project,
+      .projects-track .project-card:first-child,
+      .projects-track .project-card:nth-child(2),
+      .projects-track .project-card:nth-child(3),
+      .projects-track .project-card:nth-child(4),
+      .projects-track .project-card:nth-child(5),
+      .projects-track .project-card:nth-child(6),
+      .projects-track .project-card:nth-child(7),
+      .projects-track .project-card:nth-child(8) {
+        border-radius: 32px !important;
+        border-color: rgba(255, 106, 0, .18) !important;
+        overflow: hidden;
+      }
+    }
+
   </style>
 </head>
 
