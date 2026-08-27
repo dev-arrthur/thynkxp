@@ -1,0 +1,9 @@
+{
+  "name": "thynkxp-site",
+  "private": true,
+  "version": "1.0.0",
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "mongodb": "^6.18.0"
+  }
+}
