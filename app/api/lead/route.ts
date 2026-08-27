@@ -1,0 +1,5 @@
+import { NextResponse } from 'next/server';
+import { MongoClient } from 'mongodb';
+let client: MongoClient | null = null;
+async function db(){if(!process.env.MONGODB_URI) throw new Error('MONGODB_URI não configurada');client ??= new MongoClient(process.env.MONGODB_URI);await client.connect();return client.db(process.env.MONGODB_DB||'thynkxp');}
+export async function POST(req: Request){try{const b=await req.json();if(!b.email)return NextResponse.json({error:'email_required'},{status:400});const database=await db();const lead={name:b.name||'',email:b.email,phone:b.phone||'',company:b.company||'',source:b.source||'',utm:b.utm||{},createdAt:new Date(),status:'novo'};const r=await database.collection('leads').insertOne(lead);return NextResponse.json({ok:true,id:r.insertedId.toString()});}catch(e){console.error(e);return NextResponse.json({ok:false,error:'lead_unavailable'},{status:500});}}

@@ -1,0 +1,6 @@
+import { NextResponse } from 'next/server';
+import { MongoClient } from 'mongodb';
+import crypto from 'node:crypto';
+let client: MongoClient | null = null;
+async function db(){if(!process.env.MONGODB_URI) throw new Error('MONGODB_URI não configurada');client ??= new MongoClient(process.env.MONGODB_URI);await client.connect();return client.db(process.env.MONGODB_DB||'thynkxp');}
+export async function POST(req:Request){try{const b=await req.json();const email=process.env.ADMIN_EMAIL;const secret=process.env.ADMIN_BOOTSTRAP_SECRET;if(!email||!secret)return NextResponse.json({error:'bootstrap_not_configured'},{status:500});const database=await db();const existing=await database.collection('users').findOne({email});if(existing)return NextResponse.json({ok:true,created:false});const passwordHash=crypto.createHash('sha256').update(secret).digest('hex');await database.collection('users').insertOne({email,role:'admin',passwordHash,createdAt:new Date(),active:true});return NextResponse.json({ok:true,created:true});}catch(e){console.error(e);return NextResponse.json({ok:false},{status:500});}}

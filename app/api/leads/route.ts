@@ -1,0 +1,6 @@
+import crypto from 'node:crypto';
+import { NextResponse } from 'next/server';
+import { MongoClient } from 'mongodb';
+let client:MongoClient|null=null;async function db(){if(!process.env.MONGODB_URI)throw new Error('MONGODB_URI não configurada');client??=new MongoClient(process.env.MONGODB_URI);await client.connect();return client.db(process.env.MONGODB_DB||'thynkxp');}
+function valid(req:Request){const raw=req.headers.get('cookie')||'';const m=raw.match(/thynkxp_admin_session=([^;]+)/);const key=process.env.ADMIN_SESSION_SECRET||process.env.ADMIN_BOOTSTRAP_SECRET||'';if(!m||!key)return false;const p=decodeURIComponent(m[1]).split('.');if(p.length<4)return false;const value=p.slice(0,-1).join('.');const sig=p[p.length-1];const expected=crypto.createHmac('sha256',key).update(value).digest('hex');return sig.length===expected.length&&crypto.timingSafeEqual(Buffer.from(sig),Buffer.from(expected));}
+export async function GET(req:Request){if(!valid(req))return NextResponse.json({error:'unauthorized'},{status:401});try{const d=await db();const leads=await d.collection('leads').find({}).sort({createdAt:-1}).limit(200).toArray();return NextResponse.json({leads});}catch{return NextResponse.json({leads:[]});}}
