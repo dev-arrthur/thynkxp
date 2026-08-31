@@ -1,23 +1,53 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Icon, { type IconName } from './Icon';
 
-const letters = ['M', 'É', 'T', 'O', 'D', 'O'];
-
-const steps: { icon: IconName; step: string; title: string; text: string }[] = [
-  { icon: 'search', step: '01', title: 'Diagnóstico', text: 'Começamos pelo problema. Entendemos o negócio, o público, os gargalos, os objetivos e o que precisa mudar para o projeto fazer sentido.' },
-  { icon: 'layers', step: '02', title: 'Arquitetura', text: 'Organizamos conteúdo, funcionalidades, prioridades e jornada. Antes de desenhar a interface, desenhamos a lógica da experiência.' },
-  { icon: 'pen-tool', step: '03', title: 'Design', text: 'Transformamos estratégia em direção visual, interface e sistema de componentes com clareza, personalidade e intenção.' },
-  { icon: 'code', step: '04', title: 'Desenvolvimento', text: 'Construímos front-end, back-end e integrações com foco em performance, segurança, manutenção e evolução futura.' },
-  { icon: 'check-circle', step: '05', title: 'Homologação', text: 'Testamos responsividade, conteúdo, fluxos, integrações, detalhes visuais e cenários reais antes de colocar a solução em produção.' },
-  { icon: 'rocket', step: '06', title: 'Evolução', text: 'Publicamos, medimos e seguimos melhorando. Um produto digital bom não termina no deploy: ele aprende com uso, dados e resultado.' },
+const phases: { letter: string; name: string; title: string; text: string; icon: IconName }[] = [
+  {
+    letter: 'T',
+    name: 'Think',
+    title: 'Entender',
+    text: 'Entramos no problema antes de entrar na ferramenta. Negócio, público, objetivo, contexto e oportunidade vêm primeiro.',
+    icon: 'search',
+  },
+  {
+    letter: 'H',
+    name: 'Hypothesis',
+    title: 'Direcionar',
+    text: 'Transformamos informação em hipóteses, prioridades, arquitetura e uma direção clara para a solução que será construída.',
+    icon: 'layers',
+  },
+  {
+    letter: 'Y',
+    name: 'Your Experience',
+    title: 'Desenhar',
+    text: 'A experiência nasce para quem vai usar. Jornada, conteúdo, interface e identidade passam a trabalhar como um único sistema.',
+    icon: 'pen-tool',
+  },
+  {
+    letter: 'N',
+    name: 'Next',
+    title: 'Construir',
+    text: 'Design vira produto. Desenvolvimento, integrações, performance, testes e homologação colocam a experiência de pé.',
+    icon: 'code',
+  },
+  {
+    letter: 'K',
+    name: 'Keep Evolving',
+    title: 'Evoluir',
+    text: 'Publicamos, medimos e melhoramos. O projeto continua aprendendo com comportamento, dados, operação e resultado.',
+    icon: 'trending-up',
+  },
 ];
+
+const clamp = (value: number, min = 0, max = 1) => Math.min(max, Math.max(min, value));
 
 export default function MethodExperience() {
   const [mount, setMount] = useState<HTMLElement | null>(null);
-  const [active, setActive] = useState(0);
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     const host = document.querySelector<HTMLElement>('.thx-capabilities .thx-shell');
@@ -28,101 +58,120 @@ export default function MethodExperience() {
     host.prepend(node);
     setMount(node);
 
-    const processLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('a[href="#processo"]'));
+    const processLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('a[href="#processo"], a[href="#nosso-metodo"]'));
     processLinks.forEach((link) => {
       link.setAttribute('href', '#nosso-metodo');
       const textNode = Array.from(link.childNodes).find((child) => child.nodeType === Node.TEXT_NODE);
       if (textNode) textNode.textContent = 'Nosso método';
     });
 
-    return () => {
-      node.remove();
-    };
+    return () => node.remove();
   }, []);
 
   useEffect(() => {
     if (!mount) return;
 
-    const cards = Array.from(mount.querySelectorAll<HTMLElement>('[data-method-card]'));
-    if (!cards.length) return;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (reducedMotion.matches) {
+      setProgress(1);
+      return;
+    }
 
-    const observer = new IntersectionObserver((entries) => {
-      const visible = entries
-        .filter((entry) => entry.isIntersecting)
-        .sort((a, b) => Math.abs(a.boundingClientRect.top + a.boundingClientRect.height / 2 - window.innerHeight / 2) - Math.abs(b.boundingClientRect.top + b.boundingClientRect.height / 2 - window.innerHeight / 2));
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const section = sectionRef.current;
+      if (!section) return;
 
-      if (visible[0]) {
-        const index = Number((visible[0].target as HTMLElement).dataset.methodCard ?? 0);
-        setActive(index);
-      }
-    }, {
-      root: null,
-      rootMargin: '-40% 0px -40% 0px',
-      threshold: 0.01,
-    });
+      const rect = section.getBoundingClientRect();
+      const scrollable = Math.max(1, section.offsetHeight - window.innerHeight);
+      const next = clamp(-rect.top / scrollable);
+      setProgress((current) => (Math.abs(current - next) > 0.001 ? next : current));
+    };
 
-    cards.forEach((card) => observer.observe(card));
-    return () => observer.disconnect();
+    const requestUpdate = () => {
+      if (!frame) frame = window.requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', requestUpdate);
+
+    return () => {
+      window.removeEventListener('scroll', requestUpdate);
+      window.removeEventListener('resize', requestUpdate);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
   }, [mount]);
 
   if (!mount) return null;
 
+  const cardProgress = phases.map((_, index) => {
+    const start = 0.06 + index * 0.17;
+    const end = start + 0.18;
+    return clamp((progress - start) / (end - start));
+  });
+
+  const active = Math.min(
+    phases.length - 1,
+    Math.max(0, cardProgress.filter((value) => value >= 0.55).length - 1),
+  );
+  const formed = cardProgress.every((value) => value > 0.985);
+
   return createPortal(
-    <section className="thx-method-v4" id="nosso-metodo" aria-label="Nosso método de trabalho">
-      <div className="thx-method-heading" data-reveal>
-        <span className="thx-section-index"><span>03</span>Nosso método</span>
-        <h2>Uma etapa de cada vez.<br/><em>Até a ideia virar produto.</em></h2>
-        <p>Role pela seção. Cada etapa ativa um card e completa uma letra da palavra que guia o nosso processo.</p>
-      </div>
+    <section ref={sectionRef} className="thx-method-v5" id="nosso-metodo" aria-label="Método THYNK">
+      <div className="thx-method-v5-sticky">
+        <header className="thx-method-v5-heading">
+          <span className="thx-section-index"><span>03</span>Nosso método</span>
+          <div className="thx-method-v5-heading-row">
+            <h2>Nosso jeito de pensar<br/><em>antes de construir.</em></h2>
+            <p>Role para montar o nosso método. Cada etapa sobe, encontra seu lugar e revela uma letra de <strong>THYNK</strong>.</p>
+          </div>
+        </header>
 
-      <div className="thx-method-layout">
-        <aside className="thx-method-sticky" aria-live="polite">
-          <span className="thx-method-eyebrow">A palavra se completa com o projeto</span>
-          <div className="thx-method-word" aria-label="Método">
-            {letters.map((letter, index) => (
-              <span key={`${letter}-${index}`} className={index <= active ? 'is-complete' : ''}>{letter}</span>
-            ))}
+        <div className={`thx-thynk-stage ${formed ? 'is-formed' : ''}`}>
+          <div className="thx-thynk-guide" aria-hidden="true">
+            {phases.map((phase) => <span key={phase.letter}>{phase.letter}</span>)}
           </div>
-          <div className="thx-method-progress" aria-hidden="true">
-            <span style={{ width: `${((active + 1) / steps.length) * 100}%` }} />
-          </div>
-          <div className="thx-method-current">
-            <span>{steps[active].step} / 06</span>
-            <strong>{steps[active].title}</strong>
-            <small>{Math.round(((active + 1) / steps.length) * 100)}% do método percorrido</small>
-          </div>
-          <div className="thx-method-scroll-cue"><Icon name="arrow-right" size={16} /><span>Continue rolando para completar</span></div>
-        </aside>
 
-        <div className="thx-method-cards">
-          {steps.map((item, index) => (
-            <article
-              key={item.step}
-              data-method-card={index}
-              className={`thx-method-card ${index < active ? 'is-complete' : ''} ${index === active ? 'is-active' : ''}`}
-            >
-              <div className="thx-method-card-top">
-                <span className="thx-method-number">{item.step}</span>
-                <div className="thx-method-icon"><Icon name={item.icon} size={24} /></div>
-                <span className="thx-method-letter">{letters[index]}</span>
-              </div>
-              <div className="thx-method-card-copy">
-                <span>Etapa {item.step}</span>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-              </div>
-              <div className="thx-method-card-state">
-                <span />
-                <small>{index <= active ? 'Etapa conectada ao método' : 'Role para ativar esta etapa'}</small>
-              </div>
-            </article>
-          ))}
+          <div className="thx-thynk-cards" aria-label="THYNK">
+            {phases.map((phase, index) => {
+              const value = cardProgress[index];
+              const y = (1 - value) * (96 + index * 8);
+              const rotation = (1 - value) * (index % 2 === 0 ? -4 : 4);
+              const scale = 0.88 + value * 0.12;
+              return (
+                <article
+                  className={`thx-thynk-card ${value > 0.55 ? 'is-arriving' : ''} ${value > 0.985 ? 'is-locked' : ''}`}
+                  key={phase.letter}
+                  style={{
+                    transform: `translate3d(0, ${y}vh, 0) rotate(${rotation}deg) scale(${scale})`,
+                    opacity: 0.12 + value * 0.88,
+                  }}
+                >
+                  <div className="thx-thynk-card-head">
+                    <span>0{index + 1}</span>
+                    <Icon name={phase.icon} size={20} />
+                  </div>
+                  <strong className="thx-thynk-letter">{phase.letter}</strong>
+                  <div className="thx-thynk-card-copy">
+                    <small>{phase.name}</small>
+                    <h3>{phase.title}</h3>
+                    <p>{phase.text}</p>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
         </div>
-      </div>
 
-      <div className="thx-method-foundation">
-        <span>O que sustenta cada etapa</span>
-        <strong>Performance, segurança, analytics e integração continuam sendo a base técnica do método.</strong>
+        <footer className="thx-method-v5-footer">
+          <div className="thx-method-v5-progress" aria-hidden="true"><span style={{ width: `${progress * 100}%` }} /></div>
+          <div className="thx-method-v5-status">
+            <span>{formed ? 'THYNK completo' : `0${active + 1} / 05`}</span>
+            <strong>{formed ? 'Pensar. Construir. Evoluir.' : phases[active].name}</strong>
+          </div>
+        </footer>
       </div>
     </section>,
     mount,
