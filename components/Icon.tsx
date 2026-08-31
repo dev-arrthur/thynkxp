@@ -34,7 +34,7 @@ export default function Icon({ name, size = 20, ...props }: Props) {
     code: <><path d="m8 9-3 3 3 3" /><path d="m16 9 3 3-3 3" /><path d="m14 5-4 14" /></>,
     'credit-card': <><rect x="3" y="5" width="18" height="14" rx="2" /><path d="M3 10h18" /><path d="M7 15h3" /></>,
     download: <><path d="M12 3v12" /><path d="m7 10 5 5 5-5" /><path d="M5 21h14" /></>,
-    external-link: <><path d="M14 5h5v5" /><path d="M10 14 19 5" /><path d="M19 13v6H5V5h6" /></>,
+    'external-link': <><path d="M14 5h5v5" /><path d="M10 14 19 5" /><path d="M19 13v6H5V5h6" /></>,
     file: <><path d="M6 3h8l4 4v14H6z" /><path d="M14 3v5h5" /><path d="M9 13h6M9 17h6" /></>,
     filter: <><path d="M4 6h16" /><path d="M7 12h10" /><path d="M10 18h4" /></>,
     folder: <path d="M3 6h7l2 2h9v11H3z" />,
