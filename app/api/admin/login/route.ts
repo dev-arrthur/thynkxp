@@ -1,6 +1,48 @@
 import { NextResponse } from 'next/server';
-import crypto from 'node:crypto';
-const cookie='thynkxp_admin_session';
-function sign(v:string){return crypto.createHmac('sha256',process.env.ADMIN_SESSION_SECRET||process.env.ADMIN_BOOTSTRAP_SECRET||'change-me').update(v).digest('hex');}
-export async function POST(req:Request){const {email,password}=await req.json();if(email!==process.env.ADMIN_EMAIL||password!==process.env.ADMIN_BOOTSTRAP_SECRET)return NextResponse.json({ok:false,error:'invalid_credentials'},{status:401});const value=`${email}.${Date.now()}.${crypto.randomUUID()}`;const token=`${value}.${sign(value)}`;const r=NextResponse.json({ok:true});r.cookies.set(cookie,token,{httpOnly:true,secure:true,sameSite:'lax',path:'/',maxAge:60*60*12});return r;}
-export async function DELETE(){const r=NextResponse.json({ok:true});r.cookies.delete(cookie);return r;}
+import {
+  ADMIN_COOKIE,
+  ADMIN_SESSION_TTL_SECONDS,
+  adminAuthConfigured,
+  createAdminSessionToken,
+  validateAdminCredentials
+} from '../../../../lib/admin-auth';
+
+export async function POST(req: Request) {
+  if (!adminAuthConfigured()) {
+    return NextResponse.json({ ok: false, error: 'admin_not_configured' }, { status: 500 });
+  }
+
+  let body: { email?: unknown; password?: unknown };
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ ok: false, error: 'invalid_request' }, { status: 400 });
+  }
+
+  if (!validateAdminCredentials(body.email, body.password)) {
+    return NextResponse.json({ ok: false, error: 'invalid_credentials' }, { status: 401 });
+  }
+
+  const token = createAdminSessionToken(body.email);
+  const response = NextResponse.json({ ok: true });
+  response.cookies.set(ADMIN_COOKIE, token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    path: '/',
+    maxAge: ADMIN_SESSION_TTL_SECONDS
+  });
+  return response;
+}
+
+export async function DELETE() {
+  const response = NextResponse.json({ ok: true });
+  response.cookies.set(ADMIN_COOKIE, '', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    path: '/',
+    maxAge: 0
+  });
+  return response;
+}
