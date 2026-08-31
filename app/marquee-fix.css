@@ -1,0 +1,96 @@
+/* Marquee fix — garante movimento contínuo e independente nas duas linhas. */
+
+/* Ferramentas */
+.thx-tool-window{
+  overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 6%,#000 94%,transparent 100%);
+  mask-image:linear-gradient(90deg,transparent 0,#000 6%,#000 94%,transparent 100%);
+}
+
+.thx-tool-track{
+  display:flex;
+  width:max-content;
+  min-width:max-content;
+  flex-wrap:nowrap;
+  gap:60px;
+  transform:none!important;
+  translate:0 0;
+  will-change:translate;
+  animation-name:thxToolsTravel!important;
+  animation-duration:36s!important;
+  animation-timing-function:linear!important;
+  animation-iteration-count:infinite!important;
+  animation-direction:reverse!important;
+  animation-play-state:running!important;
+  animation-delay:-9s!important;
+}
+
+.thx-tool-track.reverse{
+  animation-name:thxToolsTravel!important;
+  animation-duration:40s!important;
+  animation-direction:normal!important;
+  animation-delay:-20s!important;
+}
+
+.thx-tool-track:hover,
+.thx-tool-track.reverse:hover{
+  animation-play-state:running!important;
+}
+
+.thx-tool-logo{
+  flex:0 0 145px;
+}
+
+/* Tiras */
+.thx-text-marquee{
+  overflow:hidden;
+}
+
+.thx-text-marquee>div{
+  display:flex;
+  width:max-content;
+  min-width:max-content;
+  flex-wrap:nowrap;
+  transform:none!important;
+  translate:0 0;
+  will-change:translate;
+  animation-name:thxStripTravel!important;
+  animation-duration:52s!important;
+  animation-timing-function:linear!important;
+  animation-iteration-count:infinite!important;
+  animation-direction:normal!important;
+  animation-play-state:running!important;
+  animation-delay:-13s!important;
+}
+
+.thx-text-marquee.reverse>div{
+  animation-name:thxStripTravel!important;
+  animation-duration:58s!important;
+  animation-direction:reverse!important;
+  animation-delay:-29s!important;
+}
+
+@keyframes thxToolsTravel{
+  from{translate:0 0}
+  to{translate:calc(-50% - 30px) 0}
+}
+
+@keyframes thxStripTravel{
+  from{translate:0 0}
+  to{translate:-50% 0}
+}
+
+@media(max-width:900px){
+  .thx-tool-track{animation-duration:28s!important}
+  .thx-tool-track.reverse{animation-duration:32s!important}
+  .thx-text-marquee>div{animation-duration:38s!important}
+  .thx-text-marquee.reverse>div{animation-duration:44s!important}
+}
+
+@media(max-width:520px){
+  .thx-tool-logo{flex-basis:120px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .thx-tool-track,.thx-text-marquee>div{animation:none!important;translate:0 0!important}
+}
