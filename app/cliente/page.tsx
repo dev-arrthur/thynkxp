@@ -12,7 +12,7 @@ const modules: { icon: IconName; title: string; value: string; detail: string }[
   { icon: 'file', title: 'Documentos', value: '8', detail: 'arquivos disponíveis' },
 ];
 
-const timeline = [
+const timeline: Array<[string, string, boolean]> = [
   ['Briefing e estratégia', 'Concluído', true],
   ['Arquitetura e conteúdo', 'Concluído', true],
   ['UI/UX Design', 'Concluído', true],
