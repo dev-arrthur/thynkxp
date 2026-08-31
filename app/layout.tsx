@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import './experience.css';
 import './motion-polish.css';
+import './marquee-fix.css';
 import './login-v3.css';
 import CookieConsent from '../components/CookieConsent';
 
