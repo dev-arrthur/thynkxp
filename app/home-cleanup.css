@@ -1,0 +1,273 @@
+/* =========================================================
+   THYNKXP — HOME CLEANUP + TESTIMONIALS
+   ========================================================= */
+
+/* Blocos removidos da experiência pública a pedido. */
+.thx-mini-proof,
+.thx-about-badge,
+.thx-code-window,
+.thx-proof,
+.thx-testimonial-seal{
+  display:none!important;
+}
+
+/* A metodologia não é mais renderizada. Mantemos apenas a base técnica. */
+.thx-capabilities{
+  margin-top:0!important;
+  padding:76px 0 88px!important;
+}
+.thx-capabilities-head{
+  display:none!important;
+}
+.thx-capabilities-grid{
+  margin-top:0!important;
+}
+
+/* Corrige a sequência visual dos índices após a remoção das seções. */
+.thx-process .thx-section-index>span,
+.thx-projects .thx-section-index>span,
+.thx-testimonials .thx-section-index>span,
+.thx-resources .thx-section-index>span{
+  font-size:0!important;
+}
+.thx-process .thx-section-index>span::after{content:'03';font-size:11px}
+.thx-projects .thx-section-index>span::after{content:'04';font-size:11px}
+.thx-testimonials .thx-section-index>span::after{content:'05';font-size:11px}
+.thx-resources .thx-section-index>span::after{content:'06';font-size:11px}
+
+/* Dá mais respiro ao hero depois da retirada das métricas. */
+.thx-hero-copy>p{
+  margin-bottom:0;
+}
+.thx-hero-buttons{
+  margin-top:34px!important;
+}
+
+/* =========================================================
+   DEPOIMENTOS — composição limpa, simétrica e centralizada
+   ========================================================= */
+.thx-testimonials{
+  padding-block:104px 132px!important;
+}
+.thx-testimonials>.thx-section-head{
+  margin-bottom:18px!important;
+}
+.thx-testimonials>.thx-section-head>p{
+  max-width:520px;
+}
+
+.thx-testimonial-stage{
+  position:relative!important;
+  min-height:0!important;
+  margin-top:54px!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(300px,390px) minmax(0,1fr)!important;
+  grid-template-rows:auto auto auto!important;
+  column-gap:28px!important;
+  row-gap:20px!important;
+  align-items:center!important;
+}
+
+/* Imagem principal realmente centrada na seção, sem card e sem selo. */
+.thx-testimonial-center{
+  position:relative!important;
+  left:auto!important;
+  right:auto!important;
+  top:auto!important;
+  bottom:auto!important;
+  transform:none!important;
+  grid-column:2!important;
+  grid-row:1 / span 2!important;
+  width:100%!important;
+  height:auto!important;
+  min-height:520px!important;
+  padding:10px 0!important;
+  display:grid!important;
+  place-items:center!important;
+  align-self:center!important;
+  justify-self:center!important;
+  overflow:visible!important;
+}
+.thx-testimonial-center::before{
+  content:'';
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:min(420px,90%);
+  aspect-ratio:1;
+  border-radius:50%;
+  transform:translate(-50%,-48%);
+  background:radial-gradient(circle,rgba(255,106,0,.14) 0%,rgba(255,106,0,.055) 42%,transparent 72%);
+  filter:blur(2px);
+  pointer-events:none;
+}
+.thx-testimonial-center img{
+  position:relative!important;
+  z-index:2!important;
+  display:block!important;
+  width:min(100%,370px)!important;
+  height:auto!important;
+  max-height:540px!important;
+  margin:auto!important;
+  object-fit:contain!important;
+  object-position:center center!important;
+  filter:drop-shadow(0 28px 38px rgba(38,24,11,.14))!important;
+}
+
+/* Remove posicionamentos flutuantes antigos e transforma os cards em uma grade organizada. */
+.thx-testimonial-card,
+.thx-testimonial-card.card-1,
+.thx-testimonial-card.card-2,
+.thx-testimonial-card.card-3,
+.thx-testimonial-card.card-4,
+.thx-testimonial-card.card-5{
+  position:relative!important;
+  left:auto!important;
+  right:auto!important;
+  top:auto!important;
+  bottom:auto!important;
+  transform:none!important;
+  width:100%!important;
+  min-height:212px!important;
+  padding:26px!important;
+  border-radius:24px!important;
+  border:1px solid #e8dfd5!important;
+  background:rgba(255,255,255,.82)!important;
+  box-shadow:none!important;
+  backdrop-filter:blur(8px)!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:space-between!important;
+  transition:transform .28s ease,border-color .28s ease,box-shadow .28s ease,background .28s ease!important;
+}
+.thx-testimonial-card::before{
+  content:'“';
+  display:block;
+  height:28px;
+  margin-bottom:12px;
+  color:#ff6a00;
+  font-size:42px;
+  line-height:1;
+  font-family:Georgia,serif;
+  opacity:.9;
+}
+.thx-testimonial-card:hover,
+.thx-testimonial-card.card-3:hover{
+  transform:translateY(-4px)!important;
+  border-color:#f3c7a7!important;
+  background:#fff!important;
+  box-shadow:0 20px 44px rgba(55,34,16,.07)!important;
+}
+.thx-testimonial-card p{
+  margin:0!important;
+  color:#5f5851!important;
+  font-size:14px!important;
+  line-height:1.68!important;
+}
+.thx-testimonial-card>div{
+  display:flex!important;
+  align-items:center!important;
+  gap:11px!important;
+  margin-top:22px!important;
+}
+.thx-testimonial-card img{
+  width:42px!important;
+  height:42px!important;
+  flex:0 0 42px!important;
+  border-radius:50%!important;
+  object-fit:cover!important;
+  border:2px solid #fff!important;
+  box-shadow:0 0 0 1px #e9ded3!important;
+}
+.thx-testimonial-card span{
+  display:grid!important;
+  gap:2px!important;
+}
+.thx-testimonial-card strong{
+  color:#211c18!important;
+  font-size:12px!important;
+  font-weight:820!important;
+}
+.thx-testimonial-card small{
+  color:#91877e!important;
+  font-size:10px!important;
+}
+
+.thx-testimonial-card.card-1{grid-column:1!important;grid-row:1!important}
+.thx-testimonial-card.card-2{grid-column:3!important;grid-row:1!important}
+.thx-testimonial-card.card-3{grid-column:1!important;grid-row:2!important}
+.thx-testimonial-card.card-4{grid-column:3!important;grid-row:2!important}
+.thx-testimonial-card.card-5{
+  grid-column:1 / 4!important;
+  grid-row:3!important;
+  width:min(660px,100%)!important;
+  min-height:0!important;
+  justify-self:center!important;
+  text-align:center!important;
+  padding-inline:34px!important;
+}
+.thx-testimonial-card.card-5::before{margin-inline:auto}
+.thx-testimonial-card.card-5>div{justify-content:center!important}
+
+@media(max-width:1050px){
+  .thx-testimonial-stage{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    grid-template-rows:auto auto auto auto!important;
+    max-width:900px;
+    margin-inline:auto;
+  }
+  .thx-testimonial-center{
+    grid-column:1 / 3!important;
+    grid-row:1!important;
+    min-height:420px!important;
+    padding-bottom:8px!important;
+  }
+  .thx-testimonial-center img{
+    width:min(100%,340px)!important;
+    max-height:420px!important;
+  }
+  .thx-testimonial-card.card-1{grid-column:1!important;grid-row:2!important}
+  .thx-testimonial-card.card-2{grid-column:2!important;grid-row:2!important}
+  .thx-testimonial-card.card-3{grid-column:1!important;grid-row:3!important}
+  .thx-testimonial-card.card-4{grid-column:2!important;grid-row:3!important}
+  .thx-testimonial-card.card-5{grid-column:1 / 3!important;grid-row:4!important}
+}
+
+@media(max-width:680px){
+  .thx-testimonials{
+    padding-block:76px 96px!important;
+  }
+  .thx-testimonial-stage{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    grid-template-rows:auto!important;
+    gap:14px!important;
+    margin-top:36px!important;
+  }
+  .thx-testimonial-center,
+  .thx-testimonial-card.card-1,
+  .thx-testimonial-card.card-2,
+  .thx-testimonial-card.card-3,
+  .thx-testimonial-card.card-4,
+  .thx-testimonial-card.card-5{
+    grid-column:1!important;
+    grid-row:auto!important;
+  }
+  .thx-testimonial-center{
+    min-height:350px!important;
+    padding:0 0 12px!important;
+  }
+  .thx-testimonial-center img{
+    width:min(100%,300px)!important;
+    max-height:350px!important;
+  }
+  .thx-testimonial-card,
+  .thx-testimonial-card.card-5{
+    width:100%!important;
+    min-height:0!important;
+    padding:22px!important;
+    text-align:left!important;
+  }
+  .thx-testimonial-card.card-5::before{margin-inline:0}
+  .thx-testimonial-card.card-5>div{justify-content:flex-start!important}
+}
