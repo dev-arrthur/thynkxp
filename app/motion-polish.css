@@ -1,0 +1,99 @@
+/* Motion polish — home ThynkXP */
+
+/* Hero: a arte passa a fazer parte do layout, sem aparência de card. */
+.thx-visual-card{
+  width:min(720px,108%);
+  height:580px;
+  overflow:visible;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+  animation:thxHeroBreath 8s ease-in-out infinite;
+}
+.thx-visual-card::before{display:none}
+.thx-visual-card img{
+  width:118%;
+  max-height:590px;
+  object-fit:contain;
+  filter:drop-shadow(0 28px 34px rgba(62,35,13,.13));
+}
+.thx-floating-tag{display:none!important}
+
+/* Ferramentas: primeira linha ->, segunda linha <-, continuamente. */
+.thx-tool-window{
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 6%,#000 94%,transparent 100%);
+  mask-image:linear-gradient(90deg,transparent 0,#000 6%,#000 94%,transparent 100%);
+}
+.thx-tool-track{
+  gap:60px;
+  animation:thxToolsToRight 40s linear infinite!important;
+  will-change:transform;
+  backface-visibility:hidden;
+}
+.thx-tool-track.reverse{
+  animation:thxToolsToLeft 44s linear infinite!important;
+}
+.thx-tool-track:hover{animation-play-state:running}
+.thx-tool-logo img{transition:filter .3s ease,opacity .3s ease,transform .3s ease}
+
+/* Tiras: fluxo mais lento e constante em sentidos opostos. */
+.thx-text-marquee>div{
+  animation:thxStripToLeft 58s linear infinite!important;
+  will-change:transform;
+  backface-visibility:hidden;
+}
+.thx-text-marquee.reverse>div{
+  animation:thxStripToRight 64s linear infinite!important;
+}
+
+/* Revelações de scroll mais perceptíveis, ainda suaves. */
+[data-reveal]{
+  opacity:0;
+  transform:translate3d(0,34px,0) scale(.988);
+  transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1);
+}
+[data-reveal].is-visible{
+  opacity:1;
+  transform:translate3d(0,0,0) scale(1);
+}
+
+@keyframes thxToolsToRight{
+  from{transform:translate3d(calc(-50% - 30px),0,0)}
+  to{transform:translate3d(0,0,0)}
+}
+@keyframes thxToolsToLeft{
+  from{transform:translate3d(0,0,0)}
+  to{transform:translate3d(calc(-50% - 30px),0,0)}
+}
+@keyframes thxStripToLeft{
+  from{transform:translate3d(0,0,0)}
+  to{transform:translate3d(-50%,0,0)}
+}
+@keyframes thxStripToRight{
+  from{transform:translate3d(-50%,0,0)}
+  to{transform:translate3d(0,0,0)}
+}
+@keyframes thxHeroBreath{
+  0%,100%{transform:translate3d(0,0,0) scale(1)}
+  50%{transform:translate3d(0,-10px,0) scale(1.012)}
+}
+
+@media(max-width:900px){
+  .thx-visual-card{width:108%;height:420px}
+  .thx-visual-card img{width:116%;max-height:430px}
+  .thx-tool-track{animation-duration:30s!important}
+  .thx-tool-track.reverse{animation-duration:34s!important}
+  .thx-text-marquee>div{animation-duration:42s!important}
+  .thx-text-marquee.reverse>div{animation-duration:48s!important}
+}
+
+@media(max-width:520px){
+  .thx-visual-card{height:340px}
+  .thx-visual-card img{max-height:360px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .thx-visual-card,.thx-tool-track,.thx-text-marquee>div{animation:none!important}
+  [data-reveal]{opacity:1!important;transform:none!important;transition:none!important}
+}
