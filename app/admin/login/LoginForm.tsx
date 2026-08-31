@@ -10,23 +10,50 @@ export default function LoginForm() {
     event.preventDefault();
     setError('');
     setLoading(true);
+
     const form = new FormData(event.currentTarget);
-    const response = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: form.get('email'), password: form.get('password') })
-    });
-    if (response.ok) window.location.href = '/admin';
-    else setError('E-mail ou senha inválidos.');
-    setLoading(false);
+
+    try {
+      const response = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: form.get('email'),
+          password: form.get('password')
+        })
+      });
+
+      if (response.ok) {
+        window.location.href = '/admin';
+        return;
+      }
+
+      if (response.status === 500) {
+        setError('O acesso administrativo ainda não está configurado no servidor.');
+      } else {
+        setError('E-mail ou senha inválidos.');
+      }
+    } catch {
+      setError('Não foi possível conectar ao servidor. Tente novamente.');
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
     <form onSubmit={onSubmit}>
-      <label>E-mail<input name="email" type="email" autoComplete="username" required /></label>
-      <label>Senha<input name="password" type="password" autoComplete="current-password" required /></label>
+      <label>
+        E-mail
+        <input name="email" type="email" autoComplete="username" required />
+      </label>
+      <label>
+        Senha
+        <input name="password" type="password" autoComplete="current-password" required />
+      </label>
       {error && <p role="alert">{error}</p>}
-      <button type="submit" disabled={loading}>{loading ? 'Entrando...' : 'Entrar'}</button>
+      <button type="submit" disabled={loading}>
+        {loading ? 'Entrando...' : 'Entrar'}
+      </button>
     </form>
   );
 }
