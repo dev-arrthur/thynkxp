@@ -1,10 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Icon from './Icon';
 
 const COOKIE = 'thynkxp_consent';
 const MAX_AGE = 60 * 60 * 24 * 365;
-
 type Consent = 'analytics' | 'necessary';
 
 function readConsent(): Consent | null {
@@ -34,14 +34,14 @@ export default function CookieConsent() {
   }
 
   if (!open) {
-    return <button className="cookie-fab" onClick={() => { setAnalytics(readConsent() !== 'necessary'); setOpen(true); }} aria-label="Abrir preferências de cookies" title="Preferências de cookies">🍪</button>;
+    return <button className="cookie-fab" onClick={() => { setAnalytics(readConsent() !== 'necessary'); setOpen(true); }} aria-label="Abrir preferências de cookies" title="Preferências de cookies"><Icon name="shield" size={20} /></button>;
   }
 
   return (
     <div className="cookie-panel" role="dialog" aria-label="Preferências de cookies" aria-live="polite">
       <div>
-        <b>🍪 Sua privacidade importa.</b>
-        <p>Usamos cookies necessários e, somente com sua autorização, analytics para entender como o site é usado. Ao aceitar, registramos informações de navegação como página visitada, origem/UTM, cliques, tempo de uso, idioma, fuso horário, tamanho da tela, navegador e localização aproximada fornecida pela infraestrutura da Vercel. Não solicitamos localização GPS.</p>
+        <b><Icon name="shield" size={19} /> Sua privacidade importa.</b>
+        <p>Usamos cookies necessários e, somente com sua autorização, analytics para entender como o site é usado. Ao aceitar, registramos página visitada, origem e UTM, cliques, tempo de uso, idioma, fuso horário, tamanho da tela, navegador e localização aproximada fornecida pela infraestrutura da Vercel. Não solicitamos GPS.</p>
         <a href="/privacidade">Saiba mais sobre privacidade</a>
       </div>
       {prefs ? (
