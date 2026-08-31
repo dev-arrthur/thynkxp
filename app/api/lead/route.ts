@@ -1,5 +1,138 @@
-import { NextResponse } from 'next/server';
 import { MongoClient } from 'mongodb';
+import { NextResponse } from 'next/server';
+
 let client: MongoClient | null = null;
-async function db(){if(!process.env.MONGODB_URI) throw new Error('MONGODB_URI não configurada');client ??= new MongoClient(process.env.MONGODB_URI);await client.connect();return client.db(process.env.MONGODB_DB||'thynkxp');}
-export async function POST(req: Request){try{const b=await req.json();if(!b.email)return NextResponse.json({error:'email_required'},{status:400});const database=await db();const lead={name:b.name||'',email:b.email,phone:b.phone||'',company:b.company||'',source:b.source||'',utm:b.utm||{},createdAt:new Date(),status:'novo'};const r=await database.collection('leads').insertOne(lead);return NextResponse.json({ok:true,id:r.insertedId.toString()});}catch(e){console.error(e);return NextResponse.json({ok:false,error:'lead_unavailable'},{status:500});}}
+
+function clean(value: unknown, max = 300) {
+  return typeof value === 'string' ? value.trim().slice(0, max) : '';
+}
+
+function emailIsValid(value: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+function asRecord(value: unknown): Record<string, unknown> {
+  return value && typeof value === 'object' && !Array.isArray(value)
+    ? (value as Record<string, unknown>)
+    : {};
+}
+
+function escapeHtml(value: string) {
+  return value.replace(/[&<>'"]/g, (char) => {
+    const entities: Record<string, string> = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      "'": '&#39;',
+      '"': '&quot;'
+    };
+    return entities[char] || char;
+  });
+}
+
+async function getDb() {
+  const uri = process.env.MONGODB_URI;
+  if (!uri) throw new Error('MONGODB_URI não configurada');
+
+  client ??= new MongoClient(uri);
+  await client.connect();
+  return client.db(process.env.MONGODB_DB || 'thynkxp');
+}
+
+async function sendLeadNotification(lead: {
+  name: string;
+  email: string;
+  phone: string;
+  company: string;
+}) {
+  const apiKey = process.env.RESEND_API_KEY;
+  const destination = process.env.LEAD_NOTIFICATION_EMAIL;
+  if (!apiKey || !destination) return;
+
+  const html = [
+    '<h2>Novo lead — ThynkXP</h2>',
+    `<p><b>Nome:</b> ${escapeHtml(lead.name)}</p>`,
+    `<p><b>E-mail:</b> ${escapeHtml(lead.email)}</p>`,
+    `<p><b>Telefone:</b> ${escapeHtml(lead.phone)}</p>`,
+    `<p><b>Empresa:</b> ${escapeHtml(lead.company)}</p>`
+  ].join('');
+
+  try {
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        from: process.env.RESEND_FROM_EMAIL || 'ThynkXP <onboarding@resend.dev>',
+        to: [destination],
+        subject: `Novo lead: ${lead.name}`,
+        html
+      })
+    });
+
+    if (!response.ok) {
+      console.warn('Falha ao enviar notificação de lead:', response.status);
+    }
+  } catch (error) {
+    console.warn('Falha ao enviar notificação de lead:', error);
+  }
+}
+
+export async function POST(req: Request) {
+  try {
+    const body = asRecord(await req.json());
+    const name = clean(body.name, 120);
+    const email = clean(body.email, 180).toLowerCase();
+    const phone = clean(body.phone, 40);
+    const company = clean(body.company, 160);
+    const consent = body.consent === true;
+    const utm = asRecord(body.utm);
+
+    if (!name || !email || !emailIsValid(email) || !consent) {
+      return NextResponse.json(
+        { ok: false, error: 'Nome, e-mail válido e consentimento são obrigatórios.' },
+        { status: 400 }
+      );
+    }
+
+    const database = await getDb();
+    const now = new Date();
+
+    await database.collection('leads').updateOne(
+      { email },
+      {
+        $set: {
+          name,
+          email,
+          phone,
+          company,
+          source: clean(body.source, 300),
+          landingPath: clean(body.landingPath, 500),
+          visitorId: clean(body.visitorId, 100),
+          utm,
+          marketingConsent: true,
+          updatedAt: now
+        },
+        $setOnInsert: {
+          status: 'novo',
+          createdAt: now,
+          firstSeenAt: now
+        },
+        $inc: { submissions: 1 }
+      },
+      { upsert: true }
+    );
+
+    await sendLeadNotification({ name, email, phone, company });
+
+    return NextResponse.json({ ok: true }, { status: 201 });
+  } catch (error) {
+    console.error('Erro ao salvar lead:', error);
+    return NextResponse.json(
+      { ok: false, error: 'lead_unavailable' },
+      { status: 500 }
+    );
+  }
+}
