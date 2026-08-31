@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import './home.css';
+import './experience.css';
 import CookieConsent from '../components/CookieConsent';
 
 export const metadata: Metadata = {
-  title: 'ThynkXP | Sites, Sistemas, Automação e Experiências Digitais',
-  description: 'Estratégia, design, sites, sistemas, automações e soluções digitais sob medida para negócios que querem crescer.',
+  title: 'ThynkXP | Estratégia, Design, Sites, Sistemas e Automação',
+  description: 'Estratégia, design, sites, sistemas, automações e experiências digitais sob medida para negócios que querem crescer com clareza e performance.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
