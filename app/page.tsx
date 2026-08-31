@@ -1,1 +1,11 @@
-export default function Home(){return <main className="home"><nav><b>thynk<span>XP</span></b><div><a href="#projetos">Projetos</a><a href="#solucoes">Soluções</a><a href="/cliente">Área do cliente</a></div></nav><section className="home-hero"><small>TECNOLOGIA • PRODUTO • AUTOMAÇÃO</small><h1>Construímos experiências digitais que pensam além.</h1><p>Da ideia à operação: produtos, sistemas e automações para negócios que querem evoluir.</p><div><a className="primary" href="#projetos">Explorar projetos →</a><a href="/admin">Admin</a></div></section><section id="projetos" className="projects"><small>01 / PROJETOS</small><h2>O que estamos construindo.</h2><div className="project-card"><div><small>CASE • HABI</small><h3>Habi</h3><p>Experiência digital construída para aproximar produto, tecnologia e negócio.</p></div><span>↗</span></div></section><section id="solucoes" className="solutions"><small>02 / SOLUÇÕES</small><h2>Não entregamos apenas código.</h2><p>Desenhamos produtos, experiências, automações e sistemas que resolvem problemas reais.</p></section></main>}
+import HomeExperience from '../components/HomeExperience';
+import AnalyticsTracker from '../components/AnalyticsTracker';
+
+export default function Home() {
+  return (
+    <>
+      <HomeExperience />
+      <AnalyticsTracker />
+    </>
+  );
+}
