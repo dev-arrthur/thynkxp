@@ -6,6 +6,7 @@ import './marquee-fix.css';
 import './method-v4.css';
 import './login-v3.css';
 import './home-cleanup.css';
+import './home-polish-v5.css';
 import CookieConsent from '../components/CookieConsent';
 
 export const metadata: Metadata = {
