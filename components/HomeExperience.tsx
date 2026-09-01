@@ -169,33 +169,15 @@ export default function HomeExperience() {
       </section>
 
       <section className="thx-about thx-shell" id="sobre-nos">
-        <div className="thx-about-copy" data-reveal>
-          <SectionLabel index="01">Sobre a ThynkXP</SectionLabel>
-          <h2>Clareza para pensar.<br/><em>Estrutura para crescer.</em></h2>
-          <p>Somos uma agência de desenvolvimento e experiência digital que conecta estratégia, design e tecnologia. Entramos no problema antes de entrar na ferramenta.</p>
-          <p>Nosso trabalho começa entendendo o negócio e termina com uma solução que possa ser utilizada, medida, melhorada e expandida.</p>
-          <div className="thx-about-points"><span><Icon name="check-circle" /> Estratégia antes da interface</span><span><Icon name="check-circle" /> Design conectado ao objetivo</span><span><Icon name="check-circle" /> Tecnologia preparada para evolução</span></div>
-          <Button href={specialistHref}>Falar com um especialista <Icon name="arrow-right" size={17} /></Button>
-        </div>
-        <div className="thx-about-visual" data-reveal>
-          <div className="thx-about-badge"><Icon name="sparkles" size={20} /><strong>THYNK</strong><span>EXPERIENCE</span></div>
-          <img src={`${RAW}/img/imagem2.png`} alt="Equipe criativa e tecnologia" />
-        </div>
+        <div className="thx-about-copy" data-reveal><SectionLabel index="01">Sobre nós</SectionLabel><h2>Produto digital com<br/><em>pensamento de negócio.</em></h2><p>A ThynkXP combina estratégia, design e engenharia para criar soluções que façam sentido para a operação e para quem usa.</p><div className="thx-about-points"><span><Icon name="check-circle" size={17} /> Estratégia antes da interface</span><span><Icon name="check-circle" size={17} /> Experiência antes da tecnologia</span><span><Icon name="check-circle" size={17} /> Resultado antes da vaidade</span></div><Button href={specialistHref} dark>Conheça nosso processo <Icon name="arrow-right" size={17} /></Button></div>
+        <div className="thx-about-visual" data-reveal><img src={`${RAW}/img/imagem2.png`} alt="Equipe e processo criativo ThynkXP" /><div className="thx-about-badge"><Icon name="sparkles" size={20} /><strong>THYNK</strong><span>EXPERIENCE</span></div></div>
       </section>
 
-      <section className="thx-marquees" aria-label="Diferenciais">
-        <div className="thx-text-marquee"><div>{['Estratégia que vende','Design com propósito','Sistemas sob medida','Performance real','Experiência memorável','Produtos digitais'].concat(['Estratégia que vende','Design com propósito','Sistemas sob medida','Performance real','Experiência memorável','Produtos digitais']).map((x,i)=><span key={i}>{x}<i /></span>)}</div></div>
-        <div className="thx-text-marquee reverse"><div>{['Sites de alta conversão','Automações inteligentes','Clareza visual','Crescimento digital','Integrações','Dados e analytics'].concat(['Sites de alta conversão','Automações inteligentes','Clareza visual','Crescimento digital','Integrações','Dados e analytics']).map((x,i)=><span key={i}>{x}<i /></span>)}</div></div>
-      </section>
+      <section className="thx-marquees" aria-label="Destaques"><div className="thx-text-marquee"><div>{[0,1].map(group=><span key={group}>Estratégia <i /> Design <i /> Desenvolvimento <i /> Automação <i /> Performance <i /></span>)}</div></div><div className="thx-text-marquee reverse"><div>{[0,1].map(group=><span key={group}>Sistemas <i /> Landing Pages <i /> E-commerce <i /> Branding <i /> Analytics <i /></span>)}</div></div></section>
 
       <section className="thx-services thx-shell" id="servicos">
-        <div className="thx-section-head" data-reveal>
-          <div><SectionLabel index="02">Serviços</SectionLabel><h2><em>Soluções digitais completas.</em><br/>Uma estrutura para cada fase do negócio.</h2></div>
-          <p>Da primeira página ao sistema que sustenta a operação: desenhamos a solução de acordo com o contexto, e não a partir de um pacote pronto.</p>
-        </div>
-        <div className="thx-services-grid">
-          {services.map((service,index)=><article className="thx-service-card" key={service.title} data-reveal><div className="thx-service-top"><span className="thx-service-number">0{index+1}</span><div className="thx-service-icon"><Icon name={service.icon} size={23} /></div></div><h3>{service.title}</h3><p>{service.text}</p><div className="thx-service-tags">{service.tags.map(tag=><span key={tag}>{tag}</span>)}</div><a className="thx-circle-link" href={whatsapp(`Olá! Tenho interesse em ${service.title} e gostaria de saber mais.`)} target="_blank" rel="noreferrer" aria-label={`Saiba mais sobre ${service.title}`}><Icon name="arrow-up-right" /></a></article>)}
-        </div>
+        <div className="thx-section-head" data-reveal><div><SectionLabel index="02">Serviços</SectionLabel><h2>Do posicionamento<br/><em>à operação digital.</em></h2></div><p>Construímos produtos e experiências digitais conectando estratégia, design, tecnologia e performance.</p></div>
+        <div className="thx-services-grid">{services.map((item,index)=><article className="thx-service-card" key={item.title} data-reveal><div className="thx-service-top"><span className="thx-service-number">0{index+1}</span><div className="thx-service-icon"><Icon name={item.icon} /></div></div><h3>{item.title}</h3><p>{item.text}</p><div className="thx-service-tags">{item.tags.map(tag=><span key={tag}>{tag}</span>)}</div><a className="thx-circle-link" href={budgetHref} target="_blank" rel="noreferrer" aria-label={`Solicitar orçamento para ${item.title}`}><Icon name="arrow-up-right" /></a></article>)}</div>
       </section>
 
       <section className="thx-capabilities">
@@ -219,8 +201,6 @@ export default function HomeExperience() {
           <a className="thx-project-card is-concept" href={budgetHref} target="_blank" rel="noreferrer"><div className="thx-project-grid-bg" /><div className="thx-project-content"><span>Sistemas</span><h3>Seu próximo produto</h3><p>Dashboard, plataforma, automação ou experiência sob medida para a sua operação.</p><div><Icon name="arrow-up-right" /></div></div></a>
         </div>)}</div></div>
       </section>
-
-      <section className="thx-trusted"><span>Construído com ferramentas e plataformas que fazem parte de operações modernas.</span><div className="thx-trusted-window"><div className="thx-trusted-track">{[0,1,2,3,4,5,6,7].map(i=><div key={i}><Icon name={['globe','server','code','bar-chart'][i%4] as IconName} /><strong>{['Web','Cloud','Product','Analytics'][i%4]}</strong></div>)}</div></div></section>
 
       <section className="thx-proof thx-shell">
         <div className="thx-proof-heading" data-reveal><SectionLabel index="06">Experiência</SectionLabel><h2>O projeto termina quando<br/><em>começa a gerar valor.</em></h2><p>A entrega precisa ser utilizável, mensurável e preparada para continuar evoluindo.</p></div>
