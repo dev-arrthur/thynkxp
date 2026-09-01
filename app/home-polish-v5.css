@@ -1,0 +1,331 @@
+/* =========================================================
+   THYNKXP — HOME POLISH V5
+   Ferramentas, depoimentos e cookies
+   ========================================================= */
+
+/* Ferramentas / plataformas: remove o aspecto de card e deixa somente
+   ícone + texto em movimento contínuo, no mesmo espírito do marquee de marcas. */
+.thx-trusted{
+  padding:48px 0 76px!important;
+  overflow:hidden!important;
+}
+.thx-trusted>span{
+  display:block!important;
+  width:min(100% - 32px,900px)!important;
+  margin:0 auto 22px!important;
+  color:#857d74!important;
+  font-size:12px!important;
+  line-height:1.55!important;
+  text-align:center!important;
+}
+.thx-trusted-window{
+  width:100%!important;
+  margin-top:0!important;
+  overflow:hidden!important;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)!important;
+  mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)!important;
+}
+.thx-trusted-track{
+  display:flex!important;
+  align-items:center!important;
+  gap:54px!important;
+  width:max-content!important;
+  padding:12px 0!important;
+  animation:thxMarquee 24s linear infinite!important;
+}
+.thx-trusted-track:hover{animation-play-state:paused!important}
+.thx-trusted-track div{
+  width:auto!important;
+  height:auto!important;
+  min-width:max-content!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:10px!important;
+  color:#6f685f!important;
+  opacity:.78!important;
+  transition:opacity .22s ease,transform .22s ease,color .22s ease!important;
+}
+.thx-trusted-track div:hover{
+  opacity:1!important;
+  color:#ff6a00!important;
+  transform:translateY(-2px)!important;
+}
+.thx-trusted-track svg{
+  width:21px!important;
+  height:21px!important;
+  flex:0 0 21px!important;
+}
+.thx-trusted-track strong{
+  font-size:15px!important;
+  font-weight:760!important;
+  letter-spacing:-.01em!important;
+  white-space:nowrap!important;
+}
+
+/* =========================================================
+   DEPOIMENTOS — composição solicitada
+
+                      Depoimento 1
+
+        Depoimento 2       Imagem       Depoimento 4
+        Depoimento 3                    Depoimento 5
+   ========================================================= */
+@media(min-width:1051px){
+  .thx-testimonial-stage{
+    min-height:0!important;
+    margin-top:52px!important;
+    display:grid!important;
+    grid-template-columns:minmax(260px,1fr) minmax(320px,410px) minmax(260px,1fr)!important;
+    grid-template-rows:auto auto auto!important;
+    column-gap:30px!important;
+    row-gap:20px!important;
+    align-items:center!important;
+  }
+
+  .thx-testimonial-center{
+    position:relative!important;
+    inset:auto!important;
+    transform:none!important;
+    grid-column:2!important;
+    grid-row:2 / 4!important;
+    width:100%!important;
+    height:auto!important;
+    min-height:520px!important;
+    display:grid!important;
+    place-items:center!important;
+    justify-self:center!important;
+    align-self:center!important;
+    padding:0!important;
+  }
+  .thx-testimonial-center img{
+    width:min(100%,380px)!important;
+    height:auto!important;
+    max-height:540px!important;
+    object-fit:contain!important;
+    object-position:center!important;
+  }
+
+  .thx-testimonial-card,
+  .thx-testimonial-card.card-1,
+  .thx-testimonial-card.card-2,
+  .thx-testimonial-card.card-3,
+  .thx-testimonial-card.card-4,
+  .thx-testimonial-card.card-5{
+    position:relative!important;
+    inset:auto!important;
+    transform:none!important;
+    width:100%!important;
+    min-height:205px!important;
+    justify-self:stretch!important;
+    text-align:left!important;
+  }
+
+  .thx-testimonial-card.card-1{
+    grid-column:2!important;
+    grid-row:1!important;
+    width:min(390px,100%)!important;
+    justify-self:center!important;
+    min-height:185px!important;
+  }
+  .thx-testimonial-card.card-2{grid-column:1!important;grid-row:2!important}
+  .thx-testimonial-card.card-3{grid-column:1!important;grid-row:3!important}
+  .thx-testimonial-card.card-4{grid-column:3!important;grid-row:2!important}
+  .thx-testimonial-card.card-5{grid-column:3!important;grid-row:3!important}
+
+  .thx-testimonial-card.card-1:hover,
+  .thx-testimonial-card.card-2:hover,
+  .thx-testimonial-card.card-3:hover,
+  .thx-testimonial-card.card-4:hover,
+  .thx-testimonial-card.card-5:hover{
+    transform:translateY(-4px)!important;
+  }
+
+  .thx-testimonial-card.card-5::before{margin-inline:0!important}
+  .thx-testimonial-card.card-5>div{justify-content:flex-start!important}
+}
+
+@media(max-width:1050px) and (min-width:681px){
+  .thx-testimonial-stage{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:16px!important;
+    max-width:900px!important;
+    margin-inline:auto!important;
+  }
+  .thx-testimonial-center{
+    grid-column:1 / 3!important;
+    grid-row:2!important;
+  }
+  .thx-testimonial-card.card-1{
+    grid-column:1 / 3!important;
+    grid-row:1!important;
+    width:min(470px,100%)!important;
+    justify-self:center!important;
+  }
+  .thx-testimonial-card.card-2{grid-column:1!important;grid-row:3!important}
+  .thx-testimonial-card.card-4{grid-column:2!important;grid-row:3!important}
+  .thx-testimonial-card.card-3{grid-column:1!important;grid-row:4!important}
+  .thx-testimonial-card.card-5{grid-column:2!important;grid-row:4!important;width:100%!important;text-align:left!important}
+  .thx-testimonial-card.card-5::before{margin-inline:0!important}
+  .thx-testimonial-card.card-5>div{justify-content:flex-start!important}
+}
+
+/* =========================================================
+   COOKIES — botão discreto no canto inferior esquerdo.
+   O painel só aparece quando o usuário abre o botão.
+   ========================================================= */
+.cookie-fab{
+  position:fixed!important;
+  z-index:1250!important;
+  left:18px!important;
+  right:auto!important;
+  bottom:18px!important;
+  width:48px!important;
+  height:48px!important;
+  border-radius:50%!important;
+  border:1px solid #e3d8cd!important;
+  background:rgba(255,255,255,.96)!important;
+  color:#211c18!important;
+  display:grid!important;
+  place-items:center!important;
+  cursor:pointer!important;
+  box-shadow:0 14px 34px rgba(37,22,10,.14)!important;
+  backdrop-filter:blur(14px)!important;
+  transition:transform .22s ease,border-color .22s ease,color .22s ease,box-shadow .22s ease!important;
+}
+.cookie-fab:hover{
+  transform:translateY(-3px)!important;
+  color:#ff6a00!important;
+  border-color:#ffc79e!important;
+  box-shadow:0 18px 40px rgba(255,106,0,.17)!important;
+}
+.cookie-fab.has-pending-consent::after{
+  content:'';
+  position:absolute;
+  right:2px;
+  top:2px;
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:#ff6a00;
+  box-shadow:0 0 0 4px rgba(255,106,0,.13);
+}
+
+.cookie-panel{
+  position:fixed!important;
+  z-index:1300!important;
+  left:18px!important;
+  right:auto!important;
+  bottom:78px!important;
+  transform:none!important;
+  width:min(560px,calc(100% - 36px))!important;
+  display:grid!important;
+  grid-template-columns:1fr!important;
+  gap:16px!important;
+  padding:22px!important;
+  border-radius:24px!important;
+  background:rgba(255,255,255,.98)!important;
+  border:1px solid #e7ddd2!important;
+  box-shadow:0 28px 80px rgba(37,22,10,.18)!important;
+  backdrop-filter:blur(18px)!important;
+}
+.cookie-panel-head{
+  display:flex!important;
+  align-items:flex-start!important;
+  justify-content:space-between!important;
+  gap:16px!important;
+}
+.cookie-panel-head>div{min-width:0!important}
+.cookie-panel-close{
+  width:36px!important;
+  height:36px!important;
+  flex:0 0 36px!important;
+  border:1px solid #e7ddd2!important;
+  border-radius:50%!important;
+  background:#fff!important;
+  color:#302820!important;
+  display:grid!important;
+  place-items:center!important;
+  cursor:pointer!important;
+}
+.cookie-panel b{
+  display:flex!important;
+  align-items:center!important;
+  gap:8px!important;
+  font-size:15px!important;
+}
+.cookie-panel p{
+  margin:8px 0 6px!important;
+  color:#6e665e!important;
+  font-size:12px!important;
+  line-height:1.6!important;
+}
+.cookie-panel a{
+  color:#ff6a00!important;
+  font-size:12px!important;
+  font-weight:800!important;
+}
+.cookie-actions{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-end!important;
+  gap:8px!important;
+  flex-wrap:wrap!important;
+}
+.cookie-actions button,.cookie-prefs button{
+  min-height:40px!important;
+  padding:0 14px!important;
+  border-radius:999px!important;
+  border:1px solid #e3d8cd!important;
+  background:#fff!important;
+  color:#332b25!important;
+  font:inherit!important;
+  font-size:11px!important;
+  font-weight:820!important;
+  cursor:pointer!important;
+}
+.cookie-actions button:last-child,.cookie-prefs button{
+  color:#fff!important;
+  border-color:transparent!important;
+  background:linear-gradient(135deg,#ff8a18,#ff5d00)!important;
+}
+.cookie-prefs{
+  min-width:0!important;
+  display:grid!important;
+  gap:10px!important;
+  padding:14px!important;
+  border-radius:16px!important;
+  background:#faf6f1!important;
+  border:1px solid #e7ddd2!important;
+}
+.cookie-prefs label{
+  display:flex!important;
+  align-items:center!important;
+  gap:9px!important;
+  font-size:12px!important;
+  font-weight:720!important;
+}
+.cookie-prefs-actions{display:flex!important;justify-content:flex-end!important;margin-top:3px!important}
+
+@media(max-width:680px){
+  .thx-trusted{padding:34px 0 52px!important}
+  .thx-trusted-track{gap:34px!important}
+  .thx-trusted-track strong{font-size:13px!important}
+  .thx-trusted-track svg{width:18px!important;height:18px!important}
+
+  .cookie-fab{left:14px!important;bottom:14px!important;width:46px!important;height:46px!important}
+  .cookie-panel{left:12px!important;bottom:70px!important;width:calc(100% - 24px)!important;padding:18px!important;border-radius:20px!important}
+  .cookie-actions{display:grid!important;grid-template-columns:1fr 1fr!important}
+  .cookie-actions button{width:100%!important}
+  .cookie-actions button:last-child{grid-column:1 / 3!important}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .thx-trusted-track{animation:none!important}
+}
