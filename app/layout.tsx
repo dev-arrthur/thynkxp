@@ -9,6 +9,7 @@ import './home-cleanup.css';
 import './home-polish-v5.css';
 import './home-polish-v7.css';
 import './home-polish-v8.css';
+import './home-lead-v8.css';
 import CookieConsent from '../components/CookieConsent';
 
 export const metadata: Metadata = {
