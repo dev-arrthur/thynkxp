@@ -12,22 +12,14 @@ const navItems = [
 ];
 
 const trustedItems = [
-  ['fa-brands fa-react', 'React'],
-  ['fa-brands fa-js', 'JavaScript'],
-  ['fa-solid fa-code', 'Next.js'],
-  ['fa-brands fa-node-js', 'Node.js'],
-  ['fa-solid fa-database', 'MongoDB'],
+  ['fa-solid fa-globe', 'Web'],
   ['fa-solid fa-cloud', 'Cloud'],
+  ['fa-solid fa-code', 'Product'],
   ['fa-solid fa-chart-line', 'Analytics'],
-  ['fa-solid fa-bolt', 'Performance'],
   ['fa-solid fa-gears', 'Automação'],
-  ['fa-solid fa-plug', 'APIs'],
+  ['fa-solid fa-plug', 'Integrações'],
+  ['fa-solid fa-bolt', 'Performance'],
   ['fa-solid fa-shield-halved', 'Segurança'],
-  ['fa-solid fa-cart-shopping', 'E-commerce'],
-  ['fa-solid fa-envelope-open-text', 'CRM'],
-  ['fa-solid fa-layer-group', 'SaaS'],
-  ['fa-solid fa-wand-magic-sparkles', 'UX/UI'],
-  ['fa-solid fa-chart-simple', 'CRO'],
 ];
 
 function buildTrustedTrack() {
@@ -81,21 +73,9 @@ export default function HomeChromeEnhancer() {
     const trusted = document.querySelector<HTMLElement>('.thx-trusted');
     if (trusted) {
       trusted.innerHTML = `
-        <div class="thx-trusted-copy thx-shell">
-          <div>
-            <span class="thx-trusted-eyebrow"><i class="fa-solid fa-microchip" aria-hidden="true"></i> Ecossistema digital</span>
-            <h3>Tecnologia que acompanha<br><em>a operação inteira.</em></h3>
-          </div>
-          <p>Da interface à automação, conectamos as ferramentas certas para construir experiências rápidas, mensuráveis e preparadas para crescer.</p>
-        </div>
+        <span class="thx-trusted-simple-title">Construído com ferramentas e plataformas que fazem parte de operações modernas.</span>
         <div class="thx-trusted-window" aria-label="Tecnologias e capacidades utilizadas pela ThynkXP">
           <div class="thx-trusted-track">${buildTrustedTrack()}</div>
-        </div>
-        <div class="thx-trusted-signals thx-shell">
-          <span><i class="fa-solid fa-circle-check"></i> Front-end + back-end</span>
-          <span><i class="fa-solid fa-circle-check"></i> Dados + analytics</span>
-          <span><i class="fa-solid fa-circle-check"></i> Integrações + automações</span>
-          <span><i class="fa-solid fa-circle-check"></i> Performance + conversão</span>
         </div>
       `;
     }
