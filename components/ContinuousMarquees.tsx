@@ -13,6 +13,7 @@ const TARGETS: MotionTarget[] = [
   { selector: '.thx-tool-track.reverse', speed: 31, direction: 'left' },
   { selector: '.thx-text-marquee:not(.reverse) > div', speed: 18, direction: 'left' },
   { selector: '.thx-text-marquee.reverse > div', speed: 16, direction: 'right' },
+  { selector: '.thx-trusted-track', speed: 42, direction: 'left' },
 ];
 
 export default function ContinuousMarquees() {
