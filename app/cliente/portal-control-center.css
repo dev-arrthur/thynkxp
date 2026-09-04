@@ -1,0 +1,263 @@
+/* thynkXP Client Portal — Control Center v3
+   Composition, hierarchy and premium product polish.
+*/
+
+:root{
+  --cc-ink:#17130f;
+  --cc-ink-2:#231b16;
+  --cc-orange:#ff6a00;
+  --cc-orange-2:#ff8c3d;
+  --cc-cream:#f3efe8;
+  --cc-paper:#fffdfa;
+  --cc-line:#e5dbd1;
+  --cc-shadow:0 24px 70px rgba(68,43,25,.08);
+  --cc-shadow-hover:0 32px 84px rgba(68,43,25,.13);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Global rhythm                                                               */
+/* -------------------------------------------------------------------------- */
+
+.client-portal-v2{
+  background:
+    radial-gradient(circle at 73% 3%,rgba(255,106,0,.055),transparent 26%),
+    linear-gradient(180deg,#f9f6f2 0%,#f6f1ec 42%,#f8f5f1 100%)!important;
+}
+
+.cp-main{margin-left:252px!important}
+.cp-sidebar{width:252px!important;padding:24px 16px 18px!important;background:rgba(255,253,250,.96)!important;backdrop-filter:blur(20px)}
+.cp-brand{padding:2px 10px 24px!important}.cp-brand img{width:112px!important}
+.cp-workspace{padding:12px!important;margin-bottom:24px!important;border-radius:17px!important}
+.cp-nav-group{margin-bottom:24px!important}.cp-nav-group>small{margin-bottom:10px!important}
+.cp-nav-group button,.cp-sidebar-bottom>button{height:44px!important;border-radius:13px!important}
+
+.cp-topbar{height:78px!important;padding:0 clamp(24px,3vw,46px)!important;background:rgba(255,253,250,.76)!important;backdrop-filter:blur(22px) saturate(140%)!important}
+.cp-content{max-width:1480px!important;padding:48px clamp(24px,3vw,46px) 86px!important}
+
+.cp-page-heading{margin-bottom:34px!important;align-items:center!important}
+.cp-page-heading>div:first-child{max-width:760px!important}
+.cp-page-heading small{margin-bottom:11px!important;color:#cf5705!important;font-size:9px!important;letter-spacing:.18em!important}
+.cp-page-heading h1{font-size:clamp(34px,3vw,46px)!important;line-height:1.02!important;letter-spacing:-.055em!important;font-weight:650!important}
+.cp-page-heading p{max-width:680px!important;margin-top:12px!important;font-size:13px!important;line-height:1.72!important}
+
+.cp-primary-button,.cp-secondary-button,.cp-danger-button{min-height:44px!important;padding:0 17px!important;border-radius:13px!important}
+.cp-icon-button,.cp-domain-switcher{height:42px!important;border-radius:13px!important}
+.cp-icon-button{width:42px!important}
+
+/* -------------------------------------------------------------------------- */
+/* Executive hero / selected domain                                            */
+/* -------------------------------------------------------------------------- */
+
+.cp-domain-summary{
+  position:relative!important;
+  overflow:hidden!important;
+  grid-template-columns:minmax(0,1.55fr) minmax(260px,.62fr) auto!important;
+  min-height:160px!important;
+  gap:32px!important;
+  padding:32px 34px!important;
+  margin-bottom:24px!important;
+  border:1px solid rgba(255,255,255,.07)!important;
+  border-radius:30px!important;
+  background:
+    radial-gradient(circle at 82% 18%,rgba(255,106,0,.23),transparent 26%),
+    linear-gradient(135deg,#17130f 0%,#211914 58%,#2a1d15 100%)!important;
+  color:#fff!important;
+  box-shadow:0 30px 80px rgba(45,28,17,.18)!important;
+}
+.cp-domain-summary:before{
+  content:"";
+  position:absolute;
+  width:260px;height:260px;
+  right:-90px;bottom:-150px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:50%;
+  box-shadow:0 0 0 52px rgba(255,255,255,.018),0 0 0 104px rgba(255,255,255,.012);
+  pointer-events:none;
+}
+.cp-domain-summary:after{
+  content:"CONTROL CENTER";
+  position:absolute;
+  right:32px;top:20px;
+  color:rgba(255,255,255,.12);
+  font-size:8px;
+  font-weight:850;
+  letter-spacing:.28em;
+}
+.cp-domain-identity{position:relative;z-index:2;gap:18px!important}
+.cp-domain-identity>span{width:58px!important;height:58px!important;border-radius:19px!important;background:linear-gradient(145deg,#ff6a00,#ff8c3d)!important;box-shadow:0 14px 34px rgba(255,106,0,.25)!important}
+.cp-domain-identity small{color:rgba(255,255,255,.5)!important}
+.cp-domain-identity h2{margin:6px 0 5px!important;color:#fff!important;font-size:clamp(22px,2vw,29px)!important;letter-spacing:-.045em!important}
+.cp-domain-identity p{color:rgba(255,255,255,.56)!important;font-size:10px!important}
+.cp-domain-health{position:relative;z-index:2;padding:2px 30px!important;border-color:rgba(255,255,255,.11)!important}
+.cp-domain-health>span{color:rgba(255,255,255,.5)!important}
+.cp-domain-health strong{margin:6px 0 12px!important;color:#fff!important;font-size:27px!important}
+.cp-domain-health strong small{color:rgba(255,255,255,.4)!important}
+.cp-domain-health>i{height:7px!important;background:rgba(255,255,255,.1)!important}
+.cp-domain-health>i b{background:linear-gradient(90deg,#ff6a00,#ffae73)!important;box-shadow:0 0 18px rgba(255,106,0,.45)!important}
+.cp-domain-state{position:relative;z-index:2;padding-right:2px!important}
+.cp-domain-state span{color:#87d7a3!important}
+.cp-domain-state small{color:rgba(255,255,255,.42)!important}
+
+/* -------------------------------------------------------------------------- */
+/* Compare & executive KPI system                                              */
+/* -------------------------------------------------------------------------- */
+
+.cp-compare-grid{gap:18px!important;margin-bottom:24px!important}
+.cp-compare-grid article{position:relative!important;overflow:hidden!important;padding:24px!important;border-radius:22px!important;box-shadow:0 14px 36px rgba(64,40,24,.045)!important}
+.cp-compare-grid article:before{content:"";position:absolute;left:0;top:0;width:4px;height:100%;background:linear-gradient(180deg,#ff6a00,#ffad73)}
+.cp-compare-metrics{gap:10px!important;margin-top:19px!important}.cp-compare-metrics p{padding:13px!important;border-radius:14px!important}
+
+.cp-metrics-grid{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:16px!important;margin-bottom:24px!important}
+.cp-metric-card{position:relative!important;overflow:hidden!important;min-height:154px!important;padding:22px 22px 20px!important;border-radius:23px!important;background:rgba(255,253,250,.92)!important;box-shadow:0 14px 38px rgba(64,40,24,.045)!important}
+.cp-metric-card:first-child{grid-column:span 2!important;background:linear-gradient(145deg,#fffdfa 0%,#fff6ef 100%)!important}
+.cp-metric-card:first-child:after{content:"";position:absolute;width:150px;height:150px;right:-60px;bottom:-82px;border-radius:50%;background:radial-gradient(circle,rgba(255,106,0,.16),transparent 67%)}
+.cp-metric-top>span{width:38px!important;height:38px!important;border-radius:13px!important;background:#fff0e5!important;color:#ff6a00!important}
+.cp-metric-card>strong{margin:22px 0 8px!important;font-size:32px!important}
+.cp-metric-card:first-child>strong{font-size:40px!important}
+.cp-metric-card>p{font-size:9px!important}
+
+/* -------------------------------------------------------------------------- */
+/* Mixed composition — not every card should look identical                   */
+/* -------------------------------------------------------------------------- */
+
+.cp-dashboard-grid{grid-template-columns:minmax(0,1.28fr) minmax(340px,.72fr)!important;gap:20px!important;margin-bottom:20px!important}
+.cp-bottom-grid{grid-template-columns:minmax(0,1.1fr) minmax(340px,.9fr)!important}
+.cp-health-card,.cp-activity-card,.cp-project-preview,.cp-opportunity-preview,.cp-chart-card,.cp-source-card,.cp-table-card,.cp-list-card{border-radius:28px!important;padding:28px!important}
+
+.cp-health-card{
+  position:relative!important;
+  overflow:hidden!important;
+  background:linear-gradient(145deg,#17130f 0%,#211914 100%)!important;
+  color:#fff!important;
+  border-color:#17130f!important;
+  box-shadow:0 25px 65px rgba(45,28,17,.14)!important;
+}
+.cp-health-card:after{content:"";position:absolute;width:260px;height:260px;right:-120px;top:-130px;border-radius:50%;background:radial-gradient(circle,rgba(255,106,0,.18),transparent 68%);pointer-events:none}
+.cp-health-card .cp-card-heading small{color:rgba(255,255,255,.4)!important}
+.cp-health-card .cp-card-heading h2{color:#fff!important}.cp-health-card .cp-card-heading p{color:rgba(255,255,255,.5)!important}
+.cp-health-card .cp-score{background:#ff6a00!important;box-shadow:0 12px 28px rgba(255,106,0,.24)!important}
+.cp-health-card .cp-health-list span{color:rgba(255,255,255,.64)!important}.cp-health-card .cp-health-list strong{color:#fff!important}
+.cp-health-card .cp-health-list i{background:rgba(255,255,255,.1)!important}.cp-health-card .cp-health-list b{background:linear-gradient(90deg,#ff6a00,#ffae73)!important}
+.cp-health-card .cp-text-button{color:#fff!important}
+
+.cp-activity-card{background:rgba(255,253,250,.88)!important;box-shadow:0 18px 48px rgba(64,40,24,.05)!important}
+.cp-activity-list>div{padding:14px 0!important}.cp-activity-icon{border-radius:12px!important;background:#f4ede6!important;color:#78695e!important}
+
+.cp-project-preview{background:linear-gradient(145deg,#fffdfa 0%,#f8f2ec 100%)!important}
+.cp-project-preview .cp-project-bar>i{height:9px!important}
+.cp-opportunity-preview{
+  position:relative!important;
+  overflow:hidden!important;
+  border-color:#ffd2b1!important;
+  background:linear-gradient(145deg,#ff6a00 0%,#f65f00 100%)!important;
+  color:#fff!important;
+  box-shadow:0 24px 60px rgba(255,106,0,.18)!important;
+}
+.cp-opportunity-preview:after{content:"";position:absolute;width:190px;height:190px;right:-65px;top:-76px;border:1px solid rgba(255,255,255,.13);border-radius:50%;box-shadow:0 0 0 38px rgba(255,255,255,.025),0 0 0 76px rgba(255,255,255,.018)}
+.cp-opportunity-preview>small,.cp-opportunity-preview>p{color:rgba(255,255,255,.68)!important}.cp-opportunity-preview h2{color:#fff!important}.cp-opportunity-preview .cp-opportunity-icon{background:rgba(255,255,255,.16)!important;color:#fff!important}.cp-opportunity-preview>div:last-child{border-color:rgba(255,255,255,.18)!important}.cp-opportunity-preview>div:last-child span{color:rgba(255,255,255,.68)!important}.cp-opportunity-preview>div:last-child strong{color:#fff!important}.cp-opportunity-preview button{color:#fff!important}
+
+/* -------------------------------------------------------------------------- */
+/* Analytics — richer command-center chart                                    */
+/* -------------------------------------------------------------------------- */
+
+.cp-analytics-grid{grid-template-columns:minmax(0,1.45fr) minmax(320px,.55fr)!important;gap:20px!important}
+.cp-chart-card{
+  position:relative!important;
+  overflow:hidden!important;
+  min-height:430px!important;
+  background:
+    radial-gradient(circle at 78% 12%,rgba(255,106,0,.16),transparent 24%),
+    linear-gradient(145deg,#17130f,#221913)!important;
+  color:#fff!important;
+  border-color:#17130f!important;
+  box-shadow:0 28px 74px rgba(45,28,17,.16)!important;
+}
+.cp-chart-card .cp-card-heading small{color:rgba(255,255,255,.4)!important}.cp-chart-card .cp-card-heading h2{color:#fff!important}.cp-chart-card .cp-pill{background:rgba(255,255,255,.1)!important;color:#ffb27d!important}
+.cp-fake-chart{position:relative!important;height:290px!important;margin:28px 0 13px!important;padding:24px 10px 0!important;border-bottom-color:rgba(255,255,255,.1)!important;background:linear-gradient(to top,rgba(255,255,255,.065) 1px,transparent 1px)!important;background-size:100% 58px!important}
+.cp-fake-chart:before{
+  content:"";
+  position:absolute;
+  inset:28px 8px 0;
+  z-index:0;
+  opacity:.44;
+  background-repeat:no-repeat;
+  background-position:center bottom;
+  background-size:100% 100%;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 700 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='a' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop stop-color='%23ff6a00' stop-opacity='.32'/%3E%3Cstop offset='1' stop-color='%23ff6a00' stop-opacity='0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M0 202 C45 190 56 168 102 174 C148 181 169 141 214 150 C266 161 283 113 329 124 C378 136 397 88 447 101 C497 114 515 67 564 80 C611 92 646 43 700 54 L700 240 L0 240 Z' fill='url(%23a)'/%3E%3Cpath d='M0 202 C45 190 56 168 102 174 C148 181 169 141 214 150 C266 161 283 113 329 124 C378 136 397 88 447 101 C497 114 515 67 564 80 C611 92 646 43 700 54' fill='none' stroke='%23ff8c3d' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
+  pointer-events:none;
+}
+.cp-fake-chart i{position:relative;z-index:1;opacity:.46!important}.cp-fake-chart b{background:linear-gradient(180deg,rgba(255,176,122,.68),rgba(255,106,0,.18))!important;border:1px solid rgba(255,255,255,.08)!important;border-radius:8px 8px 2px 2px!important}
+.cp-fake-chart i:hover{opacity:1!important}.cp-fake-chart i:hover b{background:linear-gradient(180deg,#ffb07a,#ff6a00)!important;box-shadow:0 0 24px rgba(255,106,0,.3)!important}
+.cp-chart-labels{color:rgba(255,255,255,.4)!important}
+
+.cp-source-card{background:rgba(255,253,250,.9)!important}.cp-source-row{margin-top:29px!important}.cp-source-row>i{height:8px!important}.cp-source-row>i b{background:linear-gradient(90deg,#ff6a00,#ff9a55)!important}
+
+/* -------------------------------------------------------------------------- */
+/* Sites, reports, opportunities and records                                  */
+/* -------------------------------------------------------------------------- */
+
+.cp-sites-grid,.cp-report-grid,.cp-contract-grid,.cp-support-grid{gap:20px!important}
+.cp-site-card,.cp-report-card,.cp-contract-grid article,.cp-support-grid article,.cp-settings-grid article,.cp-company-card,.cp-company-details,.cp-finance-hero>div{border-radius:26px!important;box-shadow:0 16px 44px rgba(64,40,24,.045)!important}
+.cp-site-card{padding:26px!important}.cp-site-icon{width:48px!important;height:48px!important;border-radius:15px!important;background:#fff0e5!important;color:#ff6a00!important}
+.cp-site-stats{gap:10px!important}.cp-site-stats>div{padding:15px!important;border-radius:15px!important;background:#f7f1eb!important}
+
+.cp-report-card{padding:28px!important}.cp-report-card:first-child{background:linear-gradient(145deg,#17130f,#221913)!important;color:#fff!important;border-color:#17130f!important}.cp-report-card:first-child>small,.cp-report-card:first-child p small{color:rgba(255,255,255,.43)!important}.cp-report-card:first-child p{background:rgba(255,255,255,.075)!important}.cp-report-card:first-child button{background:rgba(255,255,255,.08)!important;border-color:rgba(255,255,255,.14)!important;color:#fff!important}.cp-report-card:first-child .cp-report-icon{background:#ff6a00!important;color:#fff!important}
+
+.cp-opportunities-list{gap:18px!important}.cp-opportunities-list>article{border-radius:26px!important;box-shadow:0 16px 46px rgba(64,40,24,.045)!important}.cp-opportunity-number{min-height:180px!important;background:#f3ece5!important;color:#baa99d!important}.cp-opportunity-number.n1{background:linear-gradient(145deg,#ff6a00,#f45c00)!important;color:rgba(255,255,255,.42)!important}.cp-opportunity-body{padding:27px 30px!important}
+
+.cp-table-card{overflow:hidden!important}.cp-table-row{transition:background .18s ease,transform .18s ease!important}.cp-table-row:hover{background:#fff8f2!important;transform:translateX(2px)!important}
+.cp-table-head{padding-top:14px!important;padding-bottom:14px!important;background:#f7f1eb!important;border-radius:13px!important;border-bottom:0!important}
+
+.cp-folders{gap:14px!important}.cp-folders article{border-radius:18px!important;box-shadow:0 12px 34px rgba(64,40,24,.035)!important}
+.cp-request-row{padding:17px 6px!important}
+
+/* -------------------------------------------------------------------------- */
+/* Finance & company                                                          */
+/* -------------------------------------------------------------------------- */
+
+.cp-finance-hero{gap:20px!important}.cp-finance-hero>div:first-child{position:relative!important;overflow:hidden!important;background:linear-gradient(145deg,#17130f,#241a14)!important;color:#fff!important;border-color:#17130f!important}.cp-finance-hero>div:first-child:after{content:"";position:absolute;width:220px;height:220px;right:-95px;top:-100px;border-radius:50%;background:radial-gradient(circle,rgba(255,106,0,.2),transparent 66%)}.cp-finance-hero>div:first-child>small,.cp-finance-hero>div:first-child>p{color:rgba(255,255,255,.5)!important}.cp-finance-hero>div:first-child>div{border-color:rgba(255,255,255,.12)!important}.cp-finance-hero>div:first-child>div>span{color:#ffb27d!important}
+.cp-company-logo{background:linear-gradient(145deg,#17130f,#2a1d16)!important;box-shadow:0 12px 28px rgba(45,28,17,.14)!important}
+.cp-company-details>div{background:#f5eee7!important;border:1px solid #eee3d9!important}
+
+/* -------------------------------------------------------------------------- */
+/* Refined hover language                                                     */
+/* -------------------------------------------------------------------------- */
+
+.cp-metric-card,.cp-site-card,.cp-report-card,.cp-contract-grid article,.cp-support-grid article,.cp-settings-grid article,.cp-company-card,.cp-company-details,.cp-finance-hero>div,.cp-folders article,.cp-compare-grid article,.cp-opportunities-list>article{transition:transform .28s cubic-bezier(.2,.75,.25,1),box-shadow .28s ease,border-color .28s ease!important}
+.cp-metric-card:hover,.cp-site-card:hover,.cp-report-card:hover,.cp-contract-grid article:hover,.cp-support-grid article:hover,.cp-folders article:hover,.cp-compare-grid article:hover,.cp-opportunities-list>article:hover{transform:translateY(-5px)!important;box-shadow:var(--cc-shadow-hover)!important;border-color:#d8c8ba!important}
+.cp-health-card:hover,.cp-chart-card:hover,.cp-opportunity-preview:hover{transform:translateY(-3px)!important}
+
+.cp-primary-button:hover svg,.cp-secondary-button:hover svg,.cp-text-button:hover svg,.cp-site-actions button:hover svg{transform:translateX(2px)}
+.cp-primary-button svg,.cp-secondary-button svg,.cp-text-button svg,.cp-site-actions button svg{transition:transform .2s ease}
+
+/* -------------------------------------------------------------------------- */
+/* Responsiveness                                                             */
+/* -------------------------------------------------------------------------- */
+
+@media(max-width:1240px){
+  .cp-metrics-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .cp-metric-card:first-child{grid-column:span 1!important}
+  .cp-dashboard-grid,.cp-bottom-grid,.cp-analytics-grid{grid-template-columns:1fr 1fr!important}
+}
+
+@media(max-width:1020px){
+  .cp-main{margin-left:0!important}
+  .cp-sidebar{width:280px!important}
+  .cp-content{padding:36px 22px 70px!important}
+  .cp-domain-summary{grid-template-columns:1fr auto!important;gap:22px!important}.cp-domain-health{grid-column:1/3;grid-row:2;padding:20px 0 0!important;border:0!important;border-top:1px solid rgba(255,255,255,.1)!important}.cp-domain-state{grid-column:2;grid-row:1}
+  .cp-dashboard-grid,.cp-bottom-grid,.cp-analytics-grid{grid-template-columns:1fr!important}
+}
+
+@media(max-width:700px){
+  .cp-topbar{height:70px!important;padding:0 16px!important}.cp-content{padding:30px 16px 58px!important}.cp-page-heading{align-items:flex-start!important;margin-bottom:26px!important}.cp-page-heading h1{font-size:34px!important}
+  .cp-domain-summary{display:block!important;padding:26px 24px!important;border-radius:25px!important}.cp-domain-health{margin-top:24px!important;padding-top:20px!important}.cp-domain-state{margin-top:18px!important;text-align:left!important}.cp-domain-state span{justify-content:flex-start!important}
+  .cp-metrics-grid{grid-template-columns:1fr!important}.cp-metric-card{min-height:140px!important}.cp-metric-card:first-child>strong{font-size:34px!important}
+  .cp-health-card,.cp-activity-card,.cp-project-preview,.cp-opportunity-preview,.cp-chart-card,.cp-source-card,.cp-table-card,.cp-list-card{padding:22px!important;border-radius:23px!important}
+  .cp-fake-chart{height:230px!important}
+  .cp-compare-grid{grid-template-columns:1fr!important}.cp-compare-metrics{grid-template-columns:repeat(2,1fr)!important}
+  .cp-opportunities-list>article{grid-template-columns:58px 1fr!important}.cp-opportunity-number{min-height:auto!important}.cp-opportunity-body{padding:22px 20px!important}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .cp-metric-card,.cp-site-card,.cp-report-card,.cp-contract-grid article,.cp-support-grid article,.cp-settings-grid article,.cp-company-card,.cp-company-details,.cp-finance-hero>div,.cp-folders article,.cp-compare-grid article,.cp-opportunities-list>article{transition:none!important}
+}
