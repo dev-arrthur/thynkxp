@@ -1,0 +1,186 @@
+/* ThynkXP Client Portal — brand layer
+   Palette inherited from the public ThynkXP experience:
+   orange #ff6a00 · ink #17130f · cream #f3efe8 · muted #70675f · line #e2d9cf
+*/
+
+:root{
+  --cp-bg:#f7f3ee !important;
+  --cp-surface:#fffdfa !important;
+  --cp-surface-soft:#f3efe8 !important;
+  --cp-text:#17130f !important;
+  --cp-muted:#70675f !important;
+  --cp-line:#e8dfd5 !important;
+  --cp-line-strong:#d9cec3 !important;
+  --cp-accent:#ff6a00 !important;
+  --cp-accent-soft:#fff1e7 !important;
+  --cp-success:#27764a !important;
+  --cp-success-soft:#edf7f0 !important;
+  --cp-warning:#a95713 !important;
+  --cp-shadow:0 18px 48px rgba(56,35,20,.07) !important;
+}
+
+/* Login */
+.cp-loading{background:#f7f3ee !important}
+.cp-loading span{border-color:#eadfd4 !important;border-top-color:#ff6a00 !important}
+.cp-login-shell{background:#fffdfa !important}
+.cp-login-panel{
+  background:
+    radial-gradient(circle at 12% 90%,rgba(255,106,0,.15),transparent 31%),
+    linear-gradient(145deg,#f3efe8 0%,#f8f3ed 55%,#fff8f2 100%) !important;
+}
+.cp-login-panel:before{background:radial-gradient(circle,rgba(255,106,0,.19),rgba(255,106,0,0) 68%) !important}
+.cp-login-panel:after{border-color:rgba(255,106,0,.14) !important;box-shadow:0 0 0 68px rgba(255,106,0,.035),0 0 0 138px rgba(255,106,0,.022) !important}
+.cp-kicker{color:#625850 !important}
+.cp-kicker i{background:#ff6a00 !important;box-shadow:0 0 0 5px rgba(255,106,0,.11) !important}
+.cp-login-copy h1{color:#17130f !important}
+.cp-login-copy p{color:#70675f !important}
+.cp-login-preview>div{border-color:rgba(255,255,255,.78) !important;background:rgba(255,253,250,.68) !important;box-shadow:0 14px 32px rgba(78,47,24,.055) !important}
+.cp-login-preview>div>svg{color:#ff6a00 !important}
+.cp-login-form-wrap{background:#fffdfa !important}
+.cp-login-form-heading small{color:#ff6a00 !important}
+.cp-login-form label>span{color:#4e453e !important}
+.cp-login-form label>div{border-color:#ddd1c6 !important;background:#fffdfa !important}
+.cp-login-form label>div:focus-within{border-color:#ff9b57 !important;box-shadow:0 0 0 4px rgba(255,106,0,.09) !important}
+.cp-login-form label svg{color:#9b8f85 !important}
+.cp-login-foot{color:#91867d !important}
+
+/* Portal shell */
+.client-portal-v2{background:#f7f3ee !important;color:#17130f !important}
+.cp-sidebar{background:#fffdfa !important;border-right-color:#e8dfd5 !important}
+.cp-workspace{border-color:#e8dfd5 !important;background:#f8f4ef !important}
+.cp-workspace>span{background:#17130f !important;color:#fff !important}
+.cp-workspace>svg{color:#9d9187 !important}
+.cp-nav::-webkit-scrollbar-thumb{background:#e7ddd3 !important}
+.cp-nav-group>small{color:#aa9c91 !important}
+.cp-nav-group button,.cp-sidebar-bottom>button{color:#70675f !important}
+.cp-nav-group button:hover,.cp-sidebar-bottom>button:hover{background:#f5eee7 !important;color:#17130f !important}
+.cp-nav-group button.is-active,.cp-sidebar-bottom>button.is-active{
+  background:#ff6a00 !important;
+  color:#fff !important;
+  box-shadow:0 10px 24px rgba(255,106,0,.2) !important;
+}
+.cp-nav-group button b{background:#efe8e1 !important;color:#70675f !important}
+.cp-nav-group button.is-active b{background:rgba(255,255,255,.18) !important;color:#fff !important}
+.cp-sidebar-bottom{border-top-color:#e8dfd5 !important}
+.cp-sidebar-user>span,.cp-avatar{background:#f3e9df !important;color:#5c4f45 !important}
+.cp-sidebar-user small{color:#998d83 !important}
+
+/* Top bar */
+.cp-topbar{background:rgba(255,253,250,.9) !important;border-bottom-color:rgba(226,217,207,.92) !important}
+.cp-top-left small{color:#9b8f85 !important}
+.cp-menu,.cp-domain-switcher,.cp-icon-button{border-color:#e6ddd4 !important;background:#fffdfa !important}
+.cp-domain-switcher select{color:#3e352f !important}
+.cp-domain-switcher>svg,.cp-icon-button{color:#766a61 !important}
+.cp-notification i{background:#ff6a00 !important;border-color:#fffdfa !important}
+.cp-status-dot{background:#32a163 !important;box-shadow:0 0 0 4px #edf7f0 !important}
+
+/* Headings and buttons */
+.cp-page-heading small{color:#a29489 !important}
+.cp-page-heading h1{color:#17130f !important}
+.cp-primary-button{
+  border-color:#ff6a00 !important;
+  background:#ff6a00 !important;
+  color:#fff !important;
+}
+.cp-primary-button:hover{box-shadow:0 10px 22px rgba(255,106,0,.22) !important}
+.cp-secondary-button{border-color:#ddd1c6 !important;background:#fffdfa !important;color:#4e453e !important}
+.cp-secondary-button:hover{border-color:#cbbcad !important;background:#f9f3ed !important}
+.cp-text-button{color:#4f453e !important}
+.cp-pill{background:#f0e9e2 !important;color:#6d6158 !important}
+.cp-pill.blue{background:#fff0e5 !important;color:#d95a00 !important}
+.cp-pill.green{background:#edf7f0 !important;color:#27764a !important}
+
+/* Domain summary */
+.cp-domain-summary,.cp-compare-grid article{border-color:#e8dfd5 !important;background:#fffdfa !important;box-shadow:0 10px 28px rgba(68,43,25,.04) !important}
+.cp-domain-identity>span{background:#ff6a00 !important;color:#fff !important}
+.cp-domain-identity small{color:#a29489 !important}
+.cp-domain-health{border-color:#e8dfd5 !important}
+.cp-domain-health>span{color:#93867c !important}
+.cp-domain-health>i{background:#eee6de !important}
+.cp-domain-health>i b{background:linear-gradient(90deg,#ff6a00,#ff9142) !important}
+.cp-compare-metrics p{background:#f6f0ea !important}
+
+/* Cards and content surfaces */
+.cp-card,
+.cp-metric-card,
+.cp-health-card,
+.cp-activity-card,
+.cp-site-card,
+.cp-chart-card,
+.cp-table-card,
+.cp-project-card,
+.cp-request-card,
+.cp-file-card,
+.cp-contract-card,
+.cp-finance-card,
+.cp-opportunity-card,
+.cp-settings-card,
+.cp-company-card,
+.cp-report-card,
+.cp-support-card{
+  border-color:#e8dfd5 !important;
+  background:#fffdfa !important;
+  box-shadow:0 12px 34px rgba(68,43,25,.045) !important;
+}
+
+/* Make the old blue highlights brand orange without changing semantic success states */
+.client-portal-v2 [style*="#2563eb"],
+.client-portal-v2 [style*="rgb(37, 99, 235)"]{color:#ff6a00 !important}
+
+/* Metric/icon accents */
+.cp-metric-icon,
+.cp-card-icon,
+.cp-chart-icon,
+.cp-report-icon{
+  background:#fff0e5 !important;
+  color:#ff6a00 !important;
+}
+
+/* Progress bars / charts */
+.cp-progress-track,
+.cp-bar-track{background:#eee6de !important}
+.cp-progress-track>i,
+.cp-progress-track>b,
+.cp-bar-track>i,
+.cp-bar-track>b{background:linear-gradient(90deg,#ff6a00,#ff9142) !important}
+
+/* Tables and dividers */
+.cp-table-card table tr+tr td,
+.cp-table-card table tr+tr th{border-top-color:#eee5dc !important}
+.cp-table-card thead{background:#f8f3ee !important}
+
+/* Opportunities / insight emphasis */
+.cp-opportunity-card.is-highlight,
+.cp-insight-card,
+.cp-highlight-card{
+  border-color:#ffd4b5 !important;
+  background:linear-gradient(145deg,#fffdfa 0%,#fff5ed 100%) !important;
+}
+.cp-opportunity-card.is-highlight svg,
+.cp-insight-card svg,
+.cp-highlight-card svg{color:#ff6a00 !important}
+
+/* Empty, soft and informational surfaces */
+.cp-soft-box,
+.cp-empty-state,
+.cp-info-box{background:#f6f0ea !important;border-color:#e8dfd5 !important}
+
+/* Keep operational statuses semantic */
+.cp-domain-state span{color:#27764a !important}
+.cp-domain-state span i{background:#32a163 !important}
+
+/* Focus */
+.client-portal-v2 button:focus-visible,
+.client-portal-v2 select:focus-visible,
+.client-portal-v2 input:focus-visible,
+.cp-login-shell button:focus-visible,
+.cp-login-shell input:focus-visible{
+  outline:2px solid rgba(255,106,0,.48) !important;
+  outline-offset:2px !important;
+}
+
+/* Mobile stays warm and branded */
+@media(max-width:900px){
+  .cp-sidebar{box-shadow:22px 0 48px rgba(64,39,22,.12) !important}
+  .cp-login-panel{background:linear-gradient(145deg,#f3efe8 0%,#fff7f0 100%) !important}
+}
