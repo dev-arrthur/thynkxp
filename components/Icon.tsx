@@ -3,10 +3,10 @@ import type { SVGProps } from 'react';
 export type IconName =
   | 'activity' | 'arrow-right' | 'arrow-up-right' | 'bar-chart' | 'bell' | 'briefcase'
   | 'calendar' | 'check' | 'check-circle' | 'chevron-right' | 'clock' | 'code'
-  | 'credit-card' | 'download' | 'external-link' | 'file' | 'filter' | 'folder'
+  | 'credit-card' | 'download' | 'edit' | 'external-link' | 'file' | 'filter' | 'folder'
   | 'globe' | 'home' | 'instagram' | 'layers' | 'location' | 'lock' | 'logout' | 'mail'
   | 'megaphone' | 'menu' | 'message-square' | 'monitor' | 'pen-tool' | 'phone'
-  | 'receipt' | 'rocket' | 'search' | 'server' | 'settings' | 'shield' | 'shopping-cart'
+  | 'plus' | 'receipt' | 'rocket' | 'save' | 'search' | 'server' | 'settings' | 'shield' | 'shopping-cart'
   | 'signature' | 'sparkles' | 'ticket' | 'trending-up' | 'users' | 'whatsapp'
   | 'workflow' | 'x' | 'zap';
 
@@ -34,6 +34,7 @@ export default function Icon({ name, size = 20, ...props }: Props) {
     code: <><path d="m8 9-3 3 3 3" /><path d="m16 9 3 3-3 3" /><path d="m14 5-4 14" /></>,
     'credit-card': <><rect x="3" y="5" width="18" height="14" rx="2" /><path d="M3 10h18" /><path d="M7 15h3" /></>,
     download: <><path d="M12 3v12" /><path d="m7 10 5 5 5-5" /><path d="M5 21h14" /></>,
+    edit: <><path d="M12 20h9" /><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z" /></>,
     'external-link': <><path d="M14 5h5v5" /><path d="M10 14 19 5" /><path d="M19 13v6H5V5h6" /></>,
     file: <><path d="M6 3h8l4 4v14H6z" /><path d="M14 3v5h5" /><path d="M9 13h6M9 17h6" /></>,
     filter: <><path d="M4 6h16" /><path d="M7 12h10" /><path d="M10 18h4" /></>,
@@ -52,8 +53,10 @@ export default function Icon({ name, size = 20, ...props }: Props) {
     monitor: <><rect x="3" y="4" width="18" height="13" rx="2" /><path d="M8 21h8M12 17v4" /></>,
     'pen-tool': <><path d="m12 3 7 7-7 11-7-11z" /><path d="M12 3v9" /><circle cx="12" cy="13" r="1" /></>,
     phone: <path d="M8 3H5a2 2 0 0 0-2 2c0 8.8 7.2 16 16 16a2 2 0 0 0 2-2v-3l-4-1-2 3c-4-1-7-4-8-8l3-2z" />,
+    plus: <path d="M12 5v14M5 12h14" />,
     receipt: <><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z" /><path d="M9 8h6M9 12h6M9 16h4" /></>,
     rocket: <><path d="M14 4c3-2 6-1 6-1s1 3-1 6l-6 6-4-4z" /><path d="m9 11-4 1-2 3 6 1" /><path d="m13 15 1 6 3-2 1-4" /><circle cx="16" cy="7" r="1.5" /></>,
+    save: <><path d="M5 3h12l2 2v16H5z" /><path d="M8 3v6h8V3" /><path d="M8 21v-7h8v7" /></>,
     search: <><circle cx="11" cy="11" r="7" /><path d="m20 20-4-4" /></>,
     server: <><rect x="4" y="4" width="16" height="6" rx="2" /><rect x="4" y="14" width="16" height="6" rx="2" /><path d="M8 7h.01M8 17h.01" /></>,
     settings: <><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6V21h-4v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9A1.7 1.7 0 0 0 3 14H3v-4h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.6V3h4v.1a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.1v4H21a1.7 1.7 0 0 0-1.6 1z" /></>,

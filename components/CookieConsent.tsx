@@ -61,19 +61,41 @@ function registerCookieLead() {
 }
 
 export default function CookieConsent() {
+  const [ready, setReady] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
   const [prefs, setPrefs] = useState(false);
   const [analytics, setAnalytics] = useState(true);
   const [consent, setConsent] = useState<Consent | null>(null);
 
   useEffect(() => {
+    if (/^\/(admin|cliente)(\/|$)/.test(window.location.pathname)) {
+      setHidden(true);
+      setReady(true);
+      return;
+    }
     const current = readConsent();
     setConsent(current);
     setAnalytics(current !== 'necessary');
+    setOpen(!current);
+    setReady(true);
   }, []);
 
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setOpen(false);
+        setPrefs(false);
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [open]);
+
   function save(value: Consent) {
-    document.cookie = `${COOKIE}=${value}; Max-Age=${MAX_AGE}; Path=/; SameSite=Lax`;
+    const secure = window.location.protocol === 'https:' ? '; Secure' : '';
+    document.cookie = `${COOKIE}=${value}; Max-Age=${MAX_AGE}; Path=/; SameSite=Lax${secure}`;
     setConsent(value);
     setOpen(false);
     setPrefs(false);
@@ -85,6 +107,8 @@ export default function CookieConsent() {
       detail: { analytics: value === 'analytics' },
     }));
   }
+
+  if (!ready || hidden) return null;
 
   if (!open) {
     return (
@@ -105,36 +129,49 @@ export default function CookieConsent() {
   }
 
   return (
-    <div className="cookie-panel" role="dialog" aria-label="Preferências de cookies" aria-live="polite">
-      <div className="cookie-panel-head">
-        <div>
-          <b><Icon name="shield" size={19} /> Cookies e privacidade</b>
-          <p>
-            Usamos cookies necessários e, somente com sua autorização, analytics para entender como o site é usado.
-            Ao aceitar analytics, registramos um visitante anônimo no painel comercial e dados técnicos como página,
-            origem/UTM, idioma, fuso horário, tamanho da tela, navegador e localização aproximada fornecida pela
-            infraestrutura da Vercel. Não usamos GPS e não coletamos nome, e-mail ou telefone por meio dos cookies.
-          </p>
-          <a href="/privacidade">Ler política de privacidade</a>
+    <>
+      <button className="cookie-backdrop" type="button" onClick={() => setOpen(false)} aria-label="Fechar preferências de cookies" />
+      <section className="cookie-panel" role="dialog" aria-modal="true" aria-labelledby="cookie-title" aria-live="polite">
+        <div className="cookie-accent" aria-hidden="true"><span /><span /><span /></div>
+        <div className="cookie-panel-head">
+          <span className="cookie-shield"><Icon name="shield" size={22} /></span>
+          <div>
+            <span className="cookie-kicker">SUA EXPERIÊNCIA, SUAS ESCOLHAS</span>
+            <b id="cookie-title">Cookies, do seu jeito.</b>
+            <p>
+              Usamos o essencial para o site funcionar. Com sua permissão, os dados anônimos de navegação nos ajudam a melhorar cada experiência — sem GPS, nome, e-mail ou telefone.
+            </p>
+            <a href="/privacidade">Conhecer nossa política <Icon name="arrow-up-right" size={14} /></a>
+          </div>
+          <button className="cookie-panel-close" type="button" onClick={() => { setOpen(false); setPrefs(false); }} aria-label="Fechar cookies">
+            <Icon name="x" size={17} />
+          </button>
         </div>
-        <button className="cookie-panel-close" type="button" onClick={() => { setOpen(false); setPrefs(false); }} aria-label="Fechar cookies">
-          <Icon name="x" size={17} />
-        </button>
-      </div>
 
-      {prefs ? (
-        <div className="cookie-prefs">
-          <label><input type="checkbox" checked readOnly /> Cookies necessários</label>
-          <label><input type="checkbox" checked={analytics} onChange={(event) => setAnalytics(event.target.checked)} /> Analytics e melhoria de experiência</label>
-          <div className="cookie-prefs-actions"><button type="button" onClick={() => save(analytics ? 'analytics' : 'necessary')}>Salvar preferências</button></div>
-        </div>
-      ) : (
-        <div className="cookie-actions">
-          <button type="button" onClick={() => save('necessary')}>Somente necessários</button>
-          <button type="button" onClick={() => setPrefs(true)}>Preferências</button>
-          <button type="button" onClick={() => save('analytics')}>Aceitar analytics</button>
-        </div>
-      )}
-    </div>
+        {prefs ? (
+          <div className="cookie-prefs">
+            <div className="cookie-pref-row is-locked">
+              <span><strong>Cookies necessários</strong><small>Segurança, sessão e funcionamento básico.</small></span>
+              <span className="cookie-switch is-on" aria-label="Sempre ativos"><i /></span>
+            </div>
+            <label className="cookie-pref-row">
+              <span><strong>Analytics anônimo</strong><small>Origem, páginas e dados técnicos de navegação.</small></span>
+              <input className="sr-only" type="checkbox" checked={analytics} onChange={(event) => setAnalytics(event.target.checked)} />
+              <span className={`cookie-switch ${analytics ? 'is-on' : ''}`} aria-hidden="true"><i /></span>
+            </label>
+            <div className="cookie-prefs-actions">
+              <button type="button" className="cookie-text-action" onClick={() => setPrefs(false)}><Icon name="arrow-right" size={15} /> Voltar</button>
+              <button type="button" className="cookie-primary-action" onClick={() => save(analytics ? 'analytics' : 'necessary')}>Salvar escolhas <Icon name="check" size={16} /></button>
+            </div>
+          </div>
+        ) : (
+          <div className="cookie-actions">
+            <button className="cookie-quiet-action" type="button" onClick={() => save('necessary')}>Só os necessários</button>
+            <button className="cookie-settings-action" type="button" onClick={() => setPrefs(true)}>Personalizar</button>
+            <button className="cookie-primary-action" type="button" onClick={() => save('analytics')}>Aceitar e continuar <Icon name="arrow-right" size={16} /></button>
+          </div>
+        )}
+      </section>
+    </>
   );
 }

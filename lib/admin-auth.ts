@@ -1,10 +1,32 @@
 import crypto from 'node:crypto';
+import { getDb } from './mongodb';
 
 export const ADMIN_COOKIE = 'thynkxp_admin_session';
 export const ADMIN_SESSION_TTL_SECONDS = 60 * 60 * 12;
 
+const DEFAULT_ADMIN_EMAIL = 'arthur.ferreira@thynkxp.com.br';
+
+type AdminAccount = {
+  email: string;
+  role: 'admin';
+  active: boolean;
+  passwordSalt: string;
+  passwordHash: string;
+  sessionSecret?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+};
+
 function normalizeEmail(value: unknown) {
   return String(value || '').trim().toLowerCase();
+}
+
+function configuredEmail() {
+  return normalizeEmail(process.env.ADMIN_EMAIL) || DEFAULT_ADMIN_EMAIL;
+}
+
+function configuredPassword() {
+  return String(process.env.ADMIN_PASSWORD || '');
 }
 
 function safeEqual(a: string, b: string) {
@@ -13,72 +35,92 @@ function safeEqual(a: string, b: string) {
   return left.length === right.length && crypto.timingSafeEqual(left, right);
 }
 
-function sessionSecret() {
-  // Prefer a dedicated signing secret. The bootstrap secret remains as a
-  // backwards-compatible fallback for deployments that have not migrated yet.
-  return (process.env.ADMIN_SESSION_SECRET || process.env.ADMIN_BOOTSTRAP_SECRET || '').trim();
+function hashPassword(password: string, salt: string) {
+  return crypto.scryptSync(password, salt, 64).toString('hex');
 }
 
 export function adminAuthConfigured() {
-  return Boolean(
-    normalizeEmail(process.env.ADMIN_EMAIL) &&
-      String(process.env.ADMIN_BOOTSTRAP_SECRET || '') &&
-      sessionSecret()
-  );
+  return Boolean(configuredEmail() && configuredPassword());
 }
 
 export function validateAdminCredentials(email: unknown, password: unknown) {
-  const expectedEmail = normalizeEmail(process.env.ADMIN_EMAIL);
-  const expectedPassword = String(process.env.ADMIN_BOOTSTRAP_SECRET || '');
   const receivedEmail = normalizeEmail(email);
   const receivedPassword = String(password || '');
-
-  if (!expectedEmail || !expectedPassword || !receivedEmail || !receivedPassword) return false;
-
-  return safeEqual(receivedEmail, expectedEmail) && safeEqual(receivedPassword, expectedPassword);
+  if (!receivedEmail || !receivedPassword || !safeEqual(receivedEmail, configuredEmail())) return false;
+  return safeEqual(receivedPassword, configuredPassword());
 }
 
-function sign(payload: string) {
-  const key = sessionSecret();
-  if (!key) throw new Error('ADMIN_SESSION_SECRET não configurada');
-  return crypto.createHmac('sha256', key).update(payload).digest('base64url');
+async function ensureAdminAccount(password: string) {
+  const database = await getDb();
+  const users = database.collection<AdminAccount>('users');
+  const email = configuredEmail();
+  const now = new Date();
+
+  await users.createIndex({ email: 1 }, { unique: true });
+  const current = await users.findOne({ email });
+  const passwordMatches = Boolean(
+    current?.passwordSalt
+    && current?.passwordHash
+    && safeEqual(hashPassword(password, current.passwordSalt), current.passwordHash),
+  );
+  const passwordSalt = passwordMatches ? current?.passwordSalt as string : crypto.randomBytes(16).toString('hex');
+  const passwordHash = passwordMatches ? current?.passwordHash as string : hashPassword(password, passwordSalt);
+  const sessionSecret = current?.sessionSecret
+    || String(process.env.ADMIN_SESSION_SECRET || '').trim()
+    || crypto.randomBytes(48).toString('base64url');
+
+  await users.updateOne(
+    { email },
+    {
+      $set: { role: 'admin', active: true, passwordSalt, passwordHash, sessionSecret, updatedAt: now },
+      $setOnInsert: { email, createdAt: now },
+    },
+    { upsert: true },
+  );
+
+  const account = await users.findOne({ email });
+  if (!account?.sessionSecret || account.active === false) throw new Error('Admin account unavailable');
+  return account;
 }
 
-export function createAdminSessionToken(email: unknown) {
-  const payload = Buffer.from(
-    JSON.stringify({
-      email: normalizeEmail(email),
-      exp: Date.now() + ADMIN_SESSION_TTL_SECONDS * 1000,
-      nonce: crypto.randomUUID()
-    })
-  ).toString('base64url');
-
-  return `${payload}.${sign(payload)}`;
+function sign(payload: string, secret: string) {
+  return crypto.createHmac('sha256', secret).update(payload).digest('base64url');
 }
 
-export function verifyAdminSessionToken(token: string | undefined | null) {
+export async function createAdminSessionToken(email: unknown, password: unknown) {
+  const receivedPassword = String(password || '');
+  if (!validateAdminCredentials(email, receivedPassword)) throw new Error('Invalid admin credentials');
+  const account = await ensureAdminAccount(receivedPassword);
+  if (!safeEqual(normalizeEmail(email), account.email)) throw new Error('Invalid admin identity');
+
+  const payload = Buffer.from(JSON.stringify({
+    email: account.email,
+    exp: Date.now() + ADMIN_SESSION_TTL_SECONDS * 1000,
+    nonce: crypto.randomUUID(),
+  })).toString('base64url');
+
+  return `${payload}.${sign(payload, account.sessionSecret as string)}`;
+}
+
+export async function verifyAdminSessionToken(token: string | undefined | null) {
   if (!token || !adminAuthConfigured()) return false;
-
   const [payload, signature, extra] = token.split('.');
   if (!payload || !signature || extra) return false;
 
-  const expected = sign(payload);
-  if (!safeEqual(signature, expected)) return false;
-
   try {
-    const decoded = JSON.parse(Buffer.from(payload, 'base64url').toString('utf8')) as {
-      email?: string;
-      exp?: number;
-    };
+    const decoded = JSON.parse(Buffer.from(payload, 'base64url').toString('utf8')) as { email?: string; exp?: number };
+    if (!decoded.exp || decoded.exp <= Date.now() || normalizeEmail(decoded.email) !== configuredEmail()) return false;
 
-    if (!decoded.exp || decoded.exp <= Date.now()) return false;
-    return normalizeEmail(decoded.email) === normalizeEmail(process.env.ADMIN_EMAIL);
+    const database = await getDb();
+    const account = await database.collection<AdminAccount>('users').findOne({ email: configuredEmail(), active: true });
+    if (!account?.sessionSecret) return false;
+    return safeEqual(signature, sign(payload, account.sessionSecret));
   } catch {
     return false;
   }
 }
 
-export function getAdminSessionFromRequest(req: Request) {
+export async function getAdminSessionFromRequest(req: Request) {
   const raw = req.headers.get('cookie') || '';
   const match = raw.match(new RegExp(`(?:^|;\\s*)${ADMIN_COOKIE}=([^;]+)`));
   const token = match ? decodeURIComponent(match[1]) : '';
