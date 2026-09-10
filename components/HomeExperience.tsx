@@ -42,6 +42,14 @@ const capabilities: { icon: IconName; value: string; label: string; description:
   { icon: 'workflow', value: 'Integração', label: 'Operação conectada', description: 'APIs, bancos, automações, CRMs e serviços externos trabalhando de forma integrada.' },
 ];
 
+const testimonials = [
+  ['Fiquei bem satisfeito com o serviço, são profissionais dedicados que entendem a ideia do cliente e entregam um material muito bom!', 'José Roberto', 'Empresário', 'user1.png'],
+  ['O serviço é de fato personalizado. Em todos os serviços que contratamos nossos objetivos foram superados. Conseguiram colocar nos materiais a essência da nossa marca.', 'Eliane Jorge', 'Eng. Civil', 'user2.png'],
+  ['Serviço de qualidade com total atenção ao cliente, equipe dedicada e com grande responsabilidade e profissionalismo. Eu recomendo os serviços!', 'Paulo Elbl', 'Sinuelo da Cultura', 'user3.png'],
+  ['Atendimento ágil e estratégico do início ao fim. O novo site trouxe mais autoridade para nossa marca e melhorou bastante a geração de leads.', 'Marina Costa', 'Diretora Comercial', 'user4.png'],
+  ['A equipe entendeu exatamente o que precisávamos e entregou além do combinado. Hoje temos um processo muito mais organizado e eficiente no digital.', 'Rafael Mendes', 'Gestor de Operações', 'user5.png'],
+];
+
 const comingProjects = ['Identidade & experiência', 'Produto digital', 'Automação & performance'];
 
 const faqs = [
@@ -205,8 +213,8 @@ export default function HomeExperience() {
       </section>
 
       <section className="thx-testimonials thx-shell">
-        <div className="thx-section-head" data-reveal><div><SectionLabel index="07">Experiências</SectionLabel><h2>Histórias reais,<br/><em>publicadas com cuidado.</em></h2></div><p>Os próximos relatos serão adicionados após a autorização de cada cliente, mantendo transparência e respeito em todas as publicações.</p></div>
-        <div className="thx-testimonial-coming" data-reveal><span className="thx-testimonial-coming-icon"><Icon name="message-square" size={25} /></span><div><span>DEPOIMENTOS</span><h3>Em breve por aqui.</h3><p>Estamos organizando histórias de projetos, aprendizados e resultados para compartilhar com você.</p></div><span className="thx-testimonial-coming-tag"><i /> Conteúdo em preparação</span></div>
+        <div className="thx-section-head" data-reveal><div><SectionLabel index="07">Depoimentos</SectionLabel><h2>Quem trabalha conosco<br/><em>percebe a diferença.</em></h2></div><p>Projetos são relações de confiança. Processo, atenção e comunicação fazem parte da entrega.</p></div>
+        <div className="thx-testimonial-stage"><div className="thx-testimonial-center" data-reveal><img src={`${RAW}/img/imagem3.png`} alt="" /><div className="thx-testimonial-seal"><Icon name="sparkles" /><span>THYNK<br/>EXPERIENCE</span></div></div>{testimonials.map((item,index)=><article className={`thx-testimonial-card card-${index+1}`} key={item[1]} data-reveal><p>“{item[0]}”</p><div><img src={`${RAW}/img/${item[3]}`} alt="" /><span><strong>{item[1]}</strong><small>{item[2]}</small></span></div></article>)}</div>
       </section>
 
       <section className="thx-resources thx-shell">
