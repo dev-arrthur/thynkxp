@@ -42,13 +42,7 @@ const capabilities: { icon: IconName; value: string; label: string; description:
   { icon: 'workflow', value: 'Integração', label: 'Operação conectada', description: 'APIs, bancos, automações, CRMs e serviços externos trabalhando de forma integrada.' },
 ];
 
-const testimonials = [
-  ['Fiquei bem satisfeito com o serviço, são profissionais dedicados que entendem a ideia do cliente e entregam um material muito bom!', 'José Roberto', 'Empresário', 'user1.png'],
-  ['O serviço é de fato personalizado. Em todos os serviços que contratamos nossos objetivos foram superados. Conseguiram colocar nos materiais a essência da nossa marca.', 'Eliane Jorge', 'Eng. Civil', 'user2.png'],
-  ['Serviço de qualidade com total atenção ao cliente, equipe dedicada e com grande responsabilidade e profissionalismo. Eu recomendo os serviços!', 'Paulo Elbl', 'Sinuelo da Cultura', 'user3.png'],
-  ['Atendimento ágil e estratégico do início ao fim. O novo site trouxe mais autoridade para nossa marca e melhorou bastante a geração de leads.', 'Marina Costa', 'Diretora Comercial', 'user4.png'],
-  ['A equipe entendeu exatamente o que precisávamos e entregou além do combinado. Hoje temos um processo muito mais organizado e eficiente no digital.', 'Rafael Mendes', 'Gestor de Operações', 'user5.png'],
-];
+const comingProjects = ['Identidade & experiência', 'Produto digital', 'Automação & performance'];
 
 const faqs = [
   ['Quanto tempo leva para criar um site profissional?', 'O prazo depende do tamanho do projeto, quantidade de páginas, nível de personalização, integrações e velocidade de aprovação. Landing pages costumam ser mais rápidas, enquanto sites completos e sistemas personalizados exigem etapas adicionais de estratégia, design, desenvolvimento, testes e publicação.'],
@@ -194,11 +188,14 @@ export default function HomeExperience() {
       </section>
 
       <section className="thx-projects" id="projetos">
-        <div className="thx-shell thx-projects-head" data-reveal><div><SectionLabel index="05">Projetos</SectionLabel><h2>Visual com estratégia.<br/><em>Solução com resultado.</em></h2></div><p>Projetos construídos para comunicar com clareza, valorizar a marca e entregar uma experiência coerente do primeiro contato à conversão.</p></div>
+        <div className="thx-shell thx-projects-head" data-reveal><div><SectionLabel index="05">Projetos</SectionLabel><h2>Novas experiências<br/><em>estão tomando forma.</em></h2></div><p>Estamos preparando uma seleção de projetos para mostrar não só o resultado visual, mas o desafio, o processo e o impacto de cada entrega.</p></div>
         <div className="thx-project-marquee"><div className="thx-project-track">{[0,1].map(group=><div className="thx-project-group" key={group} aria-hidden={group===1}>
-          <a className="thx-project-card" href="/pagbanknext.html"><img src={`${RAW}/img/projeto3.png`} alt="Projeto PagBank Next" /><div className="thx-project-overlay" /><div className="thx-project-content"><span>UI Design</span><h3>PagBank Next</h3><p>Experiência digital para uma solução financeira moderna, clara e confiável.</p><div><Icon name="arrow-up-right" /></div></div></a>
-          <a className="thx-project-card is-orange" href="/saboratti.html"><img src={`${RAW}/img/projeto1.png`} alt="Projeto Saboratti" /><div className="thx-project-overlay" /><div className="thx-project-content"><span>Branding</span><h3>Saboratti</h3><p>Marca com personalidade, presença visual e comunicação desenhada para gerar desejo.</p><div><Icon name="arrow-up-right" /></div></div></a>
-          <a className="thx-project-card is-concept" href={budgetHref} target="_blank" rel="noreferrer"><div className="thx-project-grid-bg" /><div className="thx-project-content"><span>Sistemas</span><h3>Seu próximo produto</h3><p>Dashboard, plataforma, automação ou experiência sob medida para a sua operação.</p><div><Icon name="arrow-up-right" /></div></div></a>
+          {comingProjects.map((label,index)=><article className={`thx-project-card thx-project-coming coming-${index+1}`} key={label}>
+            <div className="thx-project-grid-bg" />
+            <span className="thx-coming-orbit" />
+            <div className="thx-coming-mark"><Icon name="sparkles" size={19} /><span>THYNK<br/>EXPERIENCE</span></div>
+            <div className="thx-project-content"><span>{label}</span><h3>Em breve<span className="thx-coming-dots"><i /><i /><i /></span></h3><p>Um novo case completo será apresentado aqui.</p><div><Icon name="clock" /></div></div>
+          </article>)}
         </div>)}</div></div>
       </section>
 
@@ -208,8 +205,8 @@ export default function HomeExperience() {
       </section>
 
       <section className="thx-testimonials thx-shell">
-        <div className="thx-section-head" data-reveal><div><SectionLabel index="07">Depoimentos</SectionLabel><h2>Quem trabalha conosco<br/><em>percebe a diferença.</em></h2></div><p>Projetos são relações de confiança. Processo, atenção e comunicação fazem parte da entrega.</p></div>
-        <div className="thx-testimonial-stage"><div className="thx-testimonial-center" data-reveal><img src={`${RAW}/img/imagem3.png`} alt="" /><div className="thx-testimonial-seal"><Icon name="sparkles" /><span>THYNK<br/>EXPERIENCE</span></div></div>{testimonials.map((item,index)=><article className={`thx-testimonial-card card-${index+1}`} key={item[1]} data-reveal><p>“{item[0]}”</p><div><img src={`${RAW}/img/${item[3]}`} alt="" /><span><strong>{item[1]}</strong><small>{item[2]}</small></span></div></article>)}</div>
+        <div className="thx-section-head" data-reveal><div><SectionLabel index="07">Experiências</SectionLabel><h2>Histórias reais,<br/><em>publicadas com cuidado.</em></h2></div><p>Os próximos relatos serão adicionados após a autorização de cada cliente, mantendo transparência e respeito em todas as publicações.</p></div>
+        <div className="thx-testimonial-coming" data-reveal><span className="thx-testimonial-coming-icon"><Icon name="message-square" size={25} /></span><div><span>DEPOIMENTOS</span><h3>Em breve por aqui.</h3><p>Estamos organizando histórias de projetos, aprendizados e resultados para compartilhar com você.</p></div><span className="thx-testimonial-coming-tag"><i /> Conteúdo em preparação</span></div>
       </section>
 
       <section className="thx-resources thx-shell">

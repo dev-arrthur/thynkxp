@@ -23,16 +23,21 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: 'invalid_credentials' }, { status: 401 });
   }
 
-  const token = createAdminSessionToken(body.email);
-  const response = NextResponse.json({ ok: true });
-  response.cookies.set(ADMIN_COOKIE, token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
-    path: '/',
-    maxAge: ADMIN_SESSION_TTL_SECONDS
-  });
-  return response;
+  try {
+    const token = await createAdminSessionToken(body.email, body.password);
+    const response = NextResponse.json({ ok: true });
+    response.cookies.set(ADMIN_COOKIE, token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: ADMIN_SESSION_TTL_SECONDS
+    });
+    return response;
+  } catch (error) {
+    console.error('Erro ao preparar o acesso administrativo:', error);
+    return NextResponse.json({ ok: false, error: 'admin_storage_unavailable' }, { status: 500 });
+  }
 }
 
 export async function DELETE() {
