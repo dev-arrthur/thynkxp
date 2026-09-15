@@ -13,6 +13,14 @@ const nextConfig: NextConfig = {
   async headers() {
     return [{ source: '/:path*', headers: securityHeaders }];
   },
+  async redirects() {
+    return [{
+      source: '/admin',
+      has: [{ type: 'query', key: 'section', value: 'leads' }],
+      destination: '/admin/leads',
+      permanent: false,
+    }];
+  },
 };
 
 export default nextConfig;
