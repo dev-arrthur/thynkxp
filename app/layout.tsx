@@ -17,6 +17,7 @@ import './admin-light-v2.css';
 import './admin-prospector.css';
 import './admin-radar-shell.css';
 import './admin-kanban.css';
+import './admin-niche-selector.css';
 import CookieConsent from '../components/CookieConsent';
 
 export const metadata: Metadata = {
