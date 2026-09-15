@@ -17,10 +17,23 @@ export default function LoginForm() {
       const response = await fetch('/api/admin/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: form.get('email'), password: form.get('password') })
+        body: JSON.stringify({ email: form.get('email'), password: form.get('password') }),
       });
-      if (response.ok) { window.location.href = '/admin'; return; }
-      setError(response.status === 500 ? 'Não foi possível preparar o acesso agora. Verifique a conexão com o banco de dados e tente novamente.' : 'E-mail ou senha inválidos.');
+      if (response.ok) {
+        window.location.href = '/admin';
+        return;
+      }
+
+      const payload = await response.json().catch(() => ({})) as { error?: string };
+      if (response.status === 429) {
+        setError('Muitas tentativas de acesso. Aguarde alguns minutos antes de tentar novamente.');
+      } else if (payload.error === 'admin_not_configured' || payload.error === 'admin_session_unavailable') {
+        setError('A configuração de segurança do acesso administrativo está incompleta no ambiente de produção.');
+      } else if (response.status === 401) {
+        setError('E-mail ou senha inválidos.');
+      } else {
+        setError('Não foi possível autenticar agora. Tente novamente.');
+      }
     } catch {
       setError('Não foi possível conectar ao servidor. Tente novamente.');
     } finally {
