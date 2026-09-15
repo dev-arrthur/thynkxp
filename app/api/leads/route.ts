@@ -12,6 +12,10 @@ function clean(value: unknown, max = 500) {
   return typeof value === 'string' ? value.trim().slice(0, max) : '';
 }
 
+function digits(value: unknown, max = 30) {
+  return String(value || '').replace(/\D/g, '').slice(0, max);
+}
+
 function normalizeStatus(value: unknown) {
   const raw = clean(value, 40).toLowerCase().replaceAll(' ', '_');
   if (raw === 'contato') return 'em_contato';
@@ -19,9 +23,9 @@ function normalizeStatus(value: unknown) {
   return ALLOWED_STATUS.has(raw) ? raw : 'novo';
 }
 
-function numericValue(value: unknown) {
+function numericValue(value: unknown, max = 100_000_000) {
   const parsed = typeof value === 'number' ? value : Number(String(value || '').replace(',', '.'));
-  return Number.isFinite(parsed) ? Math.max(0, Math.min(parsed, 100_000_000)) : 0;
+  return Number.isFinite(parsed) ? Math.max(0, Math.min(parsed, max)) : 0;
 }
 
 function optionalDate(value: unknown) {
@@ -33,7 +37,12 @@ function optionalDate(value: unknown) {
 
 function sameOrigin(req: Request) {
   const origin = req.headers.get('origin');
-  return !origin || origin === new URL(req.url).origin;
+  if (!origin) return true;
+  try {
+    return new URL(origin).origin === new URL(req.url).origin;
+  } catch {
+    return false;
+  }
 }
 
 function emailIsValid(value: string) {
@@ -53,84 +62,113 @@ function buildContact(body: Record<string, unknown>) {
     nextActionAt: optionalDate(body.nextActionAt),
     notes: clean(body.notes, 4000),
     owner: clean(body.owner, 120) || 'Arthur Ferreira',
+    cnpj: digits(body.cnpj, 14),
+    address: clean(body.address, 500),
+    cnae: digits(body.cnae, 7),
+    cnaeDescription: clean(body.cnaeDescription, 240),
+    companySize: clean(body.companySize, 100),
+    capitalSocial: numericValue(body.capitalSocial, 10_000_000_000),
+    qualificationScore: numericValue(body.qualificationScore, 100),
+    externalSource: clean(body.externalSource, 80),
+    externalId: clean(body.externalId, 180),
   };
 }
 
+function noStore(payload: Record<string, unknown>, status = 200) {
+  return NextResponse.json(payload, {
+    status,
+    headers: { 'Cache-Control': 'no-store, max-age=0' },
+  });
+}
+
 export async function GET(req: Request) {
-  if (!(await getAdminSessionFromRequest(req))) {
-    return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
-  }
+  if (!(await getAdminSessionFromRequest(req))) return noStore({ error: 'unauthorized' }, 401);
 
   try {
     const database = await getDb();
-    const leads = await database.collection('leads').find({}).sort({ updatedAt: -1, createdAt: -1 }).limit(500).toArray();
-    return NextResponse.json({ leads });
+    const leads = await database.collection('leads')
+      .find({})
+      .sort({ updatedAt: -1, createdAt: -1 })
+      .limit(500)
+      .toArray();
+    return noStore({ leads });
   } catch (error) {
-    console.error('Erro ao carregar contatos:', error);
-    return NextResponse.json({ error: 'leads_unavailable', leads: [] }, { status: 500 });
+    console.error('Erro ao carregar contatos:', error instanceof Error ? error.message : 'unknown_error');
+    return noStore({ error: 'leads_unavailable', leads: [] }, 503);
   }
 }
 
 export async function POST(req: Request) {
-  if (!(await getAdminSessionFromRequest(req))) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
-  if (!sameOrigin(req)) return NextResponse.json({ error: 'invalid_origin' }, { status: 403 });
+  if (!(await getAdminSessionFromRequest(req))) return noStore({ error: 'unauthorized' }, 401);
+  if (!sameOrigin(req)) return noStore({ error: 'invalid_origin' }, 403);
+
+  const contentLength = Number(req.headers.get('content-length') || 0);
+  if (contentLength > 16_384) return noStore({ error: 'request_too_large' }, 413);
 
   try {
     const raw = await req.json();
     const body = raw && typeof raw === 'object' && !Array.isArray(raw) ? raw as Record<string, unknown> : {};
     const contact = buildContact(body);
-    if (!contact.name && !contact.company) {
-      return NextResponse.json({ error: 'name_or_company_required' }, { status: 400 });
+    if (!contact.name && !contact.company) return noStore({ error: 'name_or_company_required' }, 400);
+    if (!emailIsValid(contact.email)) return noStore({ error: 'invalid_email' }, 400);
+
+    const database = await getDb();
+    const leads = database.collection('leads');
+    const duplicateChecks: Record<string, unknown>[] = [];
+    if (contact.email) duplicateChecks.push({ email: contact.email, anonymous: { $ne: true } });
+    if (contact.cnpj) duplicateChecks.push({ cnpj: contact.cnpj, anonymous: { $ne: true } });
+    if (contact.externalSource && contact.externalId) {
+      duplicateChecks.push({ externalSource: contact.externalSource, externalId: contact.externalId, anonymous: { $ne: true } });
     }
-    if (!emailIsValid(contact.email)) return NextResponse.json({ error: 'invalid_email' }, { status: 400 });
+
+    if (duplicateChecks.length && await leads.findOne({ $or: duplicateChecks })) {
+      return noStore({ error: 'contact_already_exists' }, 409);
+    }
 
     const now = new Date();
-    const database = await getDb();
-    if (contact.email && await database.collection('leads').findOne({ email: contact.email, anonymous: { $ne: true } })) {
-      return NextResponse.json({ error: 'contact_already_exists' }, { status: 409 });
-    }
-    const result = await database.collection('leads').insertOne({
+    const result = await leads.insertOne({
       ...contact,
       anonymous: false,
-      leadType: 'identified',
+      leadType: contact.externalSource ? 'prospected' : 'identified',
       createdAt: now,
       updatedAt: now,
     });
-    const created = await database.collection('leads').findOne({ _id: result.insertedId });
-    return NextResponse.json({ ok: true, lead: created }, { status: 201 });
+    const created = await leads.findOne({ _id: result.insertedId });
+    return noStore({ ok: true, lead: created }, 201);
   } catch (error) {
-    console.error('Erro ao cadastrar contato:', error);
-    return NextResponse.json({ error: 'contact_create_failed' }, { status: 500 });
+    console.error('Erro ao cadastrar contato:', error instanceof Error ? error.message : 'unknown_error');
+    return noStore({ error: 'contact_create_failed' }, 503);
   }
 }
 
 export async function PATCH(req: Request) {
-  if (!(await getAdminSessionFromRequest(req))) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
-  if (!sameOrigin(req)) return NextResponse.json({ error: 'invalid_origin' }, { status: 403 });
+  if (!(await getAdminSessionFromRequest(req))) return noStore({ error: 'unauthorized' }, 401);
+  if (!sameOrigin(req)) return noStore({ error: 'invalid_origin' }, 403);
+
+  const contentLength = Number(req.headers.get('content-length') || 0);
+  if (contentLength > 16_384) return noStore({ error: 'request_too_large' }, 413);
 
   try {
     const raw = await req.json();
     const body = raw && typeof raw === 'object' && !Array.isArray(raw) ? raw as Record<string, unknown> : {};
     const id = clean(body.id, 80);
-    if (!ObjectId.isValid(id)) return NextResponse.json({ error: 'invalid_id' }, { status: 400 });
+    if (!ObjectId.isValid(id)) return noStore({ error: 'invalid_id' }, 400);
 
     const contact = buildContact(body);
-    if (!contact.name && !contact.company) {
-      return NextResponse.json({ error: 'name_or_company_required' }, { status: 400 });
-    }
-    if (!emailIsValid(contact.email)) return NextResponse.json({ error: 'invalid_email' }, { status: 400 });
+    if (!contact.name && !contact.company) return noStore({ error: 'name_or_company_required' }, 400);
+    if (!emailIsValid(contact.email)) return noStore({ error: 'invalid_email' }, 400);
 
     const database = await getDb();
     const _id = new ObjectId(id);
     const result = await database.collection('leads').updateOne(
       { _id },
-      { $set: { ...contact, anonymous: false, leadType: 'identified', updatedAt: new Date() } },
+      { $set: { ...contact, anonymous: false, updatedAt: new Date() } },
     );
-    if (!result.matchedCount) return NextResponse.json({ error: 'not_found' }, { status: 404 });
+    if (!result.matchedCount) return noStore({ error: 'not_found' }, 404);
     const updated = await database.collection('leads').findOne({ _id });
-    return NextResponse.json({ ok: true, lead: updated });
+    return noStore({ ok: true, lead: updated });
   } catch (error) {
-    console.error('Erro ao atualizar contato:', error);
-    return NextResponse.json({ error: 'contact_update_failed' }, { status: 500 });
+    console.error('Erro ao atualizar contato:', error instanceof Error ? error.message : 'unknown_error');
+    return noStore({ error: 'contact_update_failed' }, 503);
   }
 }
