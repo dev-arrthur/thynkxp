@@ -14,6 +14,7 @@ import './home-navbar-live.css';
 import './home-lead-clean-v9.css';
 import './cookie-experience-v10.css';
 import './admin-light-v2.css';
+import './admin-prospector.css';
 import CookieConsent from '../components/CookieConsent';
 
 export const metadata: Metadata = {
