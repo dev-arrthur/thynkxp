@@ -2,12 +2,15 @@
 
 import { FormEvent, useMemo, useState } from 'react';
 import Icon from './Icon';
+import { NICHE_CATALOG, NICHE_CATEGORIES, normalizeNicheText, type LeadNiche } from '../lib/lead-niches';
 
 type Partner = { name: string; qualification: string; joinedAt: string };
 type TaxRegime = { year: number; form: string; filings: number };
 type ProviderStatus = { id: string; label: string; enabled: boolean; ok: boolean; detail: string };
 type City = { id: number; name: string };
 type StateOption = { uf: string; name: string; x: number; y: number };
+
+type SelectedNiche = LeadNiche & { custom?: boolean };
 
 export type Prospect = {
   id: string;
@@ -42,6 +45,7 @@ export type Prospect = {
   score: number;
   qualification: 'quente' | 'morno' | 'explorar';
   reasons: string[];
+  matchedNiches?: string[];
 };
 
 type Criteria = {
@@ -51,10 +55,18 @@ type Criteria = {
   cnaes?: { code: string; description: string }[];
 };
 
-type Props = { onLeadAdded?: () => void | Promise<void> };
+type SearchPayload = {
+  error?: string;
+  prospects?: Prospect[];
+  cursor?: string | null;
+  criteria?: Criteria;
+  providers?: ProviderStatus[];
+};
 
+type Props = { onLeadAdded?: () => void | Promise<void> };
 type Filter = 'todos' | 'quente' | 'contato' | 'site' | 'instagram';
 
+const MAX_NICHES = 5;
 const STATES: StateOption[] = [
   { uf: 'RR', name: 'Roraima', x: 248, y: 70 }, { uf: 'AP', name: 'Amapá', x: 398, y: 78 },
   { uf: 'AM', name: 'Amazonas', x: 188, y: 154 }, { uf: 'PA', name: 'Pará', x: 350, y: 158 },
@@ -70,11 +82,6 @@ const STATES: StateOption[] = [
   { uf: 'RJ', name: 'Rio de Janeiro', x: 450, y: 458 }, { uf: 'SP', name: 'São Paulo', x: 348, y: 463 },
   { uf: 'PR', name: 'Paraná', x: 318, y: 510 }, { uf: 'SC', name: 'Santa Catarina', x: 330, y: 548 },
   { uf: 'RS', name: 'Rio Grande do Sul', x: 295, y: 590 },
-];
-
-const NICHES = [
-  ['barbearia', 'Barbearias'], ['clinica', 'Clínicas'], ['odontologia', 'Odontologia'], ['academia', 'Academias'],
-  ['contabilidade', 'Contabilidade'], ['restaurante', 'Restaurantes'], ['petshop', 'Pet shops'], ['publicidade', 'Publicidade'], ['software', 'Software'],
 ];
 
 function money(value: number) {
@@ -96,8 +103,8 @@ function whatsappNumber(phone: string) {
 
 function errorMessage(code: string) {
   const messages: Record<string, string> = {
-    segment_required: 'Informe o nicho ou um código CNAE.', city_required: 'Selecione uma cidade.', invalid_uf: 'Selecione um estado válido.',
-    segment_not_found: 'Não consegui relacionar esse nicho a um CNAE. Tente um termo mais específico ou informe o código CNAE.',
+    segment_required: 'Selecione pelo menos um nicho.', city_required: 'Selecione uma cidade.', invalid_uf: 'Selecione um estado válido.',
+    segment_not_found: 'Um dos nichos não pôde ser relacionado a um CNAE. Tente outro termo ou informe um CNAE manualmente.',
     city_not_found: 'Cidade não encontrada nessa UF.', cities_unavailable: 'Não foi possível carregar as cidades desse estado agora.',
     too_many_requests: 'Muitas buscas em sequência. Aguarde um pouco antes de pesquisar novamente.',
     prospect_search_unavailable: 'As fontes de prospecção estão indisponíveis agora. Tente novamente em instantes.',
@@ -124,6 +131,41 @@ function StepHeader({ number, title, description }: { number: number; title: str
   return <div className="radar-step-heading"><span>ETAPA {String(number).padStart(2, '0')}</span><h3>{title}</h3><p>{description}</p></div>;
 }
 
+function mergeProspects(base: Prospect[], incoming: Prospect[]) {
+  const map = new Map<string, Prospect>();
+  [...base, ...incoming].forEach((item) => {
+    const current = map.get(item.id);
+    if (!current) { map.set(item.id, item); return; }
+    map.set(item.id, {
+      ...(item.score > current.score ? current : item),
+      ...(item.score > current.score ? item : current),
+      matchedNiches: [...new Set([...(current.matchedNiches || []), ...(item.matchedNiches || [])])],
+      reasons: [...new Set([...(current.reasons || []), ...(item.reasons || [])])].slice(0, 10),
+      digitalSources: [...new Set([...(current.digitalSources || []), ...(item.digitalSources || [])])],
+    });
+  });
+  return [...map.values()].sort((a, b) => b.score - a.score || b.capitalSocial - a.capitalSocial);
+}
+
+function mergeProviders(groups: ProviderStatus[][]) {
+  const map = new Map<string, ProviderStatus & { total: number; successes: number }>();
+  groups.flat().forEach((provider) => {
+    const current = map.get(provider.id);
+    if (!current) {
+      map.set(provider.id, { ...provider, total: 1, successes: provider.ok ? 1 : 0 });
+      return;
+    }
+    current.total += 1;
+    if (provider.ok) current.successes += 1;
+    current.enabled = current.enabled || provider.enabled;
+    current.ok = current.ok || provider.ok;
+  });
+  return [...map.values()].map(({ total, successes, ...provider }) => ({
+    ...provider,
+    detail: total > 1 && provider.enabled ? `${successes}/${total} consultas concluídas` : provider.detail,
+  }));
+}
+
 export default function AdminProspector({ onLeadAdded }: Props) {
   const [step, setStep] = useState(1);
   const [uf, setUf] = useState('');
@@ -131,11 +173,14 @@ export default function AdminProspector({ onLeadAdded }: Props) {
   const [cityQuery, setCityQuery] = useState('');
   const [cities, setCities] = useState<City[]>([]);
   const [citiesLoading, setCitiesLoading] = useState(false);
-  const [segment, setSegment] = useState('');
+  const [selectedNiches, setSelectedNiches] = useState<SelectedNiche[]>([]);
+  const [nicheQuery, setNicheQuery] = useState('');
+  const [nicheCategory, setNicheCategory] = useState<string>('Todos');
+  const [customNiche, setCustomNiche] = useState('');
   const [prospects, setProspects] = useState<Prospect[]>([]);
   const [criteria, setCriteria] = useState<Criteria | null>(null);
   const [providers, setProviders] = useState<ProviderStatus[]>([]);
-  const [cursor, setCursor] = useState('');
+  const [cursors, setCursors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
   const [importing, setImporting] = useState(false);
   const [selected, setSelected] = useState<Set<string>>(new Set());
@@ -144,10 +189,22 @@ export default function AdminProspector({ onLeadAdded }: Props) {
   const [filter, setFilter] = useState<Filter>('todos');
 
   const filteredCities = useMemo(() => {
-    const query = cityQuery.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+    const query = normalizeNicheText(cityQuery);
     if (!query) return cities.slice(0, 36);
-    return cities.filter((item) => item.name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().includes(query)).slice(0, 60);
+    return cities.filter((item) => normalizeNicheText(item.name).includes(query)).slice(0, 60);
   }, [cities, cityQuery]);
+
+  const filteredNiches = useMemo(() => {
+    const query = normalizeNicheText(nicheQuery);
+    return NICHE_CATALOG.filter((item) => {
+      const categoryMatch = nicheCategory === 'Todos' || item.category === nicheCategory;
+      const text = normalizeNicheText([item.label, item.description, item.category, item.searchTerm, ...item.tags].join(' '));
+      return categoryMatch && (!query || text.includes(query));
+    });
+  }, [nicheCategory, nicheQuery]);
+
+  const popularNiches = useMemo(() => NICHE_CATALOG.filter((item) => item.popular).slice(0, 14), []);
+  const selectedNicheIds = useMemo(() => new Set(selectedNiches.map((item) => item.id)), [selectedNiches]);
 
   const visible = useMemo(() => prospects.filter((prospect) => {
     if (filter === 'quente') return prospect.qualification === 'quente';
@@ -158,6 +215,7 @@ export default function AdminProspector({ onLeadAdded }: Props) {
   }), [prospects, filter]);
 
   const selectedProspects = useMemo(() => prospects.filter((prospect) => selected.has(prospect.id)), [prospects, selected]);
+  const hasMore = useMemo(() => Object.values(cursors).some(Boolean), [cursors]);
 
   async function selectState(state: StateOption) {
     setUf(state.uf); setCity(''); setCityQuery(''); setCities([]); setError(''); setNotice(''); setStep(2); setCitiesLoading(true);
@@ -176,24 +234,69 @@ export default function AdminProspector({ onLeadAdded }: Props) {
     setCity(item.name); setCityQuery(item.name); setError(''); setNotice(''); setStep(3);
   }
 
+  function toggleNiche(niche: LeadNiche) {
+    setError('');
+    setSelectedNiches((current) => {
+      if (current.some((item) => item.id === niche.id)) return current.filter((item) => item.id !== niche.id);
+      if (current.length >= MAX_NICHES) { setError(`Selecione no máximo ${MAX_NICHES} nichos por busca para manter a qualidade e a velocidade do enriquecimento.`); return current; }
+      return [...current, niche];
+    });
+  }
+
+  function addCustomNiche() {
+    const value = customNiche.trim();
+    if (value.length < 2) return;
+    const id = `custom-${normalizeNicheText(value).replace(/[^a-z0-9]+/g, '-').slice(0, 60)}`;
+    if (selectedNicheIds.has(id)) { setCustomNiche(''); return; }
+    if (selectedNiches.length >= MAX_NICHES) { setError(`Você já selecionou ${MAX_NICHES} nichos. Remova um para adicionar outro.`); return; }
+    setSelectedNiches((current) => [...current, { id, label: value, category: 'Personalizado', searchTerm: value, description: 'Nicho ou CNAE definido manualmente.', tags: [value], custom: true }]);
+    setCustomNiche(''); setError('');
+  }
+
   async function runSearch(event?: FormEvent<HTMLFormElement>, next = false) {
     event?.preventDefault();
-    if (!uf || !city || segment.trim().length < 2) return;
+    if (!uf || !city || !selectedNiches.length) return;
     setError(''); setNotice(''); setLoading(true);
-    if (!next) { setSelected(new Set()); setProviders([]); }
+    if (!next) { setSelected(new Set()); setProviders([]); setProspects([]); }
+
+    const targets = next ? selectedNiches.filter((niche) => Boolean(cursors[niche.id])) : selectedNiches;
+    if (!targets.length) { setLoading(false); return; }
+
     try {
-      const params = new URLSearchParams({ segment: segment.trim(), city, uf });
-      if (next && cursor) params.set('cursor', cursor);
-      const response = await fetch(`/api/prospects?${params.toString()}`, { cache: 'no-store' });
-      if (response.status === 401) { window.location.href = '/admin/login'; return; }
-      const data = await response.json().catch(() => ({})) as { error?: string; prospects?: Prospect[]; cursor?: string | null; criteria?: Criteria; providers?: ProviderStatus[] };
-      if (!response.ok) throw new Error(data.error || 'search_failed');
-      const incoming = Array.isArray(data.prospects) ? data.prospects : [];
-      setProspects((current) => next ? [...current, ...incoming.filter((item) => !current.some((existing) => existing.id === item.id))] : incoming);
-      setCursor(data.cursor || ''); setCriteria(data.criteria || null); setProviders(data.providers || []); setStep(4);
-      if (!next && incoming.length === 0) setNotice('Nenhuma empresa ativa encontrada para essa combinação de nicho e região.');
+      const settled = await Promise.allSettled(targets.map(async (niche) => {
+        const params = new URLSearchParams({ segment: niche.searchTerm, city, uf });
+        if (next && cursors[niche.id]) params.set('cursor', cursors[niche.id]);
+        const response = await fetch(`/api/prospects?${params.toString()}`, { cache: 'no-store' });
+        if (response.status === 401) { window.location.href = '/admin/login'; throw new Error('unauthorized'); }
+        const data = await response.json().catch(() => ({})) as SearchPayload;
+        if (!response.ok) throw new Error(data.error || 'search_failed');
+        return { niche, data };
+      }));
+
+      const successes = settled.filter((result): result is PromiseFulfilledResult<{ niche: SelectedNiche; data: SearchPayload }> => result.status === 'fulfilled').map((result) => result.value);
+      const failures = settled.filter((result) => result.status === 'rejected');
+      if (!successes.length) {
+        const reason = settled.find((result): result is PromiseRejectedResult => result.status === 'rejected')?.reason;
+        throw reason instanceof Error ? reason : new Error('search_failed');
+      }
+
+      const incoming = successes.flatMap(({ niche, data }) => (Array.isArray(data.prospects) ? data.prospects : []).map((prospect) => ({ ...prospect, matchedNiches: [niche.label] })));
+      setProspects((current) => mergeProspects(next ? current : [], incoming));
+
+      const nextCursors = next ? { ...cursors } : {} as Record<string, string>;
+      successes.forEach(({ niche, data }) => { nextCursors[niche.id] = data.cursor || ''; });
+      setCursors(nextCursors);
+      setProviders(mergeProviders(successes.map(({ data }) => data.providers || [])));
+
+      const cnaeMap = new Map<string, { code: string; description: string }>();
+      successes.forEach(({ data }) => data.criteria?.cnaes?.forEach((item) => cnaeMap.set(item.code, item)));
+      setCriteria({ segment: selectedNiches.map((item) => item.label).join(', '), city, uf, cnaes: [...cnaeMap.values()] });
+      setStep(4);
+
+      if (!next && incoming.length === 0) setNotice('Nenhuma empresa ativa encontrada para os nichos e região selecionados.');
+      else if (failures.length) setNotice(`A busca foi concluída em ${successes.length} de ${targets.length} nichos. ${failures.length} consulta${failures.length === 1 ? '' : 's'} falhou${failures.length === 1 ? '' : 'ram'} sem interromper os demais resultados.`);
     } catch (searchError) {
-      setError(errorMessage(searchError instanceof Error ? searchError.message : 'search_failed'));
+      if ((searchError as Error).message !== 'unauthorized') setError(errorMessage(searchError instanceof Error ? searchError.message : 'search_failed'));
     } finally { setLoading(false); }
   }
 
@@ -215,7 +318,7 @@ export default function AdminProspector({ onLeadAdded }: Props) {
     try {
       const response = await fetch('/api/leads/import', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prospects: selectedProspects, criteria: criteria || { segment, city, uf } }),
+        body: JSON.stringify({ prospects: selectedProspects, criteria: criteria || { segment: selectedNiches.map((item) => item.label).join(', '), city, uf } }),
       });
       if (response.status === 401) { window.location.href = '/admin/login'; return; }
       const data = await response.json().catch(() => ({})) as { error?: string; inserted?: number; existing?: number };
@@ -228,17 +331,17 @@ export default function AdminProspector({ onLeadAdded }: Props) {
   }
 
   function restart() {
-    setStep(1); setUf(''); setCity(''); setCityQuery(''); setCities([]); setSegment(''); setProspects([]); setCriteria(null); setProviders([]); setCursor(''); setSelected(new Set()); setError(''); setNotice(''); setFilter('todos');
+    setStep(1); setUf(''); setCity(''); setCityQuery(''); setCities([]); setSelectedNiches([]); setNicheQuery(''); setNicheCategory('Todos'); setCustomNiche(''); setProspects([]); setCriteria(null); setProviders([]); setCursors({}); setSelected(new Set()); setError(''); setNotice(''); setFilter('todos');
   }
 
   return (
     <section className="admin-prospector radar-wizard">
       <div className="radar-progress" aria-label={`Etapa ${step} de 4`}>
-        {[1, 2, 3, 4].map((item) => <button type="button" key={item} className={`${step === item ? 'is-active' : ''} ${step > item ? 'is-complete' : ''}`} disabled={item > step || (item === 2 && !uf) || (item === 3 && !city) || (item === 4 && !prospects.length)} onClick={() => item < step && setStep(item)}><i>{step > item ? <Icon name="check" size={14} /> : item}</i><span>{['Estado', 'Cidade', 'Nicho', 'Resultados'][item - 1]}</span></button>)}
+        {[1, 2, 3, 4].map((item) => <button type="button" key={item} className={`${step === item ? 'is-active' : ''} ${step > item ? 'is-complete' : ''}`} disabled={item > step || (item === 2 && !uf) || (item === 3 && !city) || (item === 4 && !prospects.length)} onClick={() => item < step && setStep(item)}><i>{step > item ? <Icon name="check" size={14} /> : item}</i><span>{['Estado', 'Cidade', 'Nichos', 'Resultados'][item - 1]}</span></button>)}
       </div>
 
       <div className="prospector-intro radar-wizard-intro">
-        <div><span className="admin-eyebrow">PROSPECÇÃO B2B / INTELIGÊNCIA COMERCIAL</span><h2>Construa a busca em quatro passos.</h2><p>Escolha a região, defina o nicho e deixe o Radar cruzar cadastro empresarial, sinais digitais e presença local para priorizar oportunidades.</p></div>
+        <div><span className="admin-eyebrow">PROSPECÇÃO B2B / INTELIGÊNCIA COMERCIAL</span><h2>Construa a busca em quatro passos.</h2><p>Escolha a região, combine até cinco nichos e deixe o Radar cruzar cadastro empresarial, sinais digitais e presença local para priorizar oportunidades.</p></div>
         <div className="prospector-source"><Icon name="shield" /><span><strong>Dados empresariais + web</strong><small>Receita · IBGE · provedores configurados</small></span></div>
       </div>
 
@@ -258,16 +361,37 @@ export default function AdminProspector({ onLeadAdded }: Props) {
         {!citiesLoading && cityQuery && !filteredCities.length && <div className="prospector-empty is-compact"><h3>Nenhuma cidade encontrada</h3><p>Tente outro trecho do nome.</p></div>}
       </section>}
 
-      {step === 3 && <section className="radar-step-card">
-        <StepHeader number={3} title={`O que você quer encontrar em ${city}/${uf}?`} description="Informe o nicho em linguagem natural ou use um CNAE. O Radar resolve a atividade econômica e busca as empresas ativas compatíveis." />
+      {step === 3 && <section className="radar-step-card radar-niche-modern">
+        <StepHeader number={3} title={`Quais mercados você quer mapear em ${city}/${uf}?`} description={`Escolha até ${MAX_NICHES} nichos. Você pode combinar segmentos relacionados ou pesquisar qualquer atividade/CNAE manualmente.`} />
         <div className="radar-selection-summary is-double"><button type="button" onClick={() => setStep(1)}><Icon name="location" /><span><small>Estado</small><strong>{uf}</strong></span><em>Alterar</em></button><button type="button" onClick={() => setStep(2)}><Icon name="globe" /><span><small>Cidade</small><strong>{city}</strong></span><em>Alterar</em></button></div>
-        <form className="radar-niche-form" onSubmit={(event) => runSearch(event, false)}><label><span>Nicho ou CNAE</span><div><Icon name="search" /><input value={segment} onChange={(event) => setSegment(event.target.value)} placeholder="Ex.: barbearia, clínica, academia, 9602501..." maxLength={100} autoFocus /></div></label><button type="submit" disabled={loading || segment.trim().length < 2}><Icon name="sparkles" />{loading ? 'Cruzando fontes...' : 'Iniciar busca completa'}</button></form>
-        <div className="radar-niche-shortcuts">{NICHES.map(([value, label]) => <button type="button" className={segment === value ? 'is-selected' : ''} key={value} onClick={() => setSegment(value)}><Icon name="briefcase" size={15} /><span>{label}</span></button>)}</div>
-        <div className="radar-search-explainer"><div><Icon name="server" /><span><strong>Cadastro empresarial</strong><small>CNPJ, CNAE, porte, capital, QSA, Simples/MEI e regime quando publicado.</small></span></div><div><Icon name="globe" /><span><strong>Presença digital</strong><small>Site, Instagram, presença local e reputação quando os provedores estiverem configurados.</small></span></div><div><Icon name="sparkles" /><span><strong>Score comercial</strong><small>Sinais cadastrais, contato, maturidade e presença digital viram uma prioridade de 0 a 100.</small></span></div></div>
+
+        <div className="radar-niche-selected-panel">
+          <div><small>Seleção atual</small><strong>{selectedNiches.length ? `${selectedNiches.length} de ${MAX_NICHES} nichos escolhidos` : 'Nenhum nicho selecionado'}</strong><em>O Radar cruza cada mercado separadamente e remove empresas duplicadas por CNPJ.</em></div>
+          {selectedNiches.length > 0 && <div className="radar-selected-chips">{selectedNiches.map((niche) => <button type="button" key={niche.id} onClick={() => setSelectedNiches((current) => current.filter((item) => item.id !== niche.id))}>{niche.label}<Icon name="x" size={12} /></button>)}</div>}
+        </div>
+
+        <div className="radar-niche-popular"><span>Nichos mais usados</span><div>{popularNiches.map((niche) => <button type="button" className={selectedNicheIds.has(niche.id) ? 'is-selected' : ''} onClick={() => toggleNiche(niche)} key={niche.id}><Icon name={selectedNicheIds.has(niche.id) ? 'check-circle' : 'plus'} size={13} />{niche.label}</button>)}</div></div>
+
+        <div className="radar-niche-searchbar"><label><Icon name="search" /><input value={nicheQuery} onChange={(event) => setNicheQuery(event.target.value)} placeholder="Buscar nicho, atividade ou palavra-chave..." /></label><button type="button" onClick={() => { setNicheQuery(''); setNicheCategory('Todos'); }}><Icon name="x" size={13} /> Limpar filtros</button></div>
+
+        <div className="radar-niche-category-tabs">{NICHE_CATEGORIES.map((category) => <button type="button" className={nicheCategory === category ? 'is-active' : ''} onClick={() => setNicheCategory(category)} key={category}>{category}</button>)}</div>
+
+        <div className="radar-niche-section-head"><div><strong>{nicheCategory === 'Todos' ? 'Catálogo completo de mercados' : nicheCategory}</strong><small>Selecione os segmentos mais alinhados com a campanha comercial.</small></div><span>{filteredNiches.length} nicho{filteredNiches.length === 1 ? '' : 's'} encontrado{filteredNiches.length === 1 ? '' : 's'}</span></div>
+        <div className="radar-niche-catalog">{filteredNiches.map((niche) => {
+          const chosen = selectedNicheIds.has(niche.id);
+          return <button type="button" className={`radar-niche-card ${chosen ? 'is-selected' : ''}`} onClick={() => toggleNiche(niche)} key={niche.id}><i><Icon name={chosen ? 'check' : 'briefcase'} size={15} /></i><span><b>{niche.label}</b><small>{niche.description}</small></span><em>{chosen ? 'Selecionado' : niche.category}</em></button>;
+        })}</div>
+        {!filteredNiches.length && <div className="prospector-empty is-compact"><h3>Nenhum nicho no catálogo</h3><p>Use o campo personalizado abaixo para pesquisar essa atividade diretamente.</p></div>}
+
+        <div className="radar-custom-niche"><label><span>Não encontrou? Adicione um nicho ou CNAE manualmente</span><div><Icon name="plus" /><input value={customNiche} onChange={(event) => setCustomNiche(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') { event.preventDefault(); addCustomNiche(); } }} placeholder="Ex.: lavanderia, coworking, 9601701..." maxLength={100} /></div></label><button type="button" onClick={addCustomNiche} disabled={customNiche.trim().length < 2}>Adicionar à seleção</button></div>
+
+        <div className="radar-search-explainer"><div><Icon name="server" /><span><strong>Cadastro empresarial</strong><small>CNPJ, CNAE, porte, capital, QSA, Simples/MEI e regime quando publicado.</small></span></div><div><Icon name="globe" /><span><strong>Presença digital</strong><small>Site, Instagram, presença local e reputação quando os provedores estiverem configurados.</small></span></div><div><Icon name="sparkles" /><span><strong>Busca multissegmento</strong><small>Os mercados são consultados individualmente e consolidados em uma única lista sem duplicar CNPJs.</small></span></div></div>
+
+        <div className="radar-niche-launch"><div><strong>{selectedNiches.length ? `Pronto para pesquisar ${selectedNiches.length} nicho${selectedNiches.length === 1 ? '' : 's'}.` : 'Selecione pelo menos um nicho para continuar.'}</strong><small>{selectedNiches.length >= MAX_NICHES ? `Limite de ${MAX_NICHES} atingido para preservar velocidade e relevância.` : 'Você pode combinar mercados complementares para ampliar a prospecção.'}</small></div><button type="button" onClick={() => runSearch(undefined, false)} disabled={loading || !selectedNiches.length}><Icon name="sparkles" />{loading ? 'Cruzando mercados...' : 'Iniciar busca completa'}</button></div>
       </section>}
 
       {step === 4 && <section className="radar-results-step">
-        <div className="radar-results-head"><div><button type="button" className="radar-back-step" onClick={() => setStep(3)}><Icon name="chevron-right" size={14} /> Ajustar busca</button><StepHeader number={4} title="Escolha os leads que entram no seu funil." description={`${prospects.length} empresas carregadas para ${criteria?.segment || segment} em ${criteria?.city || city}/${criteria?.uf || uf}.`} /></div><button type="button" className="radar-restart" onClick={restart}><Icon name="search" /> Nova busca</button></div>
+        <div className="radar-results-head"><div><button type="button" className="radar-back-step" onClick={() => setStep(3)}><Icon name="chevron-right" size={14} /> Ajustar nichos</button><StepHeader number={4} title="Escolha os leads que entram no seu funil." description={`${prospects.length} empresas únicas carregadas para ${selectedNiches.map((item) => item.label).join(', ')} em ${criteria?.city || city}/${criteria?.uf || uf}.`} /></div><button type="button" className="radar-restart" onClick={restart}><Icon name="search" /> Nova busca</button></div>
 
         <div className="radar-provider-strip"><div><span>Fontes desta busca</span><small>O Radar continua mesmo se uma fonte opcional estiver indisponível.</small></div><div>{providers.map((provider) => <span className={`${provider.enabled && provider.ok ? 'is-ok' : provider.enabled ? 'is-error' : 'is-off'}`} key={provider.id}><i /> <b>{provider.label}</b><em>{provider.detail}</em></span>)}</div></div>
 
@@ -277,6 +401,7 @@ export default function AdminProspector({ onLeadAdded }: Props) {
           const whatsapp = whatsappNumber(prospect.phone); const checked = selected.has(prospect.id);
           return <article className={`prospect-card radar-prospect-card ${checked ? 'is-selected' : ''}`} key={prospect.id}>
             <button type="button" className="radar-card-check" aria-pressed={checked} onClick={() => toggleProspect(prospect.id)}><span>{checked && <Icon name="check" size={14} />}</span>{checked ? 'Selecionado' : 'Selecionar lead'}</button>
+            {prospect.matchedNiches?.length ? <div className="radar-match-tags">{prospect.matchedNiches.map((niche) => <span key={niche}>Encontrado em: {niche}</span>)}</div> : null}
             <div className="prospect-card-top"><div className="prospect-score"><strong>{prospect.score}</strong><span>/100</span><em className={`is-${prospect.qualification}`}>{prospect.qualification}</em></div><div className="prospect-company"><span>{prospect.cnpj}</span><h3>{prospect.name}</h3><p>{prospect.legalName && prospect.legalName !== prospect.name ? prospect.legalName : prospect.cnaeDescription}</p></div></div>
             <div className="radar-digital-row">{prospect.website ? <a href={prospect.website} target="_blank" rel="noreferrer"><Icon name="globe" size={14} /> Site</a> : <span><Icon name="globe" size={14} /> Sem site identificado</span>}{prospect.instagram ? <a href={prospect.instagram} target="_blank" rel="noreferrer"><Icon name="instagram" size={14} /> Instagram</a> : <span><Icon name="instagram" size={14} /> Instagram não identificado</span>}{prospect.googleMapsUrl && <a href={prospect.googleMapsUrl} target="_blank" rel="noreferrer"><Icon name="location" size={14} /> Maps {prospect.googleRating ? `${prospect.googleRating.toFixed(1)} (${prospect.googleRatingCount})` : ''}</a>}</div>
             <div className="prospect-signals"><span><small>Porte</small><strong>{prospect.porte || 'Não informado'}</strong></span><span><small>Capital social</small><strong>{prospect.capitalSocial ? money(prospect.capitalSocial) : 'Não informado'}</strong></span><span><small>Tributação</small><strong>{prospect.taxSummary || 'Não identificada'}</strong></span></div>
@@ -287,7 +412,7 @@ export default function AdminProspector({ onLeadAdded }: Props) {
           </article>;
         })}</div> : <div className="prospector-empty"><span><Icon name="filter" size={28} /></span><h3>Nenhum lead nesse filtro</h3><p>Ajuste os filtros ou carregue mais empresas.</p></div>}
 
-        {cursor && <div className="prospector-more"><button type="button" onClick={() => runSearch(undefined, true)} disabled={loading}>{loading ? 'Carregando...' : 'Carregar mais empresas'} <Icon name="arrow-right" /></button></div>}
+        {hasMore && <div className="prospector-more"><button type="button" onClick={() => runSearch(undefined, true)} disabled={loading}>{loading ? 'Carregando mercados...' : 'Carregar mais empresas dos nichos'} <Icon name="arrow-right" /></button></div>}
 
         <div className={`radar-selection-bar ${selected.size ? 'is-visible' : ''}`}><div><span><strong>{selected.size}</strong> lead{selected.size === 1 ? '' : 's'} selecionado{selected.size === 1 ? '' : 's'}</span><small>Os registros existentes serão preservados; novos entram no Kanban como Novo ou Qualificado.</small></div><button type="button" onClick={importSelected} disabled={!selected.size || importing}><Icon name="workflow" />{importing ? 'Enviando ao CRM...' : `Enviar ${selected.size || ''} para o Kanban`}</button></div>
       </section>}
