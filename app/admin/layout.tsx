@@ -1,10 +1,6 @@
-import AdminRadarShortcut from '../../components/AdminRadarShortcut';
+import '../admin-shell-v4.css';
+import AdminShell from '../../components/AdminShell';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <>
-      {children}
-      <AdminRadarShortcut />
-    </>
-  );
+  return <AdminShell>{children}</AdminShell>;
 }
