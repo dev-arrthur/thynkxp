@@ -1,3 +1,4 @@
+import BrandWordmark from '../../../components/BrandWordmark';
 import LoginForm from './LoginForm';
 import Icon from '../../../components/Icon';
 
@@ -6,7 +7,7 @@ export default function AdminLogin() {
     <main className="login admin-login-page">
       <section className="admin-login-shell">
         <aside className="admin-login-intro">
-          <a href="/" className="admin-login-logo"><img src="/brand/thynkxp-logo.png" alt="ThynkXP" /></a>
+          <a href="/" className="admin-login-logo"><BrandWordmark /></a>
           <div>
             <span className="admin-login-kicker">THYNKXP / ADMIN</span>
             <h1>Controle comercial<br/>com mais <em>clareza.</em></h1>

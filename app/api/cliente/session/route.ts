@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
-import { CLIENT_SESSION_COOKIE, readClientSession } from '../../../../lib/clientPortalAuth';
-import { CLIENT_V3_COOKIE, readClientSessionV3 } from '../../../../lib/clientPortalSessionV3';
+import { CLIENT_SESSION_COOKIE } from '../../../../lib/clientPortalAuth';
+import { CLIENT_V3_COOKIE } from '../../../../lib/clientPortalSessionV3';
+import { ApiError, apiError, getWorkspaceDb, objectId, requireActor } from '../../../../lib/workspace';
+import { clean, safeObject } from '../../../../lib/clientManagement';
 
 function sameOrigin(req: Request) {
   const origin = req.headers.get('origin');
@@ -12,21 +14,17 @@ function json(payload: Record<string, unknown>, status = 200) {
   return NextResponse.json(payload, { status, headers: { 'Cache-Control': 'no-store, max-age=0' } });
 }
 
-function cookieValue(request: Request, name: string) {
-  const raw = request.headers.get('cookie') || '';
-  const cookie = raw.split(';').map((item) => item.trim()).find((item) => item.startsWith(`${name}=`));
-  return cookie ? decodeURIComponent(cookie.slice(name.length + 1)) : null;
-}
-
 export async function GET(request: Request) {
-  const modern = readClientSessionV3(cookieValue(request, CLIENT_V3_COOKIE));
-  if (modern) {
-    return json({ authenticated: true, user: { email: modern.email, name: modern.name, company: modern.company, clientId: modern.clientId } });
+  try {
+    const actor = await requireActor(request, 'client');
+    if (actor.role !== 'client' || !actor.clientId) throw new ApiError(401, 'unauthorized');
+    const account = await (await getWorkspaceDb()).collection('clients').findOne({ _id: objectId(actor.clientId) }, { maxTimeMS: 5000, projection: { business: 1 } });
+    const business = safeObject(account?.business);
+    return json({ authenticated: true, user: { email: actor.email, name: actor.name, company: clean(business.tradeName, 180) || clean(business.legalName, 180), clientId: actor.clientId } });
+  } catch (error) {
+    if (error instanceof ApiError && error.status === 401) return json({ authenticated: false, error: 'unauthorized' }, 401);
+    return apiError(error);
   }
-
-  const legacy = readClientSession(cookieValue(request, CLIENT_SESSION_COOKIE));
-  if (!legacy) return json({ authenticated: false }, 401);
-  return json({ authenticated: true, user: { email: legacy.email, name: 'Cliente ThynkXP' } });
 }
 
 export async function DELETE(request: Request) {
