@@ -2,7 +2,7 @@ import type { SVGProps } from 'react';
 
 export type IconName =
   | 'activity' | 'arrow-right' | 'arrow-up-right' | 'bar-chart' | 'bell' | 'briefcase'
-  | 'calendar' | 'check' | 'check-circle' | 'chevron-right' | 'clock' | 'code'
+  | 'calendar' | 'check' | 'check-circle' | 'chevron-right' | 'clock' | 'code' | 'copy'
   | 'credit-card' | 'download' | 'edit' | 'external-link' | 'file' | 'filter' | 'folder'
   | 'globe' | 'home' | 'instagram' | 'layers' | 'location' | 'lock' | 'logout' | 'mail'
   | 'megaphone' | 'menu' | 'message-square' | 'monitor' | 'pen-tool' | 'phone'
@@ -32,6 +32,7 @@ export default function Icon({ name, size = 20, ...props }: Props) {
     'chevron-right': <path d="m9 18 6-6-6-6" />,
     clock: <><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></>,
     code: <><path d="m8 9-3 3 3 3" /><path d="m16 9 3 3-3 3" /><path d="m14 5-4 14" /></>,
+    copy: <><rect x="9" y="9" width="11" height="11" rx="2" /><path d="M15 9V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h3" /></>,
     'credit-card': <><rect x="3" y="5" width="18" height="14" rx="2" /><path d="M3 10h18" /><path d="M7 15h3" /></>,
     download: <><path d="M12 3v12" /><path d="m7 10 5 5 5-5" /><path d="M5 21h14" /></>,
     edit: <><path d="M12 20h9" /><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z" /></>,
