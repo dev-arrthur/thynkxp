@@ -47,8 +47,21 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
     const requested = params.get('view') as DashboardView | null;
     const next: DashboardView = requested && requested in DASHBOARD_LABELS ? requested : 'overview';
     setDashboardView(next);
-    const timer = window.setTimeout(() => activateLegacyDashboardSection(next, false), 40);
-    return () => window.clearTimeout(timer);
+
+    let attempts = 0;
+    const sync = () => {
+      attempts += 1;
+      const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('.admin-app > .admin-sidebar .admin-nav button'));
+      const legacy = buttons.find((button) => button.textContent?.includes(DASHBOARD_LABELS[next]));
+      if (legacy) {
+        legacy.click();
+        return true;
+      }
+      return attempts >= 40;
+    };
+    if (sync()) return;
+    const timer = window.setInterval(() => { if (sync()) window.clearInterval(timer); }, 100);
+    return () => window.clearInterval(timer);
   }, [pathname]);
 
   useEffect(() => {
