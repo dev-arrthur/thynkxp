@@ -4,10 +4,22 @@ export const CLIENT_V3_COOKIE = 'thynkxp_client_session_v3';
 export const CLIENT_V3_MAX_AGE = 60 * 60 * 8;
 const VERSION = 3;
 const DEV_SECRET = 'development-client-session-secret-change-in-production-v3';
+const DERIVATION_SALT = 'thynkxp-client-portal-session-v3';
 
 function secret() {
   const configured = String(process.env.CLIENT_PORTAL_SESSION_SECRET || '').trim();
   if (configured.length >= 32) return configured;
+
+  const adminSecret = String(process.env.ADMIN_SESSION_SECRET || '').trim();
+  if (adminSecret.length >= 32) {
+    return crypto.scryptSync(adminSecret, DERIVATION_SALT, 64).toString('base64url');
+  }
+
+  const adminPassword = String(process.env.ADMIN_PASSWORD || '');
+  if (adminPassword) {
+    return crypto.scryptSync(adminPassword, DERIVATION_SALT, 64).toString('base64url');
+  }
+
   if (process.env.NODE_ENV !== 'production') return DEV_SECRET;
   return '';
 }
