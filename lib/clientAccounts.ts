@@ -7,6 +7,7 @@ export type ClientAccountIdentity = {
   email: string;
   name: string;
   company: string;
+  sessionVersion: number;
 };
 
 function safeEqual(a: string, b: string) {
@@ -38,7 +39,8 @@ export async function validateStoredClientCredentials(email: string, password: s
   const db = await getDb();
   const client = await db.collection('clients').findOne({
     'access.emailLower': normalizedEmail,
-    status: { $ne: 'arquivado' },
+    status: { $nin: ['arquivado', 'inativo'] },
+    'access.portalEnabled': { $ne: false },
   });
   if (!client) return null;
 
@@ -46,6 +48,8 @@ export async function validateStoredClientCredentials(email: string, password: s
   const salt = String(access.passwordSalt || '');
   const hash = String(access.passwordHash || '');
   if (!verifyClientPassword(password, salt, hash)) return null;
+
+  await db.collection('clients').updateOne({ _id: client._id }, { $set: { 'access.lastLoginAt': new Date() } });
 
   const business = client.business && typeof client.business === 'object' ? client.business as Record<string, unknown> : {};
   const name = String(access.fullName || business.tradeName || 'Cliente ThynkXP').slice(0, 160);
@@ -56,5 +60,6 @@ export async function validateStoredClientCredentials(email: string, password: s
     email: normalizedEmail,
     name,
     company,
+    sessionVersion: typeof access.sessionVersion === 'number' && Number.isSafeInteger(access.sessionVersion) && access.sessionVersion >= 0 ? access.sessionVersion : 0,
   };
 }

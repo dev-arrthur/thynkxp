@@ -34,7 +34,7 @@ export function clientSessionV3Configured() {
   return Boolean(secret());
 }
 
-export function createClientSessionV3(identity: { email: string; clientId: string; name: string; company: string }) {
+export function createClientSessionV3(identity: { email: string; clientId: string; name: string; company: string; sessionVersion?: number }) {
   const key = secret();
   if (!key) throw new Error('client_session_secret_missing');
   const now = Math.floor(Date.now() / 1000);
@@ -44,6 +44,7 @@ export function createClientSessionV3(identity: { email: string; clientId: strin
     clientId: identity.clientId.slice(0, 80),
     name: identity.name.slice(0, 160),
     company: identity.company.slice(0, 180),
+    sessionVersion: identity.sessionVersion || 0,
     iat: now,
     exp: now + CLIENT_V3_MAX_AGE,
     nonce: crypto.randomUUID(),
@@ -62,16 +63,18 @@ export function readClientSessionV3(value?: string | null) {
   if (!safeEqual(signature, expected)) return null;
   try {
     const parsed = JSON.parse(Buffer.from(payload, 'base64url').toString('utf8')) as {
-      v?: number; email?: string; clientId?: string; name?: string; company?: string; iat?: number; exp?: number;
+      v?: number; email?: string; clientId?: string; name?: string; company?: string; iat?: number; exp?: number; sessionVersion?: number;
     };
     const now = Math.floor(Date.now() / 1000);
     if (parsed.v !== VERSION || !parsed.email || !parsed.clientId || !parsed.iat || !parsed.exp) return null;
     if (parsed.iat > now + 60 || parsed.exp <= now || parsed.exp - parsed.iat > CLIENT_V3_MAX_AGE + 60) return null;
+    if (parsed.sessionVersion !== undefined && (!Number.isSafeInteger(parsed.sessionVersion) || parsed.sessionVersion < 0)) return null;
     return {
       email: parsed.email,
       clientId: parsed.clientId,
       name: parsed.name || 'Cliente ThynkXP',
       company: parsed.company || '',
+      sessionVersion: parsed.sessionVersion || 0,
     };
   } catch {
     return null;

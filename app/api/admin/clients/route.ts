@@ -1,7 +1,7 @@
-import { NextResponse } from 'next/server';
-import { getAdminSessionFromRequest } from '../../../../lib/admin-auth';
 import { getDb } from '../../../../lib/mongodb';
 import { createClientPassword } from '../../../../lib/clientAccounts';
+import { apiError, json, readBody, requireAdmin, requireSameOrigin } from '../../../../lib/workspace';
+import { clientCollection, publicClient } from '../../../../lib/clientManagement';
 
 function clean(value: unknown, max = 500) {
   return typeof value === 'string' ? value.trim().slice(0, max) : '';
@@ -16,14 +16,6 @@ function money(value: unknown) {
 function emailValid(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
-function sameOrigin(req: Request) {
-  const origin = req.headers.get('origin');
-  if (!origin) return true;
-  try { return new URL(origin).origin === new URL(req.url).origin; } catch { return false; }
-}
-function json(payload: Record<string, unknown>, status = 200) {
-  return NextResponse.json(payload, { status, headers: { 'Cache-Control': 'no-store, max-age=0' } });
-}
 function safeObject(value: unknown) {
   return value && typeof value === 'object' && !Array.isArray(value) ? value as Record<string, unknown> : {};
 }
@@ -31,52 +23,29 @@ function partners(value: unknown) {
   if (!Array.isArray(value)) return [];
   return value.slice(0, 20).map((item) => clean(item, 180)).filter(Boolean);
 }
-function publicClient(doc: Record<string, unknown>) {
-  const access = safeObject(doc.access);
-  return {
-    _id: String(doc._id || ''),
-    status: clean(doc.status, 40) || 'ativo',
-    business: safeObject(doc.business),
-    location: safeObject(doc.location),
-    billing: safeObject(doc.billing),
-    access: {
-      fullName: clean(access.fullName, 160),
-      email: clean(access.email, 180),
-      portalEnabled: access.portalEnabled !== false,
-      lastLoginAt: access.lastLoginAt || null,
-    },
-    notes: clean(doc.notes, 5000),
-    createdAt: doc.createdAt || null,
-    updatedAt: doc.updatedAt || null,
-  };
-}
-
 export async function GET(req: Request) {
-  if (!(await getAdminSessionFromRequest(req))) return json({ error: 'unauthorized' }, 401);
   try {
+    await requireAdmin(req);
     const db = await getDb();
-    const rows = await db.collection('clients').find({}).sort({ updatedAt: -1, createdAt: -1 }).limit(500).toArray();
+    const rows = await db.collection('clients').find({}, { maxTimeMS: 5000 }).sort({ updatedAt: -1, createdAt: -1 }).limit(500).toArray();
     return json({ clients: rows.map((row) => publicClient(row as unknown as Record<string, unknown>)) });
   } catch (error) {
-    console.error('clients_get_failed', error instanceof Error ? error.message : 'unknown');
-    return json({ error: 'clients_unavailable', clients: [] }, 503);
+    return apiError(error);
   }
 }
 
 export async function POST(req: Request) {
-  if (!(await getAdminSessionFromRequest(req))) return json({ error: 'unauthorized' }, 401);
-  if (!sameOrigin(req)) return json({ error: 'invalid_origin' }, 403);
-  if (Number(req.headers.get('content-length') || 0) > 40_000) return json({ error: 'request_too_large' }, 413);
-
   try {
-    const raw = await req.json();
+    await requireAdmin(req);
+    requireSameOrigin(req);
+    const raw = await readBody(req);
     const body = safeObject(raw);
     const businessRaw = safeObject(body.business);
     const locationRaw = safeObject(body.location);
     const billingRaw = safeObject(body.billing);
     const accessRaw = safeObject(body.access);
 
-    const cnpj = digits(businessRaw.cnpj, 14);
+    const cnpj = digits(businessRaw.cnpj, 30);
     const tradeName = clean(businessRaw.tradeName, 180);
     const businessEmail = clean(businessRaw.email, 180).toLowerCase();
     const phone = clean(businessRaw.phone, 50);
@@ -96,12 +65,7 @@ export async function POST(req: Request) {
     const now = new Date();
     const { salt, hash } = createClientPassword(password);
     const db = await getDb();
-    const collection = db.collection('clients');
-
-    await Promise.all([
-      collection.createIndex({ 'business.cnpj': 1 }, { unique: true, sparse: true, name: 'client_cnpj_unique' }),
-      collection.createIndex({ 'access.emailLower': 1 }, { unique: true, sparse: true, name: 'client_access_email_unique' }),
-    ]).catch(() => undefined);
+    const collection = await clientCollection(db);
 
     const duplicate = await collection.findOne({
       $or: [{ 'business.cnpj': cnpj }, { 'access.emailLower': accessEmail }],
@@ -144,6 +108,7 @@ export async function POST(req: Request) {
         passwordHash: hash,
         passwordSalt: salt,
         portalEnabled: true,
+        sessionVersion: 0,
         createdAt: now,
         lastLoginAt: null,
       },
@@ -167,7 +132,6 @@ export async function POST(req: Request) {
   } catch (error) {
     const message = error instanceof Error ? error.message : 'unknown';
     if (message.includes('E11000')) return json({ error: 'client_already_exists' }, 409);
-    console.error('client_create_failed', message);
-    return json({ error: 'client_create_failed' }, 503);
+    return apiError(error);
   }
 }

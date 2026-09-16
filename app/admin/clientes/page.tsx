@@ -1,18 +1,11 @@
 'use client';
 
-import { FormEvent, useEffect, useMemo, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import Icon from '../../../components/Icon';
+import ClientAccountDrawer, { type ManagedClient } from '../../../components/ClientAccountDrawer';
+import '../../client-domains.css';
 
-type Client = {
-  _id: string;
-  status: string;
-  business: { cnpj?: string; legalName?: string; tradeName?: string; email?: string; phone?: string; partners?: string[]; openedAt?: string; cnae?: string; cnaeDescription?: string };
-  location: { cep?: string; state?: string; city?: string; street?: string; number?: string; complement?: string; district?: string };
-  billing: { paymentTerms?: string; paymentMethod?: string; monthlyFee?: number };
-  access: { fullName?: string; email?: string; portalEnabled?: boolean; lastLoginAt?: string | null };
-  notes?: string;
-  createdAt?: string;
-};
+type Client = ManagedClient;
 
 type Draft = {
   cnpj: string; legalName: string; tradeName: string; businessEmail: string; phone: string; partners: string[]; openedAt: string; cnae: string; cnaeDescription: string;
@@ -62,6 +55,7 @@ function generatedPassword() {
 }
 function errorLabel(code: string) {
   const labels: Record<string, string> = {
+    service_unavailable: 'O serviço está indisponível no momento. Tente novamente.', unauthorized: 'Sua sessão expirou. Entre novamente para continuar.',
     invalid_cnpj: 'Informe um CNPJ válido.', trade_name_required: 'Informe o nome fantasia.', invalid_business_email: 'O e-mail empresarial é inválido.',
     access_name_required: 'Informe o nome completo do usuário.', invalid_access_email: 'Informe um e-mail de acesso válido.', weak_password: 'A senha deve ter pelo menos 8 caracteres.',
     client_already_exists: 'Já existe um cliente com esse CNPJ ou e-mail de acesso.', client_create_failed: 'Não foi possível criar o cliente agora.',
@@ -85,18 +79,29 @@ export default function AdminClientsPage() {
   const [created, setCreated] = useState<{ client: Client; password: string } | null>(null);
   const [sending, setSending] = useState(false);
   const [toast, setToast] = useState('');
+  const [loadError, setLoadError] = useState('');
+  const [selected, setSelected] = useState<Client | null>(null);
+  const closeAccount = useCallback(() => setSelected(null), []);
 
   async function load() {
-    setLoading(true);
+    setLoading(true); setLoadError('');
     try {
       const response = await fetch('/api/admin/clients', { cache: 'no-store' });
       if (response.status === 401) { window.location.href = '/admin/login'; return; }
-      const data = await response.json() as { clients?: Client[] };
+      const data = await response.json() as { clients?: Client[]; error?: string };
+      if (!response.ok) throw new Error('clients_unavailable');
       setClients(Array.isArray(data.clients) ? data.clients : []);
-    } catch { setToast('Não foi possível carregar os clientes.'); }
+    } catch { setLoadError('Não foi possível carregar os clientes. Verifique a conexão e tente novamente.'); }
     finally { setLoading(false); }
   }
-  useEffect(() => { void load(); }, []);
+  useEffect(() => { void load(); if (new URLSearchParams(window.location.search).get('new') === '1') openWizard(); }, []);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get('id');
+    if (id && clients.length) {
+      const match = clients.find(client => client._id === id);
+      if (match) { setSelected(match); window.history.replaceState({}, '', window.location.pathname); }
+    }
+  }, [clients]);
   useEffect(() => { if (!toast) return; const id = window.setTimeout(() => setToast(''), 3200); return () => window.clearTimeout(id); }, [toast]);
 
   const visible = useMemo(() => {
@@ -134,8 +139,8 @@ export default function AdminClientsPage() {
     } finally { setLookingCnpj(false); }
   }
 
-  async function lookupCep() {
-    const cep = digits(draft.cep, 8);
+  async function lookupCep(value = draft.cep) {
+    const cep = digits(value, 8);
     if (cep.length !== 8) return;
     setLookingCep(true); setLookupMessage('');
     try {
@@ -160,7 +165,7 @@ export default function AdminClientsPage() {
       if (digits(draft.cep, 8).length !== 8 || !draft.state || !draft.city || !draft.street || !draft.number) return setError('Complete CEP, estado, cidade, logradouro e número.'), false;
     }
     if (target === 3) {
-      if (!draft.paymentTerms || !draft.paymentMethod || Number(draft.monthlyFee.replace(',', '.')) <= 0) return setError('Defina condição, forma de pagamento e valor da mensalidade.'), false;
+      if (!draft.paymentTerms || !draft.paymentMethod || !Number.isFinite(Number(draft.monthlyFee.replace(',', '.'))) || Number(draft.monthlyFee.replace(',', '.')) <= 0) return setError('Defina condição, forma de pagamento e valor da mensalidade.'), false;
     }
     if (target === 4) {
       if (!draft.fullName.trim() || !draft.accessEmail.includes('@') || draft.password.length < 8) return setError('Complete nome, e-mail de acesso e uma senha de pelo menos 8 caracteres.'), false;
@@ -189,6 +194,7 @@ export default function AdminClientsPage() {
       setClients((current) => [data.client!, ...current]);
       setWizardOpen(false);
       setCreated({ client: data.client, password: draft.password });
+      setDraft(EMPTY);
       setToast('Cliente criado com acesso ao painel.');
     } catch (saveError) { setError(errorLabel(saveError instanceof Error ? saveError.message : 'client_create_failed')); }
     finally { setSaving(false); }
@@ -199,7 +205,7 @@ export default function AdminClientsPage() {
     setSending(true);
     const email = created.client.access.email || '';
     try {
-      const response = await fetch('/api/admin/clients/send-access', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, name: created.client.access.fullName, company: created.client.business.tradeName, password: created.password, portalUrl: `${window.location.origin}/cliente/login` }) });
+      const response = await fetch('/api/admin/clients/send-access', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, name: created.client.access.fullName, company: created.client.business.tradeName, password: created.password, portalUrl: `${window.location.origin}/cliente` }) });
       const data = await response.json() as { error?: string };
       if (!response.ok) throw new Error(data.error || 'email_send_failed');
       setToast('Acesso enviado por e-mail.'); setCreated(null); setDraft(EMPTY);
@@ -208,35 +214,38 @@ export default function AdminClientsPage() {
   }
   async function copyAccess() {
     if (!created) return;
-    const text = `Acesso ThynkXP\n${created.client.business.tradeName || ''}\nE-mail: ${created.client.access.email || ''}\nSenha: ${created.password}\n${window.location.origin}/cliente/login`;
-    await navigator.clipboard.writeText(text).catch(() => undefined); setToast('Dados de acesso copiados.');
+    const text = `Acesso ThynkXP\n${created.client.business.tradeName || ''}\nE-mail: ${created.client.access.email || ''}\nSenha: ${created.password}\n${window.location.origin}/cliente`;
+    try { await navigator.clipboard.writeText(text); setToast('Dados de acesso copiados.'); }
+    catch { setToast('Não foi possível copiar. Selecione os dados de acesso para copiá-los manualmente.'); }
   }
 
   return <main className="clients-v5-page">
     <section className="clients-v5-heading">
-      <div><span>THYNKXP / CLIENTES</span><h1>Clientes</h1><p>Cadastre empresas, defina cobrança e gere o acesso individual ao painel do cliente em um único fluxo.</p></div>
+      <div><span>THYNKXP / CLIENTES</span><h1>Clientes</h1><p>Um relacionamento completo: cadastro, domínios, projetos e suporte conectados à conta de cada cliente.</p></div>
       <button type="button" onClick={openWizard}><Icon name="plus" size={16} /> Novo cliente</button>
     </section>
 
     <section className="clients-v5-summary">
       <article><span>Clientes cadastrados</span><strong>{clients.length}</strong><small>contas empresariais</small></article>
-      <article><span>Acessos ativos</span><strong>{clients.filter((item) => item.access.portalEnabled !== false).length}</strong><small>portais habilitados</small></article>
-      <article><span>Mensalidade contratada</span><strong>{money(clients.reduce((sum, item) => sum + Number(item.billing.monthlyFee || 0), 0))}</strong><small>recorrência mensal</small></article>
+      <article><span>Acessos ativos</span><strong>{clients.filter((item) => item.access.portalEnabled !== false && !['arquivado', 'inativo'].includes(item.status)).length}</strong><small>portais habilitados</small></article>
+      <article><span>Mensalidade contratada</span><strong>{money(clients.filter(item => item.status === 'ativo').reduce((sum, item) => sum + Number(item.billing.monthlyFee || 0), 0))}</strong><small>recorrência de contas ativas</small></article>
     </section>
 
     <section className="clients-v5-directory">
       <div className="clients-v5-toolbar"><div><span>CARTEIRA</span><h2>Gerenciar clientes</h2><p>{visible.length} cliente{visible.length === 1 ? '' : 's'} encontrado{visible.length === 1 ? '' : 's'}.</p></div><label><Icon name="search" size={15} /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Buscar nome, CNPJ, e-mail ou cidade" /></label></div>
       <div className="clients-v5-table-head"><span>Cliente</span><span>Localização</span><span>Acesso</span><span>Mensalidade</span><span>Status</span></div>
-      {loading ? <div className="clients-v5-empty">Carregando clientes...</div> : visible.length ? visible.map((client) => <article className="clients-v5-row" key={client._id}>
+      {loading ? <div className="clients-v5-empty">Carregando clientes...</div> : loadError ? <div className="client-list-error" role="alert"><span>{loadError}</span><button onClick={() => void load()} type="button">Tentar novamente</button></div> : visible.length ? visible.map((client) => <article className="clients-v5-row" key={client._id}>
         <div><i>{(client.business.tradeName || '?').slice(0, 2).toUpperCase()}</i><span><strong>{client.business.tradeName || client.business.legalName || 'Sem nome'}</strong><small>{formatCnpj(client.business.cnpj || '')}</small></span></div>
         <span><strong>{client.location.city || '—'}{client.location.state ? ` / ${client.location.state}` : ''}</strong><small>{client.location.street || 'Endereço não informado'}</small></span>
         <span><strong>{client.access.fullName || '—'}</strong><small>{client.access.email || 'Sem acesso'}</small></span>
         <span><strong>{money(client.billing.monthlyFee)}</strong><small>{client.billing.paymentMethod || '—'}</small></span>
-        <em>{client.status || 'ativo'}</em>
-      </article>) : <div className="clients-v5-empty"><Icon name="briefcase" size={25} /><strong>Nenhum cliente cadastrado</strong><span>Crie o primeiro cliente para gerar um acesso individual ao portal.</span></div>}
+        <span className="client-status-cell"><em>{client.status || 'ativo'}{client.access.portalEnabled === false ? ' · portal bloqueado' : ''}</em><button className="client-manage-button" type="button" onClick={() => setSelected(client)} aria-label={`Gerenciar ${client.business.tradeName}`}><Icon name="edit" size={12} /> Gerenciar</button></span>
+      </article>) : <div className="clients-v5-empty"><Icon name="briefcase" size={25} /><strong>{query ? 'Nenhum resultado para esta busca' : 'Nenhum cliente cadastrado'}</strong><span>{query ? 'Tente buscar pelo nome, CNPJ ou e-mail do cliente.' : 'Crie o primeiro cliente para gerar um acesso individual ao portal.'}</span></div>}
     </section>
 
-    {wizardOpen && <><button className="clients-v5-backdrop" type="button" aria-label="Fechar modal" onClick={closeWizard} /><form className="clients-v5-wizard" onSubmit={submit}>
+    {selected && <ClientAccountDrawer key={selected._id} client={selected} onClose={closeAccount} onSaved={(updated) => { setClients(current => current.map(item => item._id === updated._id ? updated : item)); setSelected(updated); }} />}
+
+    {wizardOpen && <><button className="clients-v5-backdrop" type="button" aria-label="Fechar modal" onClick={closeWizard} /><form className="clients-v5-wizard" role="dialog" aria-modal="true" aria-label="Cadastrar novo cliente" onSubmit={submit}>
       <aside><div className="clients-v5-wizard-brand"><span>TX</span><div><small>NOVO CLIENTE</small><strong>Cadastro completo</strong></div></div><nav>{STEPS.map(([title, subtitle], index) => { const number = index + 1; return <button type="button" key={title} className={`${step === number ? 'is-active' : ''} ${step > number ? 'is-complete' : ''}`} onClick={() => number < step && setStep(number)}><i>{step > number ? <Icon name="check" size={13} /> : String(number).padStart(2, '0')}</i><span><strong>{title}</strong><small>{subtitle}</small></span></button>; })}</nav><div className="clients-v5-security"><Icon name="shield" size={15} /><span><strong>Acesso protegido</strong><small>A senha é armazenada com hash e salt, nunca em texto puro.</small></span></div></aside>
       <section className="clients-v5-wizard-main"><header><div><span>STEP {String(step).padStart(2, '0')} / 05</span><h2>{STEPS[step - 1][0]}</h2><p>{STEPS[step - 1][1]}</p></div><button type="button" onClick={closeWizard}><Icon name="x" size={17} /></button></header>
         <div className="clients-v5-fields">
@@ -248,7 +257,7 @@ export default function AdminClientsPage() {
             <div className="clients-v5-partners is-wide"><span>Sócios</span>{draft.partners.map((partner, index) => <div key={index}><input value={partner} onChange={(e) => update('partners', draft.partners.map((item, position) => position === index ? e.target.value : item))} placeholder={`Sócio ${index + 1}`} />{draft.partners.length > 1 && <button type="button" onClick={() => update('partners', draft.partners.filter((_, position) => position !== index))}><Icon name="x" size={13} /></button>}</div>)}<button type="button" onClick={() => update('partners', [...draft.partners, ''])}><Icon name="plus" size={13} /> Adicionar sócio</button></div>
           </>}
           {step === 2 && <>
-            <label><span>CEP</span><div className="clients-v5-inline"><input value={formatCep(draft.cep)} onChange={(e) => { const nextCep = digits(e.target.value, 8); update('cep', nextCep); if (nextCep.length === 8) window.setTimeout(() => void lookupCep(), 0); }} placeholder="00000-000" /><button type="button" onClick={lookupCep} disabled={lookingCep}>{lookingCep ? '...' : 'Buscar'}</button></div></label><label><span>Estado</span><input value={draft.state} onChange={(e) => update('state', e.target.value.toUpperCase().slice(0, 2))} placeholder="MG" /></label>
+            <label><span>CEP</span><div className="clients-v5-inline"><input value={formatCep(draft.cep)} onChange={(e) => { const nextCep = digits(e.target.value, 8); update('cep', nextCep); if (nextCep.length === 8) void lookupCep(nextCep); }} placeholder="00000-000" /><button type="button" onClick={() => void lookupCep()} disabled={lookingCep}>{lookingCep ? '...' : 'Buscar'}</button></div></label><label><span>Estado</span><input value={draft.state} onChange={(e) => update('state', e.target.value.toUpperCase().slice(0, 2))} placeholder="MG" /></label>
             <label><span>Cidade</span><input value={draft.city} onChange={(e) => update('city', e.target.value)} placeholder="Juiz de Fora" /></label><label><span>Bairro</span><input value={draft.district} onChange={(e) => update('district', e.target.value)} placeholder="Centro" /></label>
             <label className="is-wide"><span>Logradouro</span><input value={draft.street} onChange={(e) => update('street', e.target.value)} placeholder="Rua, avenida..." /></label><label><span>N°</span><input value={draft.number} onChange={(e) => update('number', e.target.value)} placeholder="120" /></label><label><span>Complemento</span><input value={draft.complement} onChange={(e) => update('complement', e.target.value)} placeholder="Sala, bloco..." /></label>
           </>}
@@ -256,7 +265,7 @@ export default function AdminClientsPage() {
             <label className="is-wide"><span>Condições de pagamento</span><input value={draft.paymentTerms} onChange={(e) => update('paymentTerms', e.target.value)} placeholder="Ex.: mensal · vencimento todo dia 10" /></label><label><span>Forma de pagamento</span><select value={draft.paymentMethod} onChange={(e) => update('paymentMethod', e.target.value)}><option>PIX</option><option>Boleto</option><option>Cartão de crédito</option><option>Transferência</option><option>Débito automático</option></select></label><label><span>Valor da mensalidade</span><div className="clients-v5-money"><b>R$</b><input inputMode="decimal" value={draft.monthlyFee} onChange={(e) => update('monthlyFee', e.target.value.replace(/[^\d,.]/g, ''))} placeholder="0,00" /></div></label>
           </>}
           {step === 4 && <>
-            <label className="is-wide"><span>Nome completo</span><input value={draft.fullName} onChange={(e) => update('fullName', e.target.value)} placeholder="Responsável pelo acesso" /></label><label><span>E-mail de acesso</span><input type="email" value={draft.accessEmail} onChange={(e) => update('accessEmail', e.target.value)} placeholder="nome@empresa.com.br" /></label><label><span>Senha inicial</span><div className="clients-v5-inline"><input value={draft.password} onChange={(e) => update('password', e.target.value)} /><button type="button" onClick={() => update('password', generatedPassword())}>Gerar senha</button></div></label><div className="clients-v5-access-note is-wide"><Icon name="lock" size={17} /><span><strong>Credencial individual</strong><small>Esse e-mail passa a autenticar diretamente no painel do cliente. A senha será armazenada somente como hash seguro.</small></span></div>
+            <label className="is-wide"><span>Nome completo</span><input value={draft.fullName} onChange={(e) => update('fullName', e.target.value)} placeholder="Responsável pelo acesso" /></label><label><span>E-mail de acesso</span><input type="email" value={draft.accessEmail} onChange={(e) => update('accessEmail', e.target.value)} placeholder="nome@empresa.com.br" /></label><label><span>Senha inicial</span><div className="clients-v5-inline"><input type="password" autoComplete="new-password" value={draft.password} onChange={(e) => update('password', e.target.value)} /><button type="button" onClick={() => update('password', generatedPassword())}>Gerar senha</button></div></label><div className="clients-v5-access-note is-wide"><Icon name="lock" size={17} /><span><strong>Credencial individual</strong><small>Esse e-mail passa a autenticar diretamente no painel do cliente. A senha será armazenada somente como hash seguro.</small></span></div>
           </>}
           {step === 5 && <>
             <label className="is-wide clients-v5-notes"><span>Observações</span><textarea value={draft.notes} onChange={(e) => update('notes', e.target.value)} placeholder="Contexto do contrato, escopo, preferências, alertas para a equipe..." /></label>

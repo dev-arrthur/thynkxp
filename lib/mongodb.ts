@@ -4,6 +4,7 @@ type MongoState = {
   uri: string;
   client: MongoClient | null;
   promise: Promise<MongoClient> | null;
+  databases?: Map<string, Db>;
 };
 
 const globalMongo = globalThis as typeof globalThis & { __thynkxpMongo?: MongoState };
@@ -32,6 +33,7 @@ async function connect(uri: string) {
     state.client = null;
     state.promise = null;
     state.uri = '';
+    state.databases?.clear();
     if (previous) await previous.close().catch(() => undefined);
   }
 
@@ -48,6 +50,7 @@ async function connect(uri: string) {
     .catch(async (error) => {
       state.promise = null;
       state.client = null;
+      state.databases?.clear();
       await client.close().catch(() => undefined);
       throw error;
     });
@@ -57,7 +60,10 @@ async function connect(uri: string) {
 
 export async function getDb(): Promise<Db> {
   const client = await connect(configuredUri());
-  return client.db(String(process.env.MONGODB_DB || 'thynkxp').trim() || 'thynkxp');
+  const name = String(process.env.MONGODB_DB || 'thynkxp').trim() || 'thynkxp';
+  const databases = state.databases ??= new Map<string, Db>();
+  if (!databases.has(name)) databases.set(name, client.db(name));
+  return databases.get(name)!;
 }
 
 export async function checkDbConnection() {
